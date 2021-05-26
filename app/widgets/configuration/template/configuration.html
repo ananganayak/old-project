@@ -1,0 +1,979 @@
+<div class="configurationController" ng-controller="configurationController" ng-init="init()">
+    <div class="row">
+        <!-- <style>
+            .config-panel-hg{
+                height: 200px;
+            }
+        </style> -->
+        <div class="col-md-12  configuration-content" ng-hide="config_content" style="border: 1px solid #ebeef0; padding: 4px 0px;">
+            <div class="col-lg-3">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="row" ng-click="fromget(0)">
+                            <div class="col-md-2">
+                                <img src="./app/img/nagios/win_server.png" alt="icon">
+                            </div>
+                            <div class="col-md-10">
+                                <h4>Windows Server</h4>
+                                <p>Monitor a Microsoft® Windows server.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="panel panel-default" >
+                    <div class="panel-body">
+                        <div class="row" ng-click="fromget(1)">
+                            <div class="col-md-2">
+                                <img src="./app/img/nagios/linux-server.png" alt="icon">
+                            </div>
+                            <div class="col-md-10">
+                                <h4>Linux Server</h4>
+                                <p>Monitor a remote Linux server.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <div class="panel panel-default" >
+                    <div class="panel-body">
+                        <div class="row" ng-click="fromget(2)">
+                            <div class="col-md-2">
+                                <img src="./app/img/nagios/linux-server.png" alt="icon">
+                            </div>
+                            <div class="col-md-10">
+                                <h4>VMWare Vcenter</h4>
+                                <p>Monitor a VMWare vCenter Environment.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-12  configuration-form" ng-hide="config_from" style=" padding: 4px 0px;">
+                
+            <div class="panel panel-default" style=" border: 1px solid #f1f1f1 !important;  margin-top:15px">
+                <div class="panel-body"  style="padding: 15px;">
+                    <div class="col-lg-12">
+                        <button style="float: right;" ng-click="backtopanel()" class="btn btn-default btn-md"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button><br><br>
+                    </div>
+                    <form id="config_form">
+                        <div class="col-lg-6">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" ng-show="windowform">Windows Server Details</div>
+                                <div class="panel-heading" ng-show="linuxform">Linux Server Details</div>
+                                <div class="panel-heading" ng-show="vmwareform">VMware Information</div>
+                                <div class="panel-body">
+                                    <div class="form-group" ng-hide="vmwareform">
+                                        <label><b>IP Address</b></label> 
+                                        <input type="text" class="form-control" id="txtipaddress" name="txtipaddress" ng-model="txtipaddress" placeholder="enter the IP">
+                                        <span style="font-size: 11px;display: block;margin-top: 6px;">The IP address of the Windows Server you'd like to monitor.</span>
+                                    </div>
+                                    <div class="form-group" ng-show="vmwareform">
+                                        <label><b>Enter your VCenter IP or FQDN </b></label> 
+                                        <input type="text" class="form-control" id="txtvmwareip" name="txtvmwareip" ng-model="txtvmwareip" placeholder="enter the IP">
+                                        <span style="font-size: 11px;display: block;margin-top: 6px;">The IP address or FQDNS name of the VMware (server) host you would like to monitor.</span>
+                                    </div>
+                                    <div class="form-group" ng-show="vmwareform">
+                                        <label><b>Username</b></label> 
+                                        <input type="text" class="form-control" id="txtvmwareusername" name="txtvmwareusername" ng-model="txtvmwareusername" placeholder="enter the IP">
+                                        <span style="font-size: 11px;display: block;margin-top: 6px;">The password used to authenticated to the VMware server.</span>
+                                    </div>
+                                    <div class="form-group" ng-show="vmwareform">
+                                        <label><b>Password</b></label> 
+                                        <input type="password" class="form-control" id="txtvmwarepass" name="txtvmwarepass" ng-model="txtvmwarepass" placeholder="enter the IP">
+                                        <span style="font-size: 11px;display: block;margin-top: 6px;">The password used to authenticated to the VMware server.</span>
+                                    </div>
+                                    <div class="form-group" ng-show="vmwareform">
+                                        <label><b>Monitoring Mode</b></label> 
+                                        <span  style="font-size: 11px;display: block;margin-top: 6px;">Whould you like to monitor the vmware host (server) or a guest VM?</span>
+                                        <select class="form-control" id="selvmwaremonitormode"  name="selvmwaremonitormode" autocomplete="off" ng-model="selvmwaremonitormode">
+                                            <option value="">-- Select --</option>
+                                            <option value="monitorVMware">Monitor the VMware host</option>
+                                            <option value="MonitorGuestVMware">Monitor the VMWare Guest</option>
+                                            <option value="MonitordatastoreVMware">Monitor the VMWare Datastore</option>
+                                            <option value="MonitorclusterVMware">Monitor the VMWare Cluster</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group" ng-if="txtipaddress" ng-hide="vmwareform">
+                                        <label><b>Host Name</b></label> 
+                                        <input type="text" class="form-control" id="txthostname" name="txthostname" placeholder="Enter The Host Name">
+                                        <span  style="font-size: 11px;display: block;margin-top: 6px;">The name you'd like to have associated with this Linux server.
+                                            </span>
+                                    </div>
+                                    <div class="form-group" ng-show="linuxform" ng-if="txtipaddress">
+                                            <label><b>OS Name</b></label> 
+                                        <select class="form-control" id="sellinosval"  name="sellinosval" autocomplete="off" >
+                                            <!-- <option  value="">-- select --</option> -->
+                                            <option  value="RedHat">RedHat </option>
+                                            <option  value="CentOS">CentOS</option>
+                                            <option  value="Fedora">Fedora</option>
+                                            <option  value="Oracle">Oracle</option>
+                                            <option  value="Ubuntu">Ubuntu</option>
+                                            <option  value="Debian">Debian</option>
+                                            <option  value="SUSE Enterprise">SUSE Enterprise</option>
+                                            <option  value="openSUSE">openSUSE</option>
+                                            <option  value="Others">Others</option>
+                                            <!-- <option ng-repeat="acl in getappclslist.aclass_name" value="{{acl}}">{{acl}}</option> -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group" ng-show="windowform" ng-if="txtipaddress">
+                                        <label><b>OS Name</b></label> 
+                                        <select class="form-control" id="selwinosval"  name="selwinosval" autocomplete="off" >
+                                            <option  value="windows10">Windows 10</option>
+                                            <option  value="windows8">Windows 8</option>
+                                            <option  value="Windows7Ultimate">Windows 7 Ultimate</option>
+                                            <option  value="Windows7Home">Windows 7 Home</option>
+                                            <option  value="Windows7Professional">Windows 7 Professional</option>
+                                            <!-- <option ng-repeat="acl in getappclslist.aclass_name" value="{{acl}}">{{acl}}</option> -->
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" ng-if="selvmwaremonitormode == 'monitorVMware' || selvmwaremonitormode == 'MonitordatastoreVMware' || selvmwaremonitormode == 'MonitorclusterVMware'" ng-show="vmwareform">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">VMware Details</div>
+                                <label ng-if="selvmwaremonitormode == 'monitorVMware'"><b>VMware Mode: Host</b></label>
+                                <label ng-if="selvmwaremonitormode == 'MonitorclusterVMware'"><b>VMware Mode: Cluster</b></label>
+                                <label ng-if="selvmwaremonitormode == 'MonitordatastoreVMware'"><b>VMware Mode: Datastore</b></label>
+                                <div class="form-group"  ng-if="selvmwaremonitormode == 'monitorVMware'">
+                                    <label><b>ESXi Hosts</b></label> 
+                                    <select class="form-control" id="selwinosval"  name="selwinosval" multiple autocomplete="off">
+                                        <option  value="cpuusage">Host 1</option>
+                                        <option  value="cpuusage">Host 2</option>
+                                        <option  value="cpuusage">Host 3</option>
+                                        <option  value="cpuusage">Host 4</option>
+                                        <option  value="cpuusage">Host 5</option>
+                                        <option  value="cpuusage">Host 6</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"  ng-if="selvmwaremonitormode == 'MonitordatastoreVMware'">
+                                    <label><b>ESXi Datastore</b></label> 
+                                    <select class="form-control" id="selwinosval"  name="selwinosval" multiple autocomplete="off">
+                                        <option  value="cpuusage">Host 1</option>
+                                        <option  value="cpuusage">Host 2</option>
+                                        <option  value="cpuusage">Host 3</option>
+                                        <option  value="cpuusage">Host 4</option>
+                                        <option  value="cpuusage">Host 5</option>
+                                        <option  value="cpuusage">Host 6</option>
+                                    </select>
+                                </div>
+                                <div class="form-group"  ng-if="selvmwaremonitormode == 'MonitorclusterVMware'">
+                                    <label><b>ESXi Cluster</b></label> 
+                                    <select class="form-control" id="selwinosval"  name="selwinosval" multiple autocomplete="off">
+                                        <option  value="cpuusage">Host 1</option>
+                                        <option  value="cpuusage">Host 2</option>
+                                        <option  value="cpuusage">Host 3</option>
+                                        <option  value="cpuusage">Host 4</option>
+                                        <option  value="cpuusage">Host 5</option>
+                                        <option  value="cpuusage">Host 6</option>
+                                    </select>
+                                </div>
+                                <div class="panel-heading" ng-if="selvmwaremonitormode == 'monitorVMware'">VMware Host Metrics</div>
+                                <div class="panel-heading" ng-if="selvmwaremonitormode == 'MonitordatastoreVMware'">VMware Datastore Metrics</div>
+                                <div class="panel-heading" ng-if="selvmwaremonitormode == 'MonitorclusterVMware'">VMware Cluster Metrics</div>
+                                <div class="form-group" ng-if="selvmwaremonitormode == 'monitorVMware'">
+                                    <!-- <label><b>OS Name</b></label> -->
+                                    <span  style="font-size: 11px;display: block;margin-top: 6px;">Specify what metrics you'd like to monitor on the VMware Host(server).</span>
+                                    <div class="checkbox col-lg-6" >
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">CPU Usage
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">Memory
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">Networking
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">Kbps</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">Kbps</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">Input / Output
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">ms</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">ms</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">License Status
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;"></td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">Uptime
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;"></td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-if="selvmwaremonitormode == 'MonitordatastoreVMware'">
+                                    <div class="checkbox">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">Datastore Usage
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 10px; width: 75%;">%</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 10px; width: 75%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group" ng-if=" selvmwaremonitormode == 'MonitorclusterVMware'">
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">CPU Usage
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">MEM Usage
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">Cluster Usage
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;"></td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" ng-if="selvmwaremonitormode == 'MonitorGuestVMware'" ng-show="vmwareform">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">VMware Details</div>
+                                <label><b>VMware Mode: Guest</b></label>
+                                <!-- <div class="form-group" >
+                                    <label><b>Address</b></label> 
+                                    <input type="text" class="form-control" id="txtvmwareip" name="txtvmwareip" disabled>
+                                </div>
+                                <div class="form-group" >
+                                    <label><b>Host Names</b></label> 
+                                    <input type="text" class="form-control" id="txtvmwarehostname" name="txtvmwarehostname" placeholder="Enter The Host Name">
+                                    <span  style="font-size: 11px;display: block;margin-top: 6px;">The name you'd like to have associated with this Linux server.</span>
+                                </div> -->
+                                <div class="form-group">
+                                    <span  style="font-size: 11px;display: block;margin-top: 6px;">Specify what metrics you'd like to monitor on the VMware Guest.</span>
+                                    <select class="form-control" id="selwinosval"  name="selvmmonitorval" ng-model="selvmmonitorval" autocomplete="off">
+                                        <option  value="">-- Select --</option>
+                                        <option  value="monitorMetrics">Monitored Metrics</option>
+                                        <option  value="guestSelect">Guest Selection</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" ng-if="selvmmonitorval == 'monitorMetrics'">
+                                    <!-- <label><b>OS Name</b></label> -->
+                                    <span  style="font-size: 11px;display: block;margin-top: 6px;">Specify what metrics you'd like to monitor on the VMware Guest.</span>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">CPU Usage
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox  col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">Memory
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">Networking
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">Kbps</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">Kbps</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">Power State
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;"></td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;"></td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="checkbox col-lg-6">
+                                        <label style="padding-left: 0px; display: block" class="ng-binding">
+                                            <input type="checkbox" name="" id="" style="margin-left: 0px;">Disk
+                                        </label>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <tbody>
+                                                    <tr>
+                                                        <td><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i> <input type="text" id=""  name="" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div ng-if="selvmmonitorval == 'guestSelect'">
+                                    <div class="panel-heading">Guest Details</div>
+                                    <span  style="font-size: 11px;display: block;margin-top: 6px;">Specify what metrics you'd like to monitor on the VMware Guest.</span>
+                                    <div class="" style=" margin-top: 10px;">
+                                        <table class="table tbl_services" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                            <thead>
+                                                <tr>
+                                                    <th></th>
+                                                    <th>Guest Name</th>
+                                                    <th>IP Address</th>
+                                                    <th>Current Status</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>
+                                                        <div class="checkbox">
+                                                            <label style="padding-left: 0px; display: block" class="ng-binding">
+                                                                <input type="checkbox" name="chkvmservval" id="chkvmservval" style="margin-left: 0px;">
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" id="txtvmservval" name="txtvmservval" style="width: 80%; margin-right: 10px;"></td>
+                                                    <td>None Defined</td>
+                                                    <td  width="20%">
+                                                        Powered Off
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="checkbox">
+                                                            <label style="padding-left: 0px; display: block" class="ng-binding">
+                                                                <input type="checkbox" name="chkvmservval" id="chkvmservval" style="margin-left: 0px;">
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" id="txtvmservval" name="txtvmservval" style="width: 80%; margin-right: 10px;"></td>
+                                                    <td>10.25.14.10</td>
+                                                    <td  width="20%">
+                                                        Powered On
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="checkbox">
+                                                            <label style="padding-left: 0px; display: block" class="ng-binding">
+                                                                <input type="checkbox" name="chkvmservval" id="chkvmservval" style="margin-left: 0px;">
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" id="txtvmservval" name="txtvmservval" style="width: 80%; margin-right: 10px;"></td>
+                                                    <td>10.25.14.51</td>
+                                                    <td  width="20%">
+                                                        Powered On
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="checkbox">
+                                                            <label style="padding-left: 0px; display: block" class="ng-binding">
+                                                                <input type="checkbox" name="chkvmservval" id="chkvmservval" style="margin-left: 0px;">
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" id="txtvmservval" name="txtvmservval" style="width: 80%; margin-right: 10px;"></td>
+                                                    <td>10.25.14.52</td>
+                                                    <td  width="20%">
+                                                        Powered On
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>
+                                                        <div class="checkbox">
+                                                            <label style="padding-left: 0px; display: block" class="ng-binding">
+                                                                <input type="checkbox" name="chkvmservval" id="chkvmservval" style="margin-left: 0px;">
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                    <td><input type="text" id="txtvmservval" name="txtvmservval" style="width: 80%; margin-right: 10px;"></td>
+                                                    <td>None Defined</td>
+                                                    <td  width="20%">
+                                                        Powered Off
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" ng-if="txtipaddress">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" ng-show="windowform">Windows Agent</div>
+                                <div class="panel-heading" ng-show="linuxform">Linux Agent</div>
+                                <div class="panel-body">
+                                    <div class="form-group" ng-show="windowform">
+                                        <label><b>Agent Download:</b></label> 
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <label><b>32-Bit Agent (v0.4.4)</b> </label>
+                                                <a href=""><i class="fa fa-download" aria-hidden="true"></i></a>
+                                            </div>
+                                            <div class="col-lg-6">
+                                                <label><b>64-Bit Agent (v0.4.4)</b></label>
+                                                <a href=""><i class="fa fa-download" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-show="linuxform">
+                                        <label><b>Agent Download:</b></label> 
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <a href="">Download Agent <i class="fa fa-download" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-show="linuxform">
+                                        <label><b>Agent Install Instructions:</b></label> 
+                                        <div class="row">
+                                            <div class="col-lg-6">
+                                                <a href="">Download Agent Installation Instructions <i class="fa fa-download" aria-hidden="true"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" ng-show="windowform">
+                                        <label><b>Agent Password:</b></label> 
+                                        <input type="text" class="form-control" id="txtagnetpwd" name="txtagnetpwd"  placeholder="Agent Password">
+                                        <span style="font-size: 11px;display: block;margin-top: 6px;">Valid characters include: <b>a-zA-Z0-9 .\:_-@</b></span>
+                                    </div>
+                                    <div class="form-group" ng-show="linuxform">
+                                        <label><b>SSL Encryption :</b></label> 
+                                        <select class="form-control" id="selsslencryval"  name="selsslencryval" autocomplete="off" name="" >
+                                                <option  value="A">Enable - default</option>
+                                                <option  value="B">Disabled</option>
+                                        </select>
+                                        <span  style="font-size: 11px;display: block;margin-top: 6px;">Determines whether or not data between the Nagios XI server and Linux agent is encrypted.</span>
+                                        <span  style="font-size: 11px;display: block;margin-top: 6px;"><b>Note: </b>Legacy NRPE installations may require that SSL support be disabled.</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" ng-if="txtipaddress">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Server Metrics</div>
+                                <div class="panel-body">
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px;" class="ng-binding">
+                                                    <input type="checkbox" id="txtservermetricval"  name="txtservermetricval"><b>Ping </b>
+                                                    <span  style="font-size: 11px;display: block;margin-top: 6px;">Monitors the server with an ICMP ping. Useful for watching network latency and general uptime.</span> 
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6" ng-show="windowform">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px;" class="ng-binding">
+                                                    <input type="checkbox" id="txtuptimeval"  name="txtuptimeval"><b>Uptime </b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors the uptime on the server.</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6" ng-show="linuxform">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px;" class="ng-binding">
+                                                    <input type="checkbox" id="txtyumupstsval"  name="txtyumupstsval"><b>Yum Update Status </b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors the server to ensure it's up to date with the latest RPM packages.</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 config-panel-hg">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px;" class="ng-binding">
+                                                    <!-- <input type="checkbox" id="chkloadval"  name="chkloadval"> -->
+                                                    <b>Load </b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors the load on the server (1,5,15 minute values).</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i></th>
+                                                        <th><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" id="txtloadminval"  name="txtloadminval" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><input type="text" id="txtloadmaxval"  name="txtloadmaxval" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 config-panel-hg" ng-show="linuxform">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px;" class="ng-binding">
+                                                    <!-- <input type="checkbox" id="chkcpustsval"  name="chkcpustsval"> -->
+                                                    <b>CPU Statistics </b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors the server CPU statistics (% user, system, iowait, and idle)</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i></th>
+                                                        <th><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" id="txtcpustsminval"  name="txtcpustsminval" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><input type="text" id="txtcpustsmaxval"  name="txtcpustsmaxval" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 config-panel-hg" ng-show="windowform">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px;" class="ng-binding">
+                                                    <!-- <input type="checkbox" id="chkcpuval"  name="chkcpuval"> -->
+                                                    <b>CPU </b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors the CPU (processor usage) on the server.</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i></th>
+                                                        <th><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" id="txtcpuminval"  name="txtcpuminval" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><input type="text" id="txtcpumaxval"  name="txtcpumaxval" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 config-panel-hg">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px;" class="ng-binding">
+                                                    <!-- <input type="checkbox"  id="chkmemuseval"  name="chkmemuseval"> -->
+                                                    <b>Memory Usage </b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors the memory usage on the server.</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i></th>
+                                                        <th><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" id="txtmemuseminval"  name="txtmemuseminval" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><input type="text" id="txtmemmaxval"  name="txtmemmaxval" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                               
+                                    </div>
+                                    <div class="col-lg-6 config-panel-hg" ng-show="linuxform">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px;" class="ng-binding">
+                                                    <!-- <input type="checkbox" id="chkswapuseval"  name="chkswapuseval"> -->
+                                                    <b>Swap Usage </b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors the swap usage on the server.</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i></th>
+                                                        <th><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" id="txtswapuseminval"  name="txtswapuseminval" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><input type="text" id="txtswapusemaxval"  name="txtswapusemaxval" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 config-panel-hg" ng-show="linuxform">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px; width: 100%;" class="ng-binding">
+                                                    <!-- <input type="checkbox" id="chkswapuseval"  name="chkopenfileval"> -->
+                                                    <b>Open Files</b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors the number of open files on the server.</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i></th>
+                                                        <th><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" id="txtopenfileminval"  name="txtopenfileminval" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><input type="text" id="txtopenfilemaxval"  name="txtopenfilemaxval" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 config-panel-hg" ng-show="linuxform">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px; width: 100%;" class="ng-binding">
+                                                    <!-- <input type="checkbox" id="chkusersval"  name="chkusersval"> -->
+                                                    <b>Users </b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors the number of users currently logged in to the server.</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i></th>
+                                                        <th><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" id="txtuservalminval"  name="txtuservalminval" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><input type="text" id="txtuservalmaxval"  name="txtuservalmaxval" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                                
+                                    </div>
+                                    <div class="col-lg-6 config-panel-hg" ng-show="linuxform">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px; width: 100%;" class="ng-binding">
+                                                    <!-- <input type="checkbox" id="chktotprocesval"  name="chktotprocesval"> -->
+                                                    <b>Total Processes </b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors the total number of processes running on the server.</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_condition" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <thead>
+                                                    <tr>
+                                                        <th><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i></th>
+                                                        <th><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td><input type="text" id="txttotprominval"  name="txttotprominval" style="margin-right: 5px; width: 60%;">%</td>
+                                                        <td><input type="text" id="txttotpromaxval"  name="txttotpromaxval" style="margin-right: 5px; width: 60%;">%</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 config-panel-hg">
+                                        <div class="form-group">
+                                            <div class="checkbox">
+                                                <label style="padding-left: 0px; width: 100%;" class="ng-binding">
+                                                    <!-- <input type="checkbox" id="chkdiskusageval"  name="chkdiskusageval"> -->
+                                                    <b>Disk Usage :</b>
+                                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Monitors disk usage on the server.</span>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="" style=" margin-top: 10px;">
+                                            <table class="table tbl_disk" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Drive</th>
+                                                        <th><i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i></th>
+                                                        <th><i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i></th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>
+                                                            <select class="form-control" id="seldriveval"  name="seldriveval" autocomplete="off" name="" style="width: 90%; height: 25px; padding: 1px 10px !important;">
+                                                                <option  value="">-- select --</option>
+                                                                <option  value="A">A:</option>
+                                                                <option  value="B">B:</option>
+                                                                <option  value="C">C:</option>
+                                                                <option  value="D">D:</option>
+                                                                <option  value="E">E:</option>
+                                                                <option  value="F">F:</option>
+                                                                <option  value="G">G:</option>
+                                                                <!-- <option ng-repeat="acl in getappclslist.aclass_name" value="{{acl}}">{{acl}}</option> -->
+                                                            </select>
+                                                        </td>
+                                                        <td><input type="text" id="txtdiskwarval" name="txtdiskwarval" style="width: 80%; margin-right: 10px;">%</td>
+                                                        <td><input type="text" id="txtdiskdangerval" name="txtdiskdangerval" style="width: 80%; margin-right: 10px;">%</td>
+                                                        <td width="20%">
+                                                            <a class="btn btn-default " ng-click="disk_usage_add_btn()"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" ng-if="txtipaddress">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Services</div>
+                                <div class="panel-body">
+                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Specify any services that should be monitored to ensure they're in a running state.</span>
+                                    <div class="" style=" margin-top: 10px;">
+                                        <table class="table tbl_services" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Windows Service</th>
+                                                    <th>Display Name</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="text" id="txtwinservval" name="txtdiskwarval" style="width: 80%; margin-right: 10px;"></td>
+                                                    <td><input type="text" id="txtservdisval" name="txtdiskdangerval" style="width: 80%; margin-right: 10px;"></td>
+                                                    <td  width="20%">
+                                                        <a class="btn btn-default " ng-click="service_add_btn()"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6" ng-if="txtipaddress">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Processes</div>
+                                <div class="panel-body">
+                                    <span style="font-size: 11px;display: block;margin-top: 6px;">
+                                            Specify any processes that should be monitored to ensure they're running.</span>
+                                    <div class="" style=" margin-top: 10px;">
+                                        <table class="table tbl_process" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Windows Process</th>
+                                                    <th>Display Name</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="text" id="txtwinprocsval" name="txtdiskwarval" style="width: 80%; margin-right: 10px;"></td>
+                                                    <td><input type="text" id="txtprocsdisval" name="txtdiskdangerval" style="width: 80%; margin-right: 10px;"></td>
+                                                    <td  width="20%">
+                                                        <a class="btn btn-default" type="button" ng-click="process_add_btn()"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12" ng-if="txtipaddress" ng-show="windowform">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Performance Counters</div>
+                                <div class="panel-body">
+                                    <span style="font-size: 11px;display: block;margin-top: 6px;">Specify any performance counters that should be monitored.</span>
+                                    <div class="" style=" margin-top: 10px;">
+                                        <table class="table tbl_pc" style="margin-bottom: 15px; border: 1px solid #dce1e4;">
+                                            <thead>
+                                                <tr>
+                                                    <th>Performance Counter</th>
+                                                    <th>Display Name</th>
+                                                    <th>Counter Output Format</th>
+                                                    <th>Warning <i class="fa fa-exclamation-triangle" style=" margin-top: 6px; color: #FFC107;" aria-hidden="true"></i></th>
+                                                    <th>Critical <i class="fa fa-exclamation-circle" style=" margin-top: 6px; color: #e60404;" aria-hidden="true"></i></th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><input type="text" id="txtpcval" name="txtdiskwarval" style="width: 90%; margin-right: 10px;"></td>
+                                                    <td><input type="text" id="txtpcdisval" name="txtdiskwarval" style="width: 90%; margin-right: 10px;"></td>
+                                                    <td><input type="text" id="txtpccofval" name="txtdiskwarval" style="width: 90%; margin-right: 10px;"></td>
+                                                    <td><input type="text" id="txtpcwarval" name="txtdiskwarval" style="width: 90%; margin-right: 10px;"></td>
+                                                    <td><input type="text" id="txtpccrival" name="txtdiskdangerval" style="width: 90%; margin-right: 10px;"></td>
+                                                    <td width="10%">
+                                                        <a class="btn btn-default " ng-click="pc_add_btn()"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-12" ng-if="txtipaddress" style="text-align: right;">
+                            <button type="submit" class="btn btn-primary" ng-click="submitconfigval()">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

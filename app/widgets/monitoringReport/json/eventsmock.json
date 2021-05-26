@@ -1,0 +1,311 @@
+$scope.piehostdata =[
+  ["Up %", 99.98891525],
+  ["Down %", 0.011084746],
+  ["Unreachable %", 0]
+]
+
+$scope.reportdata=[{
+      "Host": 'Firewall',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },
+  {
+      "Host": 'Log-Server.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },
+  {
+      "Host": 'Log-Server2.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },
+  {
+      "Host": 'NOAA',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'Netw',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'Network-Analyzer.nagios.',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'Network-Analyzer.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'Network-Analyzer2',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'Network-Analyzer2.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'Router',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'centos-gateway.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'centos-switch.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'centos1.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'exchange.nagios.org',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'fedora-gateway.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'europa.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'fedora-switch.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'fedora1.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'gateway.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'linux-snmp1.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'linux-snmp2.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'linux-snmp3.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'linuxsnmp-gateway.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'linuxsnmp-switch.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'mssql1.nagios.l',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'mssql1.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'mssql2.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'mssql3.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'mysql1.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'mysql2.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'mysql3.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'nagiosls.demos.nagios.com',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'rhel-gateway.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'rhel-switch.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'rhel1.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'rhel2.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'rhel3.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'rhel4.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'secure.nagios.com',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'switch27.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'vs1.nagios.org',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'windows-gateway.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'windows-switch.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'windowserver1.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'windowserver2.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'windowserver3.nagios.local',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'www.acme.com',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'www.chaoticmoon.com',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  },{
+      "Host": 'www.cnn.com',
+      "Time Up": 0.000,
+      "Time Down": 0.000,
+      "Time Unreachable": 0.000,
+      "Time Undetermined": 100.000
+  }];
+  
+var pieservicedata =[
+  ["ok %", 98.206002794],
+  ["Warning %", 1.296749752],
+  ["Unknown %", 0],
+  ["Critical %", 0.497243]
+]

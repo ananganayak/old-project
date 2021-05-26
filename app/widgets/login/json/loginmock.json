@@ -1,0 +1,9 @@
+{"user_id": "admin", "first_name": "Dinesh", "last_name": "Balaraman", "email_id": "dinesh@autointelli.com",
+    "phone_number": "8553184171", "country_code": "IN", "time_zone": "Asia/Kolkata", "gmt_offset": "UTC +05:30",
+    "role_name": "admin",
+    "session_id": "17c8810f931b29e1de6c921514f247f2c64744d6b9d54478092bdcbee0607651650dbac4c8d051a75ce9cffd2bd3a9883d92152ae9e401b8ae7403468b26ff14",
+    "mapper": {"admin": [{"tab_name": "dashboard", "permission_name": "R"},
+            {"tab_name": "user_management", "permission_name": "RW"},
+            {"tab_name": "evm", "permission_name": "RW"}]
+        }
+}

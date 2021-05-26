@@ -1,0 +1,166 @@
+<div class="monitoringdashtabController" ng-controller="monitoringdashtabController" ng-init="init()">
+    <div class="row">
+        <style>
+            .monitoringdashtabController .monitor-dash .row .col-lg-4 {
+                width: 25%;
+                padding: 0px 10px;
+            }
+        </style>
+        <div class="col-md-12 monitor-dash"> 
+            <div class="panel monitor_all_application_dash panel-default">
+                <div class="panel-body">
+                    <div class="row" > 
+                        <div class="col-lg-12">
+                            <div class="well well-lg header-well" >
+                                <h2> 
+                                    <span ng-show="panelview">Application Overview</span>   
+                                    <span ng-show="gridview">{{hostgrpdet.hostgroup}}</span>
+                                    <button class="btn btn-default btn-xs" ng-show="gridview" ng-click="backtohostlistfn()"><i class="fa fa-arrow-left" aria-hidden="true"></i> Back</button>   
+                                    <div class="dropdown refreshbtn">
+                                        <a href="javascript::void();" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                                            <i class="fa fa-clock-o"></i>
+                                            <!-- <span ng-show="refreshtime != ''" class="badge badge-success pull-right">{{refreshtime}}</span> -->
+                                        </a>
+                                        <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
+                                            <li><p class="drop-title">Auto Refresh</p></li>
+                                            <li class="">
+                                                <div class="radio">
+                                                    <label><input type="radio" name="mondashoptradio1" ng-click="selrefreshtime('off')">Off</label>
+                                                </div>
+                                            </li>
+                                            <li class="">
+                                                <div class="radio">
+                                                    <label><input type="radio" name="mondashoptradio2" ng-click="selrefreshtime('1Min')">1 Minutes</label>
+                                                </div>
+                                            </li>
+                                            <li class="">
+                                                <div class="radio">
+                                                    <label><input type="radio" name="mondashoptradio3" ng-click="selrefreshtime('2Min')">2 Minutes</label>
+                                                </div>
+                                            </li>
+                                            <li class="">
+                                                <div class="radio">
+                                                    <label><input type="radio" name="mondashoptradio4" ng-click="selrefreshtime('5Min')" >5 Minutes</label>
+                                                </div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <a href="" class="monitoring_full_screen btn" style="float: right; margin-top: -5px;" data-toggle="tooltip" data-original-title="Full Screen">
+                                        <img src="app/img/expand.png" style="width: 20px; height: 20px;"/>
+                                    </a>
+                                    <a href="" class="monitoring_exit_screen btn" style="float: right; margin-top: -5px;" data-toggle="tooltip" data-original-title="Exit Full Screen">
+                                        <img src="app/img/exitfullscreen.png" style="width: 20px; height: 20px;"/>
+                                    </a>
+                                </h2>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 panelview" ng-show="panelview">
+                            <div class="row">
+                                <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12" ng-repeat="hst in getallappval">
+                                    <div class="well well-lg">  
+                                        <p class="well-header-p">
+                                            <span title="{{hst.hostgroup}}">{{hst.hostgroup}}</span>
+                                            <span><i class="fa fa-server" aria-hidden="true"></i></span>
+                                        </p>
+                                        <div class="row">
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <p style="font-size: 14px; margin-bottom: 0px;">Host | <span>{{hst.host_count}} </span></p>
+                                                <p style="margin-bottom: 2px;"><a class="btn btn-small btn-block" ng-class="{'btn-success': hst.host_checks[0][1] == 'UP', 'btn-danger': hst.host_checks[0][1] == 'DOWN', 'btn-info': hst.host_checks[0][1] == 'UNREACHABLE', 'btn-default': hst.host_checks[0][1] == 'PENDING'}" ng-click="btngetgriddet(hst.host_checks[0][0], hst.host_checks[0][1], hst.host_checks[0][2], 0, hst.hostgroup , hst)"> {{hst.host_checks[0][1]}} - {{hst.host_checks[0][2]}} </a></p>
+                                                <p style="margin-bottom: 2px;" ><a class="btn btn-small btn-block " ng-class="{'btn-success': hst.host_checks[1][1] == 'UP', 'btn-danger': hst.host_checks[1][1] == 'DOWN', 'btn-info': hst.host_checks[1][1] == 'UNREACHABLE', 'btn-default': hst.host_checks[1][1] == 'PENDING'}" ng-click="btngetgriddet(hst.host_checks[1][0], hst.host_checks[1][1], hst.host_checks[1][2],  0, hst.hostgroup, hst)"> {{hst.host_checks[1][1]}} - {{hst.host_checks[1][2]}}</a></p>
+                                                <p style="margin-bottom: 2px;"><a class="btn btn-small btn-block" ng-class="{'btn-success': hst.host_checks[2][1] == 'UP', 'btn-danger': hst.host_checks[2][1] == 'DOWN', 'btn-info': hst.host_checks[2][1] == 'UNREACHABLE', 'btn-default': hst.host_checks[2][1] == 'PENDING'}" ng-click="btngetgriddet(hst.host_checks[2][0], hst.host_checks[2][1], hst.host_checks[2][2], 0, hst.hostgroup, hst)"> {{hst.host_checks[2][1]}} - {{hst.host_checks[2][2]}}</a></p>
+                                                <p style="margin-bottom: 2px;"><a class="btn btn-small btn-block" ng-class="{'btn-success': hst.host_checks[3][1] == 'UP', 'btn-danger': hst.host_checks[3][1] == 'DOWN', 'btn-info': hst.host_checks[3][1] == 'UNREACHABLE', 'btn-default': hst.host_checks[3][1] == 'PENDING'}" ng-click="btngetgriddet(hst.host_checks[3][0], hst.host_checks[3][1], hst.host_checks[3][2], 0, hst.hostgroup, hst)"> {{hst.host_checks[3][1]}} - {{hst.host_checks[3][2]}}</a></p>
+                                            </div>
+                                            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                                                <p style="font-size: 14px; margin-bottom: 0px;">Services | <span> {{hst.service_count}}</span></p>
+                                                <p style="margin-bottom: 2px;"><a class="btn btn-small btn-block " ng-class="{'btn-info': hst.service_checks[0][1] == 'UNKNOWN', 'btn-danger': hst.service_checks[0][1] == 'CRITICAL', 'btn-warning': hst.service_checks[0][1] == 'WARNING', 'btn-success': hst.service_checks[0][1] == 'OK', 'btn-default': hst.service_checks[0][1] == 'PENDING'}" ng-click="btngetgriddet(hst.service_checks[0][0], hst.service_checks[0][1], hst.service_checks[0][2], 1, hst.hostgroup, hst)">{{hst.service_checks[0][1]}} - {{hst.service_checks[0][2]}}</a></p>
+                                                <p style="margin-bottom: 2px;"><a class="btn btn-small btn-block " ng-class="{'btn-info': hst.service_checks[1][1] == 'UNKNOWN', 'btn-danger': hst.service_checks[1][1] == 'CRITICAL', 'btn-warning': hst.service_checks[1][1] == 'WARNING', 'btn-success': hst.service_checks[1][1] == 'OK', 'btn-default': hst.service_checks[1][1] == 'PENDING'}" ng-click="btngetgriddet(hst.service_checks[1][0], hst.service_checks[1][1], hst.service_checks[1][2], 1, hst.hostgroup, hst)">{{hst.service_checks[1][1]}} - {{hst.service_checks[1][2]}}</a></p>
+                                                <p style="margin-bottom: 2px;"><a class="btn btn-small btn-block " ng-class="{'btn-info': hst.service_checks[2][1] == 'UNKNOWN', 'btn-danger': hst.service_checks[2][1] == 'CRITICAL', 'btn-warning': hst.service_checks[2][1] == 'WARNING', 'btn-success': hst.service_checks[2][1] == 'OK', 'btn-default': hst.service_checks[2][1] == 'PENDING'}" ng-click="btngetgriddet(hst.service_checks[2][0], hst.service_checks[2][1], hst.service_checks[2][2], 1, hst.hostgroup, hst)">{{hst.service_checks[2][1]}} - {{hst.service_checks[2][2]}}</a></p>
+                                                <p style="margin-bottom: 2px;"><a class="btn btn-small btn-block " ng-class="{'btn-info': hst.service_checks[3][1] == 'UNKNOWN', 'btn-danger': hst.service_checks[3][1] == 'CRITICAL', 'btn-warning': hst.service_checks[3][1] == 'WARNING', 'btn-success': hst.service_checks[3][1] == 'OK', 'btn-default': hst.service_checks[3][1] == 'PENDING'}" ng-click="btngetgriddet(hst.service_checks[3][0], hst.service_checks[3][1], hst.service_checks[3][2], 1, hst.hostgroup, hst)">{{hst.service_checks[3][1]}} - {{hst.service_checks[3][2]}}</a></p>
+                                                <p style="margin-bottom: 2px;"><a class="btn btn-small btn-block " ng-class="{'btn-info': hst.service_checks[4][1] == 'UNKNOWN', 'btn-danger': hst.service_checks[4][1] == 'CRITICAL', 'btn-warning': hst.service_checks[4][1] == 'WARNING', 'btn-success': hst.service_checks[4][1] == 'OK', 'btn-default': hst.service_checks[4][1] == 'PENDING'}" ng-click="btngetgriddet(hst.service_checks[4][0], hst.service_checks[4][1], hst.service_checks[4][2], 1, hst.hostgroup, hst)">{{hst.service_checks[4][1]}} - {{hst.service_checks[4][2]}}</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-12 gridview" ng-show="gridview">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6 col-sm-12" style="padding:0px 10px;">
+                                    <h4>Hosts</h4>
+                                    <hr>
+                                    <button class="btn btn-xs" ng-class="{'btn-success': hostgrpdet.host_checks[0][1] == 'UP', 'btn-danger': hostgrpdet.host_checks[0][1] == 'DOWN', 'btn-info': hostgrpdet.host_checks[0][1] == 'UNREACHABLE', 'btn-default': hostgrpdet.host_checks[0][1] == 'PENDING'}" ng-click="btngriddetget(hostgrpdet.host_checks[0][0],hostgrpdet.host_checks[0][1], hostgrpdet.host_checks[0][2], 0)">{{hostgrpdet.host_checks[0][1]}} - {{hostgrpdet.host_checks[0][2]}}</button>
+                                    <button class="btn btn-xs" ng-class="{'btn-success': hostgrpdet.host_checks[1][1] == 'UP', 'btn-danger': hostgrpdet.host_checks[1][1] == 'DOWN', 'btn-info': hostgrpdet.host_checks[1][1] == 'UNREACHABLE', 'btn-default': hostgrpdet.host_checks[1][1] == 'PENDING'}" ng-click="btngriddetget(hostgrpdet.host_checks[1][0],hostgrpdet.host_checks[1][1], hostgrpdet.host_checks[1][2], 0)">{{hostgrpdet.host_checks[1][1]}} - {{hostgrpdet.host_checks[1][2]}}</button>
+                                    <button class="btn btn-xs" ng-class="{'btn-success': hostgrpdet.host_checks[2][1] == 'UP', 'btn-danger': hostgrpdet.host_checks[2][1] == 'DOWN', 'btn-info': hostgrpdet.host_checks[2][1] == 'UNREACHABLE', 'btn-default': hostgrpdet.host_checks[2][1] == 'PENDING'}" ng-click="btngriddetget(hostgrpdet.host_checks[2][0],hostgrpdet.host_checks[2][1], hostgrpdet.host_checks[2][2], 0)">{{hostgrpdet.host_checks[2][1]}} - {{hostgrpdet.host_checks[2][2]}}</button>
+                                    <button class="btn btn-xs" ng-class="{'btn-success': hostgrpdet.host_checks[3][1] == 'UP', 'btn-danger': hostgrpdet.host_checks[3][1] == 'DOWN', 'btn-info': hostgrpdet.host_checks[3][1] == 'UNREACHABLE', 'btn-default': hostgrpdet.host_checks[3][1] == 'PENDING'}" ng-click="btngriddetget(hostgrpdet.host_checks[3][0],hostgrpdet.host_checks[3][1], hostgrpdet.host_checks[3][2], 0)">{{hostgrpdet.host_checks[3][1]}} - {{hostgrpdet.host_checks[3][2]}}</button>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12" style="padding:0px 10px;">
+                                    <h4>Services</h4>
+                                    <hr>
+                                    <button class="btn btn-xs" ng-class="{'btn-info': hostgrpdet.service_checks[0][1] == 'UNKNOWN', 'btn-danger': hostgrpdet.service_checks[0][1] == 'CRITICAL', 'btn-warning': hostgrpdet.service_checks[0][1] == 'WARNING', 'btn-success': hostgrpdet.service_checks[0][1] == 'OK', 'btn-default': hostgrpdet.service_checks[0][1] == 'PENDING'}" ng-click="btngriddetget(hostgrpdet.service_checks[0][0],hostgrpdet.service_checks[0][1], hostgrpdet.service_checks[0][2], 1)">{{hostgrpdet.service_checks[0][1]}} - {{hostgrpdet.service_checks[0][2]}}</button>
+                                    <button class="btn btn-xs" ng-class="{'btn-info': hostgrpdet.service_checks[1][1] == 'UNKNOWN', 'btn-danger': hostgrpdet.service_checks[1][1] == 'CRITICAL', 'btn-warning': hostgrpdet.service_checks[1][1] == 'WARNING', 'btn-success': hostgrpdet.service_checks[1][1] == 'OK', 'btn-default': hostgrpdet.service_checks[1][1] == 'PENDING'}" ng-click="btngriddetget(hostgrpdet.service_checks[1][0],hostgrpdet.service_checks[1][1], hostgrpdet.service_checks[1][2], 1)">{{hostgrpdet.service_checks[1][1]}} - {{hostgrpdet.service_checks[1][2]}}</button>
+                                    <button class="btn btn-xs" ng-class="{'btn-info': hostgrpdet.service_checks[2][1] == 'UNKNOWN', 'btn-danger': hostgrpdet.service_checks[2][1] == 'CRITICAL', 'btn-warning': hostgrpdet.service_checks[2][1] == 'WARNING', 'btn-success': hostgrpdet.service_checks[2][1] == 'OK', 'btn-default': hostgrpdet.service_checks[2][1] == 'PENDING'}" ng-click="btngriddetget(hostgrpdet.service_checks[2][0],hostgrpdet.service_checks[2][1], hostgrpdet.service_checks[2][2], 1)">{{hostgrpdet.service_checks[2][1]}} - {{hostgrpdet.service_checks[2][2]}}</button>
+                                    <button class="btn btn-xs" ng-class="{'btn-info': hostgrpdet.service_checks[3][1] == 'UNKNOWN', 'btn-danger': hostgrpdet.service_checks[3][1] == 'CRITICAL', 'btn-warning': hostgrpdet.service_checks[3][1] == 'WARNING', 'btn-success': hostgrpdet.service_checks[3][1] == 'OK', 'btn-default': hostgrpdet.service_checks[3][1] == 'PENDING'}" ng-click="btngriddetget(hostgrpdet.service_checks[3][0],hostgrpdet.service_checks[3][1], hostgrpdet.service_checks[3][2], 1)">{{hostgrpdet.service_checks[3][1]}} - {{hostgrpdet.service_checks[3][2]}}</button>
+                                    <button class="btn btn-xs" ng-class="{'btn-info': hostgrpdet.service_checks[4][1] == 'UNKNOWN', 'btn-danger': hostgrpdet.service_checks[4][1] == 'CRITICAL', 'btn-warning': hostgrpdet.service_checks[4][1] == 'WARNING', 'btn-success': hostgrpdet.service_checks[4][1] == 'OK', 'btn-default': hostgrpdet.service_checks[4][1] == 'PENDING'}" ng-click="btngriddetget(hostgrpdet.service_checks[4][0],hostgrpdet.service_checks[4][1], hostgrpdet.service_checks[4][2], 1)">{{hostgrpdet.service_checks[4][1]}} - {{hostgrpdet.service_checks[4][2]}}</button>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12" ng-show="hostgrid">
+                                    <h4>Host - {{inbtnvalname}} - {{inbtnvalcount}},  New Count - {{gethstgrpdet.length}}</h4>
+                                    <hr>
+                                    <div class="tableFixHead" id="tablehostgrid">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <th>Host Name</th>
+                                                <th>Host Description</th>
+                                                <th>Host Display Name</th>
+                                                <th>Host Address</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="val in gethstgrpdet"  ng-hide="valuegrid">
+                                                    <td>{{val[0]}}</td>
+                                                    <td>{{val[1]}}</td>
+                                                    <td>{{val[2]}}</td>
+                                                    <td>{{val[3]}}</td>
+                                                </tr>
+                                                <tr ng-hide="nogrid">
+                                                    <td colspan="5" style="text-align:center;">
+                                                       No Records Found
+                                                    </td> 
+                                                 </tr> 
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12 col-sm-12" ng-show="servicegrid">
+                                    <h4>Service - {{inbtnvalname}} - {{inbtnvalcount}}, New Count - {{gethstgrpdet.length}}</h4>
+                                    <hr>
+                                    <div class="tableFixHead" id="tableservicegrid">
+                                        <table class="table table-bordered">
+                                            <thead style="background-color: #efefef;">
+                                                <th>Host Name</th>
+                                                <th>Service</th>
+                                                <th>Status Information</th>
+                                                <th>Since(days)</th>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="val in gethstgrpdet" ng-hide="valuegrid">
+                                                    <td>{{val[0]}}</td>
+                                                    <td>{{val[1]}}</td>
+                                                    <td>{{val[2]}}</td>
+                                                    <td>{{val[3]}}</td>
+                                                </tr>
+                                                <tr ng-hide="nogrid">
+                                                    <td colspan="5" style="text-align:center;">
+                                                       No Records Found
+                                                    </td> 
+                                                 </tr> 
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

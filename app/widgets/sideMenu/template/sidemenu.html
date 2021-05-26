@@ -1,0 +1,22 @@
+<div ng-controller="sideMenuController" class='page-sidebar sidebar display_none' ng-class="{'sidemenu-show': showSideMenu}" ng-init="init()">
+    <div class="page-sidebar-inner admin_side_menu">
+        <ul class="menu accordion-menu">            
+            <li class="droplink admin_side_menu_user active">
+                <a href="#/admin" class="waves-effect waves-button"><span class="menu-icon fa fa-user"></span><p>Users</p></a>                    
+            </li>                        
+            <li class="droplink admin_side_menu_roles">
+                <a href="#/roles" class="waves-effect waves-button"><span class="menu-icon fa fa-cogs"></span><p>Roles</p></a>                    
+            </li>
+        </ul>
+    </div>
+    <div class="page-sidebar-inner dashboard_side_menu">
+        <ul class="menu accordion-menu">            
+            <li class="droplink dashboard_side_menu_evt active">
+                <a href="#/dashboard" class="waves-effect waves-button"><span class="menu-icon fa fa-calendar"></span><p>Event Summary</p></a>                    
+            </li>                        
+            <li class="droplink dashboard_side_menu_auto">
+                <a href="#/automationsummary" class="waves-effect waves-button"><span class="menu-icon fa fa-android"></span><p>Automation Summary</p></a>                    
+            </li>
+        </ul>
+    </div>
+</div>

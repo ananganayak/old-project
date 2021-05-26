@@ -1,0 +1,64 @@
+<div class="automationReportsContainer" ng-controller="automationReportsController" ng-init="init()">
+   <div class="panel panel-white">
+      <div class="panel-body" style="padding: 0px; height:500px">
+         <div class="main-bandwidth-form">
+               <form name="formAutomationReports" id="formAutomationReports">
+                  <div class="well well-lg header-well">
+                     <div class="row">
+                        <div class="col-lg-4">
+                           <div class="form-group ">
+                              <label>Start Date <span style="color: red;">*</span></label>
+                              <input type="text" class="form-control datepicker" name="txtarstartdate" id="txtarstartdate">
+                           </div>
+                        </div>
+                        <div class="col-lg-4">
+                           <div class="form-group ">
+                              <label>End Date <span style="color: red;">*</span></label>
+                              <input type="text" class="form-control datepicker" name="txtarendate" id="txtarendate">
+                           </div>
+                        </div>
+                        <div class="col-lg-4">
+                           <button class="btn btn-primary" style=" margin-top: 23px;" ng-click="btngetaireportfn()">Get</button>
+                           <!-- <button class="btn btn-sm btn-success" ng-show="pdfpage" style="margin-left: 15px; margin-top: 23px;" ng-click="()">Dowload PDF</button> -->
+                        </div>
+                     </div>
+                  </div>
+               </form>
+               <!-- <div >
+                  <div class="col-lg-12">
+                     <div class="table-responsive">
+                        <table class="table table-bordered">
+                           <thead>
+                              <tr style="background-color: #efefef;" >
+                                 <th>Start Date</th>
+                                 <th>End Date</th>
+                                 <th>Download</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                              <tr>
+                                 <td>12-01-2021</td>
+                                 <td>22-01-2021</td>
+                                 <td><button class="btn btn-primary" >Download <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button></td>
+                              </tr>
+                              <tr>
+                                 <td>12-12-2020</td>
+                                 <td>22-12-2020</td>
+                                 <td><button class="btn btn-primary" >Download <i class="fa fa-table" aria-hidden="true"></i></button></td>
+                              </tr>
+                              <tr>
+                                 <td>12-11-2020</td>
+                                 <td>22-11-2020</td>
+                                 <td><button class="btn btn-primary" >Download</button></td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div> -->
+         </div>
+      </div> 
+   </div>
+</div>
+
+

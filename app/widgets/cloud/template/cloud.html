@@ -1,0 +1,154 @@
+<div class="cloudcontainer" ng-controller="cloudController" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12"  ng-show="cloudgrid">
+            <div class="clearfix">
+                <div class="pull-left">
+                    <div style="height: 34px; border-radius: 0px; float: left;">
+                        <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchtxt"
+                            value="" placeholder="Search ..." autocomplete="off" />
+                    </div>
+                    <p style="float:left; margin: 6px 15px;">{{(cloud_grid_res | filter : searchtxt).length}} out of {{cloud_grid_res.length}} </p> 
+                </div>
+                <div class="pull-right " style="width: 600px; margin-bottom: 15px; text-align: right;">
+                    <a class="btn btn-default btnaddmodal" ng-click="btnaddmodal()" > <i class="fa fa-plus" style="padding-right:5px;" aria-hidden="true"></i> ADD</a>
+                </div>
+            </div>
+            <div class="panel panel-white">
+                <div class="panel-body" style="padding: 0px">
+                    <table class="table tbl_cloud" style="margin-bottom: 0px;border: 1px solid #ddd;">
+                        <thead style="background: #ebeef0;">
+                            <tr class="cloud-table-header">
+                                <th>Cloud Name</th>
+                                <th>Cloud IP</th>
+                                <th>Cloud Type</th>
+                                <th>Credential</th>
+                                <!-- <th>Total</th> -->
+                                <th style="text-align: center;">Actions</th>
+                                <th style="text-align: center;">Mapping</th>
+                            </tr>    
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cgd in cloud_grid_res | filter : searchtxt">
+                                <td>{{cgd[1]}} <span hidden>{{cgd[0]}}</span></td>
+                                <td>{{cgd[2]}}</td>
+                                <td>{{cgd[3]}}</td>
+                                <td>
+                                    <select class="form-control" disabled>
+                                        <option value="">-- Select --</option>
+                                        <option value="{{cld[0]}}" ng-selected="{{cld[0] == cgd[4]}}" ng-repeat="cld in cloud_cred_res"> {{cld[1]}} </option>
+                                    </select>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="#" ng-click="btncloudedit(cgd)" 
+                                       style="color:#12AFCB; font-size: 24px;" title="Update">
+                                       <i class="fa fa-pencil " aria-hidden="true"></i>
+                                    </a>
+                                    <a href=""  ng-click="btnclouddel(cgd[0])" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" title="Delete" >
+                                        <i class="fa fa-trash-o " aria-hidden="true"></i>
+                                    </a>
+                                    <!-- <a href="" ng-show="cgd[5] == 'Y'"  ng-click="btnclouddetail(cgd[0])" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" title="Explore" >
+                                        <i class="fa fa-external-link-square" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="" ng-show="cgd[5] == 'N'"  style="color:#e41844; margin-left: 15px; font-size: 24px;" title="NO" >
+                                        <i class="fa fa-external-link-square" aria-hidden="true"></i>
+                                    </a> -->
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="" class="btn-customer" ng-click="btncloudmap(cgd[0], cgd[1])" style=" margin-left: 15px; font-size: 22px;
+                                    color: #673AB7;" data-original-title="Mapping"><i class="fa fa-exchange" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr  ng-show="cloud_grid_res.length == 0">
+                                <td colspan="6" style="text-align:center;">
+                                   No Records Found
+                                </td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade " id="model_cloud_add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog animated fadeInDown">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" ng-show="addheader">ADD Cloud</h4>
+                        <h4 class="modal-title" ng-show="updateheader">Update Cloud</h4>
+                    </div>
+                    <div class="modal-body clearfix">
+                    <div class="smpt_form_container">
+                        <form id="cloudForm" name="cloudForm" class="ng-pristine ng-valid"  novalidate="novalidate">
+                            <div class="form-group">
+                                <label >Cloud Name</label> 
+                                <input type="text"  class="form-control" id="txtcloudname" name="txtcloudname" placeholder="Enter The Name">
+                            </div>
+                            <div class="form-group">
+                                <label >Cloud IP</label> 
+                                <input type="text"  class="form-control" id="txtcloudip" name="txtcloudip" placeholder="Enter The IP">
+                            </div>
+                            <div class="form-group" >
+                                <label >Cloud Type</label> 
+                                <select class="form-control" id="selcloudtype" name="selcloudtype">
+                                    <option value="">-- Select --</option>
+                                    <option value="vmware"> VMWare </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label >Credential</label>
+                                <select class="form-control"  id="selcloudcred" name="selcloudcred">
+                                    <option value="">-- Select --</option>
+                                    <option value="{{hyc[0]}} " ng-repeat="hyc in cloud_cred_res">{{hyc[1]}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <a href="" id="btnaddcloud" class="btn btn-sm btn-success" style="margin-right: 10px;">Save</a>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- mapping modal -->
+        <div class="modal fade " id="model_cloud_map" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog animated fadeInDown">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title">Cloud Mapping - {{clmapname}}</h4>
+                    </div>
+                    <div class="modal-body clearfix">
+                        <div class="table-reponsive">
+                            <table class="table table-bordered">
+                                <thead style="background-color: #ddd;">
+                                    <tr>
+                                        <th>Hypervisor Name</th>
+                                        <th>Mapping</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cmr in cloud_map_res">
+                                        <td>{{cmr[1]}}</td>
+                                        <td>
+                                            <label class="switch" style="margin-bottom: 0px;">
+                                                <input type="checkbox" name="cldcheckname" id="{{cmr[0]}}" ng-checked="cmr[2] == 'Y'">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="modal-footer" >
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success btn_map_save">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

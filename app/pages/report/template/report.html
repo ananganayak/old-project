@@ -1,0 +1,37 @@
+<section class="reportcontainer" ng-init="init()">
+
+    <ul role="tablist" class="nav nav-tabs" id="report_myTabs_1">
+        <li data-role="edgeuplink">
+            <a aria-expanded="true"  data-toggle="tab" role="tab" id="report_edge_tab" data-target="#report-tab-1">Edge Uplink In/Out</a>
+        </li>
+        <!-- <li data-role="Bandwidth">
+            <a aria-expanded="true"  data-toggle="tab" role="tab" id="report_bandwidth_tab" data-target="#report-tab-2">Bandwidth Report</a>
+        </li> -->
+        <li data-role="Performance">
+            <a aria-expanded="true"  data-toggle="tab" role="tab" id="report_performance_old_tab" data-target="#report-tab-3">Performance Report Old</a>
+        </li>
+        <li data-role="Performances">
+            <a aria-expanded="true"  data-toggle="tab" role="tab" id="report_performances_new_tab" data-target="#report-tab-4">Performances Report New</a>
+        </li>
+        <li data-role="vmsummary">
+            <a aria-expanded="true"  data-toggle="tab" role="tab" id="report_vm_summary_tab" data-target="#report-tab-5">VM Summary Report</a>
+        </li>
+    </ul>
+    <div class="tab-content" id="reportTabContent_1">
+        <div id="report-tab-1" class="tab-pane fade" role="tabpanel">
+            <intelli-edgeuplink></intelli-edgeuplink>
+        </div>
+        <!-- <div id="report-tab-2" class="tab-pane fade in" role="tabpanel">
+            <intelli-bandwidth></intelli-bandwidth>
+        </div> -->
+        <div id="report-tab-3" class="tab-pane fade in" role="tabpanel">
+            <intelli-performance></intelli-performance>
+        </div>
+        <div id="report-tab-4" class="tab-pane fade in" role="tabpanel">
+            <intelli-performances></intelli-performances>
+        </div>
+        <div id="report-tab-5" class="tab-pane fade in" role="tabpanel">
+            <intelli-vmsummary></intelli-vmsummary>
+        </div>
+    </div>
+</section>

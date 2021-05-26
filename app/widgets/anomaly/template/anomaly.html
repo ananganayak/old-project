@@ -1,0 +1,144 @@
+<div class="anomalyController" ng-controller="anomalyController" ng-init="init()" >                                             
+    <div class="panel panel-white" style="margin-bottom: 0px;">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="well header-well">
+                    <div class="col-lg-12">
+                        <h2>
+                            <span ng-show="anomalydashboard" >Application Overview </span>
+                            <span ng-show="anomalydetaildashboard" >{{hostgorupname}}</span>
+                            <button class="btn btn-sm btn-primary" ng-show="anomalydetaildashboard" ng-click="backtodashboard()">Back</button> 
+                            <!-- <div class="form-group " ng-show="anomalydetaildashboard" >
+                                <label for="sel1"><b>Auto Refresh : </b></label>
+                                <select id="selrefreshtime" name="selrefreshtime" ng-model="selrefreshtimemod" ng-change="selrefreshtime()" class="btn btn-default">
+                                    <option value="">-- Select --</option>
+                                    <option value="5-Sec">5-Sec</option>
+                                    <option value="10-Sec">10-Sec</option>
+                                    <option value="30-Sec">30-Sec</option>
+                                    <option value="1-Min">1-Min</option>
+                                    <option value="10-Min">10-Min</option>
+                                    <option value="30-Min">30-Min</option>
+                                    <option value="1-Hours">1-Hours</option>
+                                    <option value="no">No</option>
+                                </select>
+                            </div> -->
+                        </h2>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12" ng-show="anomalydashboard">
+                <div class="" ng-repeat="row in getdetval">
+                    <div class="row" ng-repeat="(key, value) in row">
+                        <div class="col-lg-3 col-md-4 col-sm-12 col-xs-12" ng-repeat="(key, value) in value">
+                            <div class="well well-lg" ng-click="hostdetaildiv(key, value, value.host_key)">
+                                <div class="well-header row">
+                                    <div class="col-lg-2">
+                                        <i class="fa fa-lg fa-server" aria-hidden="true" ng-show="value.type == 'EsxiHost'"></i> 
+                                        <i class="fa fa-database" aria-hidden="true" ng-show="value.type == 'Datastore'"></i>
+                                        <!-- <i class="fa fa-tasks" aria-hidden="true"></i> -->
+                                        <i class="fa fa-cube" aria-hidden="true"  ng-show="value.type == 'VirtualMachine'"></i>
+                                        <i class="fa fa-sitemap" aria-hidden="true" ng-show="value.type == 'Cluster'"></i>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <p class="montoring-dash-text-ol-e-p" title="{{key}}"><b>{{key}}</b></p>
+                                        <p class="montoring-dash-text-ol-e-p" >Count : <b>{{value.count}}</b></p>
+                                        <p class="montoring-dash-text-ol-e-p" style="display: none;">{{value.host_key}}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="col-lg-12"  ng-show="anomalydetaildashboard">
+                <div class="row">
+                    <div class="col-lg-3 n-menu">
+                        <div class="panel panel-default" id="reports" id="margin-bottom: 0px;">
+                            <div class="panel-heading" style="height: 45px;">
+                                <div class="form-group ">
+                                    <input class="form-control" type="text" ng-model="searchtxt" name="searchmenu" id="" placeholder="search here">    
+                                </div>
+                            </div>
+                            <div class="panel-body">
+                                <ul id="gethostname" class="nav  nav-pills nav-stacked">
+                                    <li ng-repeat="name in hostgorupval.hostname | filter:searchtxt track by $index " data-value="{{name}}" ng-click="metricdisfn(name)"><a data-toggle="tab" data-target="#content-1">{{name}}</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-9">
+                        <div class="tab-content" style="padding: 0px;">
+                            <div class="tab-pane fade in active" id="content-1" >
+                                <div class="anomaly_main_content">
+                                    <div class="row" style="border:1px solid #efefef; margin: 0px 0px 15px; padding: 15px 0px;" ng-show="checkedfun">
+                                        <div class="col-lg-4" ng-repeat="mtric in hostgorupval.metrics">
+                                            <div class="checkbox">
+                                                <label><input type="checkbox" id="checkval{{mtric}}" ng-click="getchartdetail($event, mtric, checkmtricval)" ng-model="checkmtricval">{{mtric}}</label>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="col-lg-12">
+                                            <button class="btn btn-success" style="float: right;" ng-submit="getchartdetail()"> Submit </button>
+                                        </div> -->
+                                    </div>
+                                    <div class="row chart-div" style="margin: 15px 0px; display: none;" ng-repeat="x in hostgorupval.metrics" id="showdiv{{x}}">
+                                        <div class="col-lg-12" style="border: 1px solid #e0e0e0;
+                                        margin: 15px 0px; padding: 0px;">
+                                            <div class="chart-header">
+                                                <div class="row">
+                                                    <div class="col-lg-10">                                                             
+                                                        <h3>{{x}}</h3>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <a href="" style="float: right;" ng-click="chartclosefn(x)"><i class="fa-lg fa fa-times"></i></a>
+                                                        <a class="" style="float: right;" data-toggle="tooltip" data-original-title="Sort" data-toggle="dropdown" ng-click="sortbtn(x)"><i class="fa fa-lg fa-filter" aria-hidden="true"></i></a>
+                                                        <ul class="dropdown-menu dropdown-list dropdown-content" id="sort{{x}}">
+                                                            <li class="dropdown-header">Period</li>
+                                                            <li>
+                                                                <select class="form-control" id="selperiodget{{x}}" autocomplete="off" name="selperiodget" >
+                                                                    <option value="8h">8h</option>
+                                                                    <option value="1d">1D</option>
+                                                                    <option value="2d">2D</option>
+                                                                    <!-- <option value="1w">1W</option>
+                                                                    <option value="1M">1M</option> -->
+                                                                </select>
+                                                            </li>
+                                                            <!-- <li class="divider"></li>
+                                                            <li class="dropdown-header"><b>Bucket Span</b></li>
+                                                            <li>
+                                                                <select class="form-control " id="selbsget{{x}}"  autocomplete="off" name="selbsget" >
+                                                                    <option value="15m">15m</option>
+                                                                    <option value="30m">30m</option>
+                                                                </select>
+                                                            </li> -->
+                                                            <li class="divider"></li>
+                                                            <li style="display: flex;">
+                                                                <a href="" class="btn btn-default closebtn" ng-click="closebtn(x)">Cancel</a>
+                                                                <a href="" ng-click="getchartdetperiodfn(x)" class="btn btn-success">Sort</a>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="chart-body" style=" padding: 15px;">
+                                                <div class="executive_suppression_content">
+                                                    <div id="chart{{x}}" style="height: 300px;"></div>
+                                                    <p id="nochart{{x}}" class="alert alert-danger" ng-show="nodata">{{getchartval}}</p>
+                                                </div> 
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- <div class="tab-pane fade in active" id="content-2" >
+                        
+                            </div>
+                            <div class="tab-pane fade in active" id="content-3" >
+                        
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>       
+        </div>
+    </div>
+</div>

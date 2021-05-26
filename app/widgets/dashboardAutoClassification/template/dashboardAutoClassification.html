@@ -1,0 +1,121 @@
+<div class="dashboardautocontainer" ng-controller="dashboardAutoClassificationController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-white">
+                <div class="panel-body" style="padding: 0px;margin:10px;">
+                    <table class="table tbl_review_list tbl_auto_classify" style="margin-bottom: 0px;">
+                        <thead style="background: #ebeef0;">
+                            <tr>          
+                                <th>Interaction</th>
+                                <th>Open Time</th>
+                                <th>Description</th>
+                                <th>Category</th>   
+                                <th>Sub Category</th>
+                                <th>Area</th>
+                                <th>Sub Area</th>
+                                <th>Assignment Group</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in currentAutoclassificationPageHistory">
+                                <td><a href="" ng-click="getlearndata(row['interaction'])">{{ row['interaction']}}</a></td>
+                                <td>{{ row['open_time']}}</td>
+                                <td>
+                                    <p class="table-cell-scrollbar" style="max-width: 400px;max-height: 75px;height: auto;">
+                                        {{ row['description']}}
+                                    </p>    
+                                </td>
+                                <td>{{ row['category']}}</td>
+                                <td>{{ row['sub_category']}}</td>
+                                <td>{{ row['area']}}</td>
+                                <td>{{ row['sub_area']}}</td>
+                                <td>{{ row['assignment_group']}}</td>
+                                <td>{{ row['status']}}</td>
+                            </tr>
+                            <tr ng-show="currentAutoclassificationPageHistory.length == 0">
+                                <td colspan="8" style="text-align:center;">
+                                    No Records Found
+                                </td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px;">
+                    <div style="text-align: center;">
+                        <pagination class="pagination-sm"
+                                    ng-model="autocurrentPage"
+                                    total-items="auto_classification.length"
+                                    max-size="4"
+                                    ng-change="autopageselect(autocurrentPage)"
+                                    items-per-page="autonumPerPage"
+                                    rotate="false"
+                                    previous-text="&lsaquo;" next-text="&rsaquo;"
+                                    boundary-links="true"></pagination>
+                        <div class="pull-right">                              
+                            <div class="pull-right" style="margin-left: 10px;">
+                                <span data-test-id="pagination-details">show 
+                                    <div class="btn-group dropup" role="group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                                aria-expanded="false" style="padding: 5px;">
+                                            <span class="span_pagination_text">10</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu pagination_dropdown" role="menu">                                            
+                                            <li><a href="">10</a></li>
+                                            <li><a href="">20</a></li>
+                                            <li><a href="">30</a></li>
+                                            <li><a href="">50</a></li>
+                                            <li><a href="">100</a></li>
+                                        </ul>                                                 
+                                    </div>     
+                                </span> of <span>entries per page</span>
+                                </span>
+                            </div>                                   
+                        </div>
+                    </div>
+                </div>
+
+        </div>
+    </div>
+    <div class="modal fade" id="getlearnmodal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog animated modal-lg fadeInDown">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Learning Details</h4>
+                </div>
+                <div class="modal-body clearfix">
+                    <table class="table table-responsive tbl_auto_classify">
+                        <thead style="background: #ebeef0;">
+                            <tr>
+                                <th class="hidden">Ticket ID</th>
+                                <th>Mail Description</th>
+                                <th>Category</th>
+                                <th>Sub Category</th>
+                                <th>Area</th>
+                                <th>Sub Area</th>
+                                <th>Assignment Group</th>
+                                <th class="hidden">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="learndet in auto_classification_learn_det">
+                                <td class="hidden" >{{learndet.ticket_id}}</td>
+                                <td>{{learndet.mail_description}}</td>
+                                <td>{{learndet.category}}</td>
+                                <td>{{learndet.sub_category}}</td>
+                                <td>{{learndet.area}}</td>
+                                <td>{{learndet.sub_area}}</td>
+                                <td>{{learndet.assignment_group}}</td>
+                                <td class="hidden">{{learndet.status}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

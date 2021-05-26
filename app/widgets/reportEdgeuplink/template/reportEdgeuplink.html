@@ -1,0 +1,83 @@
+<div class="reportEdgeuplinkcontainer" ng-controller="reportEdgeuplinkController" ng-init="init()">
+   <div class="panel panel-white">
+      <div class="panel-body" style="padding: 0px">
+         <div class="main-legacy-form" id="main-legacy-form">
+               <form name="FormEdgeuplink" id="FormEdgeuplink">
+                  <div class="well well-lg header-well" ng-hide="formview1" style="padding: 10px 10px;  border: 1px solid #efefef; background-color: #fbfbfb;">
+                     <div class="row">
+                        <div class="col-lg-3">
+                           <div class="form-group ">
+                              <label>Select Edge<span style="color: red;">*</span></label>
+                              <select class="form-control" id="seleuedge" autocomplete="off" name="seleuedge">
+                                    <option value="">-- select --</option>
+                                    <option ng-repeat="getrp in getedgeval" value="{{getrp[1]}}">{{getrp[2]}}</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-lg-3">
+                           <div class="form-group">
+                              <label>Select Period<span style="color: red;">*</span></label>
+                              <select class="form-control" id="seleureportpreriod"  autocomplete="off" ng-model="seleureportpreriod"  name="seleureportpreriod">
+                                 <option value="">-- select --</option>
+                                 <option value="Today">Today</option>
+                                 <option value="Yesterday">Yesterday</option>
+                                 <option value="This Week">This Week</option>
+                                 <option value="Last Week">Last Week</option>
+                                 <option value="This Month">This Month</option>
+                                 <option value="Last Month">Last Month</option>
+                                 <option value="Custom Period">Custom Period</option>
+                                 <!-- <option ng-repeat="getrps in getperiodval.report_period" value="{{getrps}}">{{getrps}}</option> -->
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-lg-2" ng-show="seleureportpreriod == 'Custom Period'">
+                           <div class="form-group ">
+                              <label>Start Date <span style="color: red;">*</span></label>
+                              <input type="text" class="form-control datepicker" name="txteustartdate" id="txteustartdate">
+                           </div>
+                        </div>
+                        <div class="col-lg-2" ng-show="seleureportpreriod == 'Custom Period'">
+                           <div class="form-group ">
+                              <label>End Date <span style="color: red;">*</span></label>
+                              <input type="text" class="form-control datepicker" name="txteuendate" id="txteuendate">
+                           </div>
+                        </div>
+                        <div class="col-lg-2">
+                           <button class="btn btn-primary" style=" margin-top: 23px;" ng-click="btngetedgeuplinkfn()">Get</button>
+                           <button class="btn btn-success" ng-show="edgegridview" style=" margin-top: 23px; margin-left:15px" ng-click="btnpdfedgeuplinkfn()"><i class="fa fa-lg fa-file-pdf-o" aria-hidden="true"></i></button>
+                           <button class="btn btn-success" ng-show="edgegridview" style=" margin-top: 23px; margin-left:15px" ng-click="btncsvedgeuplinkfn(gridedgeval.customer_name)"><i class="fa fa-lg fa-file-text" aria-hidden="true"></i></button>
+                        </div>
+                     </div>
+                  </div>
+               </form>
+               <div class="row" >
+                  <div class="col-lg-12" id="tableheight" style="overflow: hidden;
+                  overflow-y: scroll;">
+                     <div class="table-responsive" id="tablegenrate" ng-show="edgegridview">
+                        <h1><b>Edge : {{gridedgeval['Customer Name']}}</b> <b style="float: right;">Date-Time : {{gridedgeval['Date Time']}}</b></h1><br>
+                           <table class="table table-bordered" style="font-size:16px">
+                              <caption style="display: none;">Edge : {{gridedgeval['Customer Name']}}</caption>
+                              <thead>
+                                 <tr style="background-color: #efefef;" >
+                                       <th>Interval Breakdown</th>
+                                       <th>Download (MB)</th>
+                                       <th>Upload (MB)</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr ng-repeat="(key, value) in gridedgeval.data">
+                                       <td>{{key}}</td>
+                                       <td>{{value.in}}</td>
+                                       <td>{{value.out}}</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                     </div>
+                  </div>
+               </div>
+         </div>
+      </div>                                                    
+   </div>
+</div>
+
+

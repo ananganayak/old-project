@@ -1,0 +1,193 @@
+<div class="reportPerformancescontainer" ng-controller="reportPerformancesController" ng-init="init()">
+   <div class="panel panel-white">
+      <div class="panel-body" style="padding: 0px">
+         <form name="Formreportperformances" id="Formreportperformances">
+            <div class="well well-lg header-well">
+               <div class="row">
+                  <div class="col-lg-1" ng-show="'{{userid}}' == 'tommyuser' || '{{userid}}' == 'ttk' || '{{userid}}' == 'modicare' || '{{userid}}' == 'Barbeque'" >
+                     <div class="form-group">
+                        <label>Category<span style="color: red;">*</span></label>
+                        <input type="text" id="selperfinterface" name="selperfinterface" readonly ng-model="perfinterface" class="form-control"/>
+                     </div>
+                  </div>
+                  <div class="col-lg-2" ng-show="'{{userid}}' == 'tommyuser' || '{{userid}}' == 'ttk' || '{{userid}}' == 'modicare' || '{{userid}}' == 'Barbeque'" >
+                     <div class="form-group">
+                        <label>Object<span style="color: red;">*</span></label>
+                        <input type="text" id="txtperflist" name="txtperflist" ng-model="selperflist" readonly class="form-control"/>
+                     </div>
+                  </div>
+                  <div class="col-lg-2" ng-show="'{{userid}}' == 'tommyuser' || '{{userid}}' == 'modicare' || '{{userid}}' == 'Barbeque'" >
+                     <div class="form-group">
+                        <label>Metrics<span style="color: red;">*</span></label>
+                        <input type="text" id="txtperfevmmet" name="txtperfevmmet" ng-model="selperfevmmet" readonly class="form-control"/>
+                     </div>
+                  </div>
+                  <div class="col-lg-1" ng-hide="'{{userid}}' == 'tommyuser' || '{{userid}}' == 'modicare' || '{{userid}}' == 'ttk' || '{{userid}}' == 'Barbeque'" >
+                     <div class="form-group">
+                        <label>Category<span style="color: red;">*</span></label>
+                        <select class="form-control" id="selperfinterface" autocomplete="off" ng-model="perfinterface" ng-change="interfacelistget()" name="selperfinterface">
+                           <option value="">-- select --</option>
+                           <option ng-repeat="(key, values) in getperflovval" value="{{key}}">{{key}}</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-lg-2" ng-hide="perfinterface == 'Firewall' || perfinterface == 'Switch'">
+                     <div class="form-group">
+                        <label>Sub Category<span style="color: red;">*</span></label>
+                        <select class="form-control" id="selperfport" autocomplete="off" ng-model="selperfport" ng-change="btnpostperffn()" name="selperfport">
+                           <option value="">-- select --</option>
+                           <option ng-repeat="(key, values) in portvals" value="{{values}}">{{values}}</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-lg-2" ng-hide="'{{userid}}' == 'tommyuser' || '{{userid}}' == 'ttk' || '{{userid}}' == 'modicare' || '{{userid}}' == 'Barbeque'" >
+                     <div class="form-group">
+                        <label>Object<span style="color: red;">*</span></label>
+                        <select class="form-control" id="selperflist" autocomplete="off" ng-model="selperflist" ng-change="metricdisfn()" name="selperflist">
+                           <option value="">-- select --</option>
+                           <option ng-repeat="ip in getperfhstitems" value="{{ip[1]}}">{{ip[1]}} &nbsp;&nbsp;&nbsp; <span>{{ip[3]}}</span></option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-lg-2" ng-hide="metricsview || '{{userid}}' == 'tommyuser' || '{{userid}}' == 'modicare' || '{{userid}}' == 'Barbeque'" >
+                     <div class="form-group">
+                        <label>Metrics<span style="color: red;">*</span></label>
+                        <select class="form-control" id="selperfevmmet" ng-model="selperfevmmet" autocomplete="off" name="selperfevmmet">
+                           <option value="">-- select --</option>
+                           <option ng-repeat="row1 in getperfhstmetrics.metrics" value="{{row1}}">{{row1}}</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-lg-1" style="width: 12%;">
+                     <div class="form-group">
+                        <label>Start Date <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control datepickers" name="txtperfstartdate" id="txtperfstartdate">
+                     </div>
+                  </div>
+                  <div class="col-lg-1" style="width: 12%;">
+                     <div class="form-group">
+                        <label>End Date <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control datepickers" name="txtperfsendate" id="txtperfsendate">
+                     </div>
+                  </div>
+                  <div class="col-lg-2">
+                     <button class="btn btn-primary" style=" margin-top: 23px;" ng-click="btngetperfdetfn()">Get</button>
+                     <a href=""  ng-hide="mainviewmainpanel" class="btn btn-success" style="margin-left: 15px; margin-top: 23px; float: right;" ng-click="getbwPDF(this)" download="bandwidth-chart.jpg" title="Download Chart"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a> 
+                     <a href="#" ng-hide="mainviewmainpanel" class="btn btn-success" style="margin-left: 15px; margin-top: 23px; float: right;" ng-click="getcsvfn()" title="Download Table"><i class="fa fa-table" aria-hidden="true"></i></a> 
+                  </div>
+               </div>
+            </div>
+         </form>
+         <div class="row">
+            <div class="clearfix" id="performancechartdiv" style="background-color: #fff;">
+               <div class="col-lg-12 well" ng-hide="mainviewmainpanel" style="background-color: #fff; box-shadow: 0px 0px 2px 0px #efefef;">
+                  <table class="table borderless" style="margin-bottom: 0px;">
+                     <thead>
+                        <tr>
+                           <th width="14.2%">Category </th>
+                           <th width="14.2%" ng-hide="perfinterface == 'Firewall' || perfinterface == 'Switch'">Sub Category</th>
+                           <th width="14.2%">Object</th>
+                           <th width="14.2%">Metrics</th>
+                           <th width="14.2%" ng-show="perfinterface == 'Firewall' || perfinterface == 'Switch'">Sensor Type</th>
+                           <th width="14.2%">Interval</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td style=" border-top: 0px solid #efefef;">{{interfaceval}}</td>
+                           <td style=" border-top: 0px solid #efefef;" ng-hide="perfinterface == 'Firewall' || perfinterface == 'Switch'">{{selperfport}}</td>
+                           <td style=" border-top: 0px solid #efefef;">{{selperflist}}</td>
+                           <td style=" border-top: 0px solid #efefef;">{{selperfevmmet}}</td>
+                           <td style=" border-top: 0px solid #efefef;" ng-show="perfinterface == 'Firewall' || perfinterface == 'Switch'">SNMP Traffic 64bit</td>
+                           <td style=" border-top: 0px solid #efefef;">every 60 s</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+               <div class="col-lg-12 well" style="background-color: #fff;">
+                  <div class="chart-body" id="performanceimages" style="padding: 15px; background-color: #fff;">
+                     <div class="executive_suppression_content">
+                        <div id="performanceschart" style="height: 400px; width: 900px;"></div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-lg-4 well" style="background-color: #fff; box-shadow: 0px 0px 2px 0px #efefef;" ng-hide="mainviewmainpanel">
+                  <div class="table-responsive" id="performanceavgtable">
+                     <table class="table table-bordered">
+                        <caption style="display: none;">{{interfaceval}}__{{selperflist}}__Average</caption>
+                        <thead style="background-color:#efefef;">
+                           <tr>
+                              <th colspan="2">Average</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat="(key, value) in bandtotval.data.Average">
+                              <td>{{key}} 
+                                 <!-- <span ng-show="key == 'Traffic Total(speed)' || key == 'Traffic In(speed)' || key == 'Traffic Out(speed)' || perfinterface != 'Firewall' || perfinterface != 'Switch'">{{bandtotval.units}}</span> -->
+                                 <span ng-hide="key == 'Traffic Total(speed)' || key == 'Traffic In(speed)' || key == 'Traffic Out(speed)' || key == 'Traffic Out(volume)' || key == 'Traffic In(volume)' || key == 'Traffic Total(volume)'">{{bandtotval.units}}</span>
+                                 <!-- <span ng-show="key == 'Traffic Out(volume)' || key == 'Traffic In(volume)' || key == 'Traffic Total(volume)' || perfinterface != 'Firewall' || perfinterface != 'Switch'">MB</span> -->
+                              </td>
+                              <td>{{value}}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="col-lg-4 well" style="background-color: #fff; box-shadow: 0px 0px 2px 0px #efefef;" ng-hide="mainviewmainpanel">
+                  <div class="table-responsive" id="performancesumtable">
+                     <table class="table table-bordered">
+                        <caption style="display: none;">{{interfaceval}}__{{selperflist}}__Sum</caption>
+                        <thead style="background-color:#efefef;">
+                           <tr>
+                              <th colspan="2">Sum</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat="(key, value) in bandtotval.data.Sums">
+                              <td ng-hide="key == 'Traffic Total(speed)' || key == 'Traffic In(speed)' || key == 'Traffic Out(speed)'">{{key}} 
+                                 <!-- <span ng-show="key == 'Traffic Total(speed)' || key == 'Traffic In(speed)' || key == 'Traffic Out(speed)'">{{bandtotval.units}}</span> -->
+                                 <span ng-hide="key == 'Traffic Total(speed)' || key == 'Traffic In(speed)' || key == 'Traffic Out(speed)' || key == 'Traffic Out(volume)' || key == 'Traffic In(volume)' || key == 'Traffic Total(volume)'">{{bandtotval.units}}</span>
+                                 <!-- <span ng-show="key == 'Traffic Out(volume)' || key == 'Traffic In(volume)' || key == 'Traffic Total(volume)'">MB</span> -->
+                              </td>
+                              <td ng-hide="key == 'Traffic Total(speed)' || key == 'Traffic In(speed)' || key == 'Traffic Out(speed)'">{{value}}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="col-lg-4 well" style="background-color: #fff; box-shadow: 0px 0px 2px 0px #efefef;" ng-hide="mainviewmainpanel">
+                  <div class="table-responsive"  id="performancehighsumtable">
+                     <table class="table table-bordered">
+                        <caption style="display: none;">{{interfaceval}}__{{selperflist}}__high & Low</caption>
+                        <thead style="background-color:#efefef;">
+                           <tr>
+                              <th>Name</th>
+                              <th>High</th>
+                              <th>Low</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat="(key, value) in bandtotval.data.LowHigh">
+                              <td>{{key}} 
+                                 <!-- <span ng-show="key == 'Traffic Total(speed)' || key == 'Traffic In(speed)' || key == 'Traffic Out(speed)'">{{bandtotval.units}}</span> -->
+                                 <span ng-hide="key == 'Traffic Total(speed)' || key == 'Traffic In(speed)' || key == 'Traffic Out(speed)' || key == 'Traffic Out(volume)' || key == 'Traffic In(volume)' || key == 'Traffic Total(volume)'">{{bandtotval.units}}</span>
+                                 <!-- <span ng-show="key == 'Traffic Out(volume)' || key == 'Traffic In(volume)' || key == 'Traffic Total(volume)'">MB</span> -->
+                              </td>
+                              </td>
+                              <td>{{value.high}}</td>
+                              <td>{{value.low}}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+               <div class="col-lg-12 well" style="background-color: #fff; box-shadow: 0px 0px 2px 0px #efefef;" ng-hide="mainviewmainpanel">
+                  <div class="table-responsive"  id="performanceplottable" ></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+

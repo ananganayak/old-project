@@ -1,0 +1,54 @@
+<section class="automationcontainer" ng-init="init()">
+    <div role="tabpanel">
+        <ul role="tablist" class="nav nav-tabs" id="automation_tab_menu">    
+            <li class="" role="presentation">
+                <a  data-toggle="tab" id="dashboard_tab_1" role="tab" href="#tab_dashboard" data-tabname="Dashboard" aria-expanded="false">Dashboard</a>
+            </li>
+            <li role="presentation">
+                <a  data-toggle="tab" id="deployment_tab_1" role="tab" href="#tab_deployment" data-tabname="Catalog" aria-expanded="false">Catalog</a>
+            </li>
+            <li role="presentation">
+                <a  data-toggle="tab" id="workflow_tab_1" role="tab" href="#tab_workflow" data-tabname="Designer" aria-expanded="false">Designer</a>
+            </li>
+            <li role="presentation">
+                <a data-toggle="tab" id="review_tab_1" role="tab" href="#tab_review" data-tabname="Review" aria-expanded="false">Review <span ng-show="task_count>0" style=" margin-left: 5px;
+                        margin-top: -2px;" class="badge badge-danger pull-right">{{task_count}}</span></a>
+            </li> 
+            <li role="presentation">
+                <a data-toggle="tab" id="reports_tab_1" role="tab" href="#tab_reports" data-tabname="AutomationReports" aria-expanded="false">Reports</a>
+            </li> 
+            <li role="presentation">
+                <a data-toggle="tab" id="rbcflow_tab_7" role="tab" href="#tab_rbcflow" data-tabname="rbcflow" aria-expanded="false">RBC Flow </a>
+            </li> 
+            
+            <li role="presentation" class="">
+                <a  data-toggle="tab" id="formdesinger_tab_7" role="tab" href="#tab_formdesigner" aria-expanded="false">Form Designer</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="automation_tab_content">   
+            <div  id="tab_deployment" class="tab-pane fade" role="tabpanel">
+               <intelli-deployment></intelli-deployment>
+            </div>
+            <div  id="tab_dashboard" class="tab-pane fade" role="tabpanel">
+                <intelli-dashboard></intelli-dashboard>
+             </div>
+            <div  id="tab_workflow" class="tab-pane fade" role="tabpanel">
+               <intelli-workflow></intelli-workflow>
+            </div>
+            <div  id="tab_review" class="tab-pane fade" role="tabpanel">
+               <intelli-review></intelli-review>
+            </div>
+            <div  id="tab_reports" class="tab-pane fade" role="tabpanel">
+                <intelli-automationreports></intelli-automationreports>
+             </div>
+            <div  id="tab_rbcflow" class="tab-pane fade" role="tabpanel">
+               <intelli-rbcflow></intelli-rbcflow>
+            </div>
+                       
+            <div  id="tab_formdesigner" class="tab-pane fade" role="tabpanel">
+               <intelli-formdesigner></intelli-formdesigner>
+            </div>
+           
+        </div>
+    </div>
+</section>

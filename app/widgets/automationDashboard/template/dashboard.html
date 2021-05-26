@@ -1,0 +1,205 @@
+<div class="automationdashboard" ng-controller="automationdashboardController" ng-init="init()">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body infobox_active" data_filter_name="all">
+                            <div class="info-box-stats left label-info" style="    width: 30%;
+                            padding: 53px 5px;">
+                                <span><i class="fa fa-4x fa-line-chart" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="info-box-stats right" style="width: 70%;">
+                                <p class="counter total_count" style="font-size: 30px;
+                                margin-top: 35px;
+                                margin-bottom: 15px;"><i class="fa fa-inr" aria-hidden="true"></i> {{getautoroitypdet.ROI}}</p>
+                                <span class="info-box-title" style="font-size: 17px;">ROI</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-9">
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body infobox_active" data_filter_name="all">
+                            <div class="info-box-stats left label-info">
+                                <span><i class="fa fa-2x fa-sitemap" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="info-box-stats right">
+                                <p class="counter total_count">{{getautoroitypdet.Organization}}</p>
+                                <span class="info-box-title">Organization</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body infobox_active" data_filter_name="all">
+                            <div class="info-box-stats left label-info">
+                                <span><i class="fa fa-2x fa-signal" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="info-box-stats right">
+                                <p class="counter total_count">{{getautoroitypdet.Towers}}</p>
+                                <span class="info-box-title">Towers</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body infobox_active" data_filter_name="all">
+                            <div class="info-box-stats left label-info">
+                                <span><i class="fa fa-2x fa-cogs" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="info-box-stats right">
+                                <p class="counter total_count">{{getautoroitypdet.Processes}}</p>
+                                <span class="info-box-title">Processes</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body infobox_active" data_filter_name="all">
+                            <div class="info-box-stats left label-info">
+                                <span><i class="fa fa-2x fa-cog" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="info-box-stats right">
+                                <p class="counter total_count">{{getautoroitypdet.Executions}}</p>
+                                <span class="info-box-title">Executions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body infobox_active" data_filter_name="all">
+                            <div class="info-box-stats left label-info">
+                                <span><i class="fa fa-2x fa-clock-o" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="info-box-stats right">
+                                <p class="counter total_count">{{getautoroitypdet['Hours Automated']}}</p>
+                                <span class="info-box-title">Hours Automated</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body infobox_active " data_filter_name="all">
+                            <div class="info-box-stats left label-info">
+                                <span><i class="fa fa-2x fa-hourglass-half" aria-hidden="true"></i></span>
+                            </div>
+                            <div class="info-box-stats right">
+                                <p class="counter total_count">{{getautoroitypdet['Execution Hours Automated']}}</p>
+                                <span class="info-box-title">Execution Hours Automated</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <div class="col-lg-12">
+            <hr style=" margin-top: 15px;">
+        </div> -->
+    </div>
+    <!-- <div class="row" style="margin-bottom: 10px;">
+        <div class="col-md-2" ng-repeat="row in getautolist">
+            <div class="panel info-box panel-white">
+                <div class="panel-body infobox_active" data_filter_name="all">
+                    <div class="info-box-stats">
+                        <p class="counter total_count">{{row[1]}}</p>
+                        <span class="info-box-title" style="    color: #bb360d;">{{row[0]}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div> -->
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-white">
+                <div class="panel-heading" style="border-bottom: 1px solid #efefef !important;">
+                    Process Status Count
+                </div>
+                <div class="panel-body">
+                    <div class="chart" id="charttotcount1" style="width:100%;height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="col-lg-4">
+            <div class="panel panel-white">
+                <div class="panel-heading" style="border-bottom: 1px solid #efefef !important;">
+                    Process By Type
+                </div>
+                <div class="panel-body">
+                    <div class="chart" id="chartpbt1" style="width:100%;height: 300px;"></div>
+                </div>
+            </div>
+        </div> -->
+        <div class="col-lg-6">
+            <div class="panel panel-white">
+                <div class="panel-heading" style="border-bottom: 1px solid #efefef !important;">
+                    Process By Running Time
+                </div>
+                <div class="panel-body">
+                    <div class="chart" id="chartpbrt1" style="width:100%;height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-white">
+                <div class="panel-heading" style="border-bottom: 1px solid #efefef !important;">
+                    Process By Type
+                </div>
+                <div class="panel-body">
+                    <div class="chart" id="chartpbt1" style="width:100%;height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-white">
+                <div class="panel-heading" style="border-bottom: 1px solid #efefef !important;">
+                    Process By Start Date
+                </div>
+                <div class="panel-body">
+                    <div class="chart" id="chartpbsd1" style="width:100%;height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-white">
+                <div class="panel-heading" style="border-bottom: 1px solid #efefef !important;">
+                    Process By End Date 
+                </div>
+                <div class="panel-body">
+                    <div class="chart" id="chartpbed1" style="width:100%;height: 300px;"></div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- <div class="col-lg-4">
+            <div class="panel panel-white">
+                <div class="panel-heading" style="border-bottom: 1px solid #efefef !important;">
+                    Process Started By User
+                </div>
+                <div class="panel-body">
+                    <div class="chart" id="chart1" style="width:100%;height: 200px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="panel panel-white">
+                <div class="panel-heading" style="border-bottom: 1px solid #efefef !important;">
+                    Process By Version
+                </div>
+                <div class="panel-body">
+                    <div class="chart" id="chart1" style="width:100%;height: 200px;"></div>
+                </div>
+            </div>
+        </div> -->
+    </div>
+</div>

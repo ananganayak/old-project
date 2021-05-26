@@ -1,0 +1,40 @@
+<section class="evmcontainer" ng-init="init()">
+    <div role="tabpanel">
+        <ul role="tablist" class="nav nav-tabs" id="myTabs_7">
+            <li class="active" data-role="alerts">
+                <a aria-expanded="true"  data-toggle="tab" role="tab" id="Evm_tab_alerts" data-target="#evm-tab-2">Alerts</a>
+            </li>
+            <li  class="" data-role="events">
+                <a data-toggle="tab" id="Evm_tab_events" role="tab" data-target="#evm-tab-3" aria-expanded="true">Events</a>
+            </li>
+            <li  class="" data-role="dropevents">
+                <a data-toggle="tab" id="Evm_tab_drop_events" role="tab" data-target="#evm-tab-4" aria-expanded="true">Drop Events<span style=" margin-left: 5px;
+                    margin-top: -5px;" class="badge badge-danger pull-right" ng-show="dropevents_count>0">{{dropevents_count}}</span></a>
+            </li>
+            <li class="" data-role="anomaly">
+                <a aria-expanded="true"  data-toggle="tab" role="tab" id="Evm_tab_anomaly" data-target="#evm-tab-1">ANOMALY</a>
+            </li>
+            <li  class="" data-role="events">
+                <a  data-toggle="tab" id="monitoring_tab" role="tab" href="#monitoring_content_tab" aria-expanded="false">MONITORING</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent_7">
+            
+            <div id="evm-tab-2" class="tab-pane fade active-in" role="tabpanel">
+                <intelli-alerts></intelli-alerts>
+            </div>
+            <div  id="evm-tab-3" class="tab-pane fade active-in" role="tabpanel">
+                <intelli-events></intelli-events>
+            </div>
+            <div  id="evm-tab-4" class="tab-pane fade active-in" role="tabpanel">
+                <intelli-dropevents></intelli-dropevents>
+            </div>
+            <div id="evm-tab-1" class="tab-pane fade active-in" role="tabpanel">
+                <intelli-anomaly></intelli-anomaly>
+            </div>
+            <div  id="monitoring_content_tab" class="tab-pane fade active-in" role="tabpanel">
+                <intelli-monitoring></intelli-monitoring>
+            </div>
+        </div>
+    </div>
+</section>

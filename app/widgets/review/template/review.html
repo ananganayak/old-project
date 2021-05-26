@@ -1,0 +1,110 @@
+<section ng-controller="reviewController" class="reviewcontainer" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12">
+            <div style="margin: 7px 0px 4px;">
+                <div class="pull-left  margin0">
+                    <h3 class="" style="margin-top: 2px; padding: 5px;margin-right: 15px;display: inline-block;">List of Task</h3>                    
+                </div>
+                <div class="pull-right">                              
+                    <div class="pull-right" style="margin-left: 10px;">
+                        <span data-test-id="pagination-details" ng-bind="span_page_status">1 - 3</span> of <span ng-bind="span_total_count">3</span>                       
+                        <div class="btn-group" style="margin-left: 5px;">
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(reviewcurrentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(reviewcurrentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                        </div>
+                    </div>                    
+                </div>
+                <div style="clear:both;"></div> 
+            </div>
+
+            <div class="panel panel-white">
+                <div class="panel-body" style="padding: 0px">
+                    <table class="table tbl_review_list" style="margin-bottom: 0px;">
+                        <thead style="background: #ebeef0;">
+                            <tr>          
+                                <th style="display: none;">Workflow Instance Id</th>
+                                <th>Workflow Id</th>
+                                <th>Task Name</th>
+                                <th>Task Id</th>   
+                                <th>Status</th>
+                                <th style="text-align: center;">Action</th>                                                
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            <tr ng-repeat="row in task_list">                                   
+                                <td style="display: none;">{{ row['processinstanceid']}}</td>  
+                                <td>{{ row['processid'] | split :'_':4 | split: '.':0}}</td>
+                                <td>{{ row['taskName']}}</td>
+                                <td>{{ row['taskId']}}</td>
+                                <td>{{ row['status']}}</td>
+                                <td style="text-align: center;">
+                                    <a href="#" class="review_instance_execute" data-id="{{ row['processid']}}"  data-name="{{ row['taskName']}}"  data-taskId="{{ row['taskId']}}" data-taskname="{{ row['taskName']}}" style="color: #9b2538;">
+                                        <i class="fa fa-youtube-play" style="font-size: 16px;"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr ng-show="task_list.length == 0">
+                                <td colspan="8" style="text-align:center;">
+                                    No Records Found
+                                </td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+             </div>
+            
+            <div style="margin-top: 10px;">
+                <div style="text-align: center;">
+                    <pagination class="pagination-sm"
+                                ng-model="reviewcurrentPage"
+                                total-items="task_list.length"
+                                max-size="4"
+                                ng-change="dashboardpageselect(dashboardcurrentPage)"
+                                items-per-page="dashboardnumPerPage"
+                                rotate="false"
+                                previous-text="&lsaquo;" next-text="&rsaquo;"
+                                boundary-links="true"></pagination>
+                    <div class="pull-right">                              
+                        <div class="pull-right" style="margin-left: 10px;">
+                            <span data-test-id="pagination-details">show 
+                                <div class="btn-group dropup" role="group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false" style="padding: 5px;">
+                                        <span class="span_pagination_text">5</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pagination_dropdown" role="menu">
+                                        <li><a href="">5</a></li>
+                                        <li><a href="">10</a></li>
+                                        <li><a href="">20</a></li>
+                                        <li><a href="">30</a></li>
+                                    </ul>                                                 
+                                </div>     
+                            </span> of <span>entries per page</span>
+                            </span>
+                        </div>                                   
+                    </div> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg review_form_popup" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-top: 10px;padding-bottom: 0px;height: 30px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="review_form_popup_name" style="display: none;"></h4>
+                </div>
+                <div class="modal-body">
+                    <div id="review_form_builder"></div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnformclose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnreviewformsave" class="btn btn-success">Start Task</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

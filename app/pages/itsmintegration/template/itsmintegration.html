@@ -1,0 +1,305 @@
+<section class="itsmcontainer" ng-init="init()">
+    <div id="integration_list_container">
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <div class="pull-left  margin0">
+                        <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;margin-bottom: 0px;">Integration</h3>                                    
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>                                 
+                <div style="padding-left: 5px;">
+                    <ul class="cd-gallery itsmcontainer">                         
+                        <li>
+                            <figure data-val="OTRS">
+                                <div style="height: 140px;background: white;">
+                                    <img src="app/img/integration/otrs-logo.png" style="width: 200px;;height: 120px;padding-top: 25px;">
+                                </div>
+                            </figure>
+                        </li>
+                        <li>
+                            <figure data-val="Manage Engine">
+                                <div style="height: 140px;background: white;">
+                                    <img src="app/img/integration/manage-engine.png" style="width: 200px;;height: 120px;padding-top: 25px;">
+                                </div>
+                            </figure>
+                        </li>                        
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="integration_details_container">
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <div class="pull-left  margin0">
+                        <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">{{ integration_title }}</h3>
+                        <a href="" id="btndelete" class="btn btn-sm btn-default pull-right animated fadeIn"> 
+                            <i class="fa fa-remove" style="padding-right:5px;"></i> Delete
+                        </a>
+                    </div>
+                    <div class="pull-right"> 
+                        <div class="pull-right" style="margin-left: 10px;">
+                            <span data-test-id="pagination-details" ng-bind="span_page_status">1 - 3</span> of <span ng-bind="span_total_count">3</span>                            
+                            <div class="btn-group" style="margin-left: 5px;">
+                                <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(currentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                                <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(currentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <a href="" id="btnadd" class="btn btn-sm btn-default pull-right" style="margin-left: 15px;"> 
+                            <i class="fa fa-plus" style="padding-right:5px;"></i> New
+                        </a>
+                        <input type="text" class="form-control filter_searchbox" name="search" 
+                               value="" placeholder="Search ..." autocomplete="off" style="height: 30px;border-radius: 0px;"/>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+
+                <div class="panel panel-white" style="margin-bottom: 15px;">
+                    <div class="panel-body integration_table_container" style="padding: 0px">
+                        <div class="integration_otrs_panel">
+                            <table class="table integration_otrs_table" style="margin-bottom: 0px;">
+                                <thead style="background: #ebeef0;">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>TYPE</th>
+                                        <th>IP ADDRESS</th>
+                                        <th>PORT</th>
+                                        <th>USERNAME</th>
+                                        <th>DEFAULT AUTOMATION QUEUE</th>
+                                        <th>DEFAULT MANUAL QUEUE</th>
+                                        <th>DEFAULT OPEN STATUS</th>
+                                        <th>DEFAULT WIP STATUS</th>
+                                        <th>DEFAULT RESOLVE STATUS</th>
+                                        <th>DEFAULT PRIORITY</th>
+                                        <th>STATUS</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in currentPageHistory">                                     
+                                        <td>{{ row["ID"] }}</td>
+                                        <td>{{ row["TYPE"] }}</td>
+                                        <td>{{ row["IP"] }}</td>
+                                        <td>{{ row["PORT"] }}</td>                                        
+                                        <td>{{ row["USER"] }}</td>
+                                        <td>{{ row["AUTOMATION GROUP"] }}</td>
+                                        <td>{{ row["MANUAL GROUP"] }}</td>
+                                        <td>{{ row["DEFAULT STATUS"] }}</td>
+                                        <td>{{ row["WIP Status"] }}</td>
+                                        <td>{{ row["RES Status"] }}</td>
+                                        <td>{{ row["DEFAULT PRIORITY"] }}</td>
+                                        <td style='text-transform: capitalize;'>{{ row["Status"] }}</td>
+                                        <td style="text-align: right;">
+                                            <div class="btn-group">
+                                                <a class="media-action lead" href="" data-toggle="dropdown" aria-expanded="false"><i class="ion-android-more-vertical"></i></a>
+                                                <ul class="dropdown-menu dropdown-menu-right animated fadeIn" role="menu">
+                                                    <li><a href="#" data-val="enable" data-id="{{ row['ID'] }}">Enabled</a></li>
+                                                    <li><a href="#" data-val="disable" data-id="{{ row['ID'] }}">Disabled</a></li>
+                                                </ul>
+                                            </div>    
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="otrs_list.length == 0">
+                                        <td colspan="13" style="text-align: center;">No Result Found!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="integration_manage_panel">
+                            <table class="table integration_manage_table" style="margin-bottom: 0px;">
+                                <thead style="background: #ebeef0;">
+                                    <tr>
+                                        <th></th>
+                                        <th>ID</th>
+                                        <th>TYPE</th>
+                                        <th>IP ADDRESS</th>
+                                        <th>PORT</th>                                 
+                                        <th>DEFAULT AUTOMATION QUEUE</th>
+                                        <th>DEFAULT MANUAL QUEUE</th>
+                                        <th>DEFAULT OPEN STATUS</th>
+                                        <th>DEFAULT WIP STATUS</th>
+                                        <th>DEFAULT RESOLVE STATUS</th>                                       
+                                        <th>STATUS</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="row in manage_engine_list">
+                                    <tr>
+                                        <td class="icon_arrow">
+                                            <i class="fa fa-chevron-right" style="cursor: pointer;"></i>
+                                        </td>
+                                        <td>{{ row["ID"] }}</td>
+                                        <td>{{ row["TYPE"] }}</td>
+                                        <td>{{ row["IP"] }}</td>
+                                        <td>{{ row["PORT"] }}</td>
+                                        <td>{{ row["AUTOMATION GROUP"] }}</td>
+                                        <td>{{ row["MANUAL GROUP"] }}</td>
+                                        <td>{{ row["DEFAULT OPEN STATUS"] }}</td>
+                                        <td>{{ row["DEFAULT WIP STATUS"] }}</td>
+                                        <td>{{ row["DEFAULT RESOLVED STATUS"] }}</td>
+                                        <td style='text-transform: capitalize;'>{{ row["Status"] }}</td>
+                                        <td style="text-align: right;">
+                                            <div class="btn-group">
+                                                <a class="media-action lead" href="" data-toggle="dropdown" aria-expanded="false"><i class="ion-android-more-vertical"></i></a>
+                                                <ul class="dropdown-menu dropdown-menu-right animated fadeIn" role="menu">
+                                                    <li><a href="#" data-val="enable" data-id="{{ row['ID'] }}">Enabled</a></li>
+                                                    <li><a href="#" data-val="disable" data-id="{{ row['ID'] }}">Disabled</a></li>
+                                                </ul>
+                                            </div>    
+                                        </td>
+                                    </tr>
+                                    <tr class="row_more_details">
+                                        <td colspan="12"> 
+                                            <div>
+                                                <p>                                                                
+                                                    <span style="display:inline-block;"><b>Service Catagory</b> : {{ row["Service Category"] }}</span>
+                                                    <span style="display:inline-block;padding-left: 30px;"><b>Level</b> : {{ row["Level"] }}</span> 
+                                                    <span style="display:inline-block;padding-left: 30px;"><b>Requester</b> : {{ row["Requester"] }}</span> 
+                                                    <span style="display:inline-block;padding-left: 30px;"><b>Template</b> : {{ row["RequestTemplate"] }}</span> 
+                                                    <span style="display:inline-block;padding-left: 30px;"><b>Technician</b> : {{ row["Technician"] }}</span>
+                                                </p>                                                            
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:0px;">
+                    <div>
+                        <div style="text-align: center;">
+                            <pagination class="pagination-sm"
+                                        ng-model="currentPage"
+                                        total-items="totalItems"
+                                        max-size="4"
+                                        ng-change="integrationpageselect(currentPage)"
+                                        items-per-page="numPerPage"
+                                        rotate="false"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;"
+                                        boundary-links="true"></pagination>
+                            <div class="pull-right">
+                                <span data-test-id="pagination-details">show 
+                                    <div class="btn-group dropup" role="group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                                aria-expanded="false" style="padding: 5px;">
+                                            <span class="span_pagination_text">10</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu pagination_dropdown" role="menu">
+                                            <li><a href="">10</a></li>
+                                            <li><a href="">20</a></li>
+                                            <li><a href="">30</a></li>
+                                            <li><a href="">50</a></li>
+                                            <li><a href="">100</a></li>
+                                        </ul>                                                 
+                                    </div>     
+                                </span> of <span>entries per page</span>
+                                </span>
+                            </div>  
+                        </div> 
+                    </div> 
+                </div> 
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal bs-example-modal-lg model_integrate_form" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg animated fadeInRight" style="width: 400px;">
+            <div class="modal-content" style="height:100%;">
+                <div class="modal-header">                       
+                    <h4 class="modal-title" id="myLargeModalLabel" style="font-size: 24px;">New Integration</h4>
+                </div>
+                <div class="modal-body" style="padding:0px;padding-top: 85px;">
+                    <div class="slimscroll" style="padding: 0px 20px 20px 20px;">
+                        <form class="form-element" id="formintegration" name="formintegration">
+                            <div class="form-group otrs_row mg_row">   
+                                <label>Communication TYPE <span style="color: red;">*</span></label>
+                                <select class="form-control" id="selcommunication" name="selcommunication" style="padding-left: 0px !important;">
+                                    <option value="">Select Communication Type</option>
+                                </select>
+                            </div>
+                            <div class="form-group otrs_row mg_row">  
+                                <label>IP ADDRESSS <span style="color: red;">*</span></label>
+                                <input type="text" id="txtipaddress" name="txtipaddress" class="form-control" style="padding-left: 0px !important;" placeholder="IP ADDRESSS">
+                            </div>
+                            <div class="form-group otrs_row mg_row">  
+                                <label>PORT <span style="color: red;">*</span></label>
+                                <input type="number" id="txtport" name="txtport" class="form-control" style="padding-left: 0px !important;" placeholder="PORT">
+                            </div>
+                            <div class="form-group otrs_row">  
+                                <label>Username <span style="color: red;">*</span></label>
+                                <input type="text" id="txtusername" name="txtusername" class="form-control" style="padding-left: 0px !important;" placeholder="Username">
+                            </div>
+                            <div class="form-group otrs_row">  
+                                <label>Password <span style="color: red;">*</span></label>
+                                <input type="password" id="txtpassword" name="txtpassword" class="form-control" style="padding-left: 0px !important;" placeholder="Password">
+                            </div>
+                            <div class="form-group mg_row">  
+                                <label>Technician Key <span style="color: red;">*</span></label>
+                                <input type="text" id="txttechniciankey" name="txttechniciankey" class="form-control" style="padding-left: 0px !important;" placeholder="Technician Key">
+                            </div>
+                            <div class="form-group otrs_row mg_row">  
+                                <label>Default Open Status <span style="color: red;">*</span></label>
+                                <input type="text" id="txtdftopenstatus" name="txtdftopenstatus" class="form-control" style="padding-left: 0px !important;" placeholder="Default Open Status">
+                            </div>
+                            <div class="form-group otrs_row mg_row">  
+                                <label>Default WIP Status <span style="color: red;">*</span></label>
+                                <input type="text" id="txtdftwipstatus" name="txtdftwipstatus" class="form-control" style="padding-left: 0px !important;" placeholder="Default WIP Status">
+                            </div>
+                            <div class="form-group otrs_row mg_row">  
+                                <label>Default Resolved Status <span style="color: red;">*</span></label>
+                                <input type="text" id="txtdftrslstatus" name="txtdftrslstatus" class="form-control" style="padding-left: 0px !important;" placeholder="Default Resolved Status">
+                            </div>
+                            <div class="form-group mg_row">   
+                                <label>Service Category <span style="color: red;">*</span></label>
+                                <input type="text" id="txtservicecategory" name="txtservicecategory" class="form-control" style="padding-left: 0px !important;" placeholder="Service Category">
+                            </div>
+                            <div class="form-group otrs_row mg_row">  
+                                <label>Default Priority <span style="color: red;">*</span></label>
+                                <input type="text" id="txtdftpriority" name="txtdftpriority" class="form-control" style="padding-left: 0px !important;" placeholder="Default Priority">
+                            </div>
+                            <div class="form-group otrs_row mg_row">  
+                                <label >Automation Queue <span style="color: red;">*</span></label>
+                                <input type="text" id="txtautoqueue" name="txtautoqueue"  class="form-control" style="padding-left: 0px !important;" placeholder="Automation Queue">
+                            </div>
+                            <div class="form-group otrs_row mg_row">  
+                                <label>Manual Queue <span style="color: red;">*</span></label>
+                                <input type="text" id="txtmanualqueue" name="txtmanualqueue" class="form-control" style="padding-left: 0px !important;" placeholder="Manual Queue">
+                            </div>
+                            <div class="form-group otrs_row">  
+                                <label >Customer Name <span style="color: red;">*</span></label>
+                                <input type="text" id="txtcusname" name="txtcusname" class="form-control" style="padding-left: 0px !important;" placeholder="Customer Name">
+                            </div>
+                            <div class="form-group mg_row">  
+                                <label >Level <span style="color: red;">*</span></label>
+                                <input type="text" id="txtlevel" name="txtlevel" class="form-control" style="padding-left: 0px !important;" placeholder="Level">
+                            </div>
+                            <div class="form-group mg_row">  
+                                <label >Requester <span style="color: red;">*</span></label>
+                                <input type="text" id="txtrequester" name="txtrequester" class="form-control" style="padding-left: 0px !important;" placeholder="Requester">
+                            </div>
+                            <div class="form-group mg_row">  
+                                <label >Request Template <span style="color: red;">*</span></label>
+                                <input type="text" id="txtreqtemplate" name="txtreqtemplate" class="form-control" style="padding-left: 0px !important;" placeholder="Request Template">
+                            </div>
+                            <div class="form-group mg_row">  
+                                <label>Technician <span style="color: red;">*</span></label>
+                                <input type="text" id="txttechnician" name="txttechnician" class="form-control" style="padding-left: 0px !important;" placeholder="Technician">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="btnsaveintegration" class="btn btn-success">Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

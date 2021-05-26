@@ -1,0 +1,115 @@
+<section class="policyenginecontainer" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-lg-6  margin0">
+                    <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">Intelli DCM</h3>
+                </div>
+                <div class="col-lg-6"> 
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <a href="" id="btnadd" class="btn btn-sm btn-default pull-right" style="margin-left: 15px;"> 
+                                <i class="fa fa-plus" style="padding-right:5px;"></i> Add
+                            </a>
+                        </div>
+                        <div class="col-lg-7">
+                            <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchKeywords"
+                            value="" placeholder="Search ..." autocomplete="off" style="height: 30px;border-radius: 0px;"/>
+                        </div>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="panel panel-white">
+                <div class="panel-body" style="padding: 0px">
+                    <table class="table tbl_policy_engine" style="margin-bottom: 0px;">
+                        <thead style="background: #ebeef0;">
+                            <tr>    
+                                <th>S.No</th>
+                                <th>Communication Type</th>
+                                <th>Config DB Name</th>
+                                <th>Config IP</th>                           
+                                <th>Config Port</th>
+                                <th>Config User Name</th>                                               
+                                <!-- <th>Actions</th> -->
+                            </tr>
+                        </thead>  
+                        <tbody ng-repeat="row in dcmgriddata | filter:searchKeywords">
+                            <tr>
+                                <td>{{$index + 1}}</td>
+                                <td>{{ row["communicationtype"] }}</td>
+                                <td>{{ row["dbname"] }}</td>
+                                <td>{{ row["configip"] }}</td>
+                                <td>{{ row["configport"] }}</td>
+                                <td>{{ row["username"] }} <span hidden>{{row["password"]}}</span></td>
+                                <!-- <td style="text-align: right;">
+                                    <div class="btn-group">
+                                        <a class="media-action lead" href="" data-toggle="dropdown" aria-expanded="false"><i class="ion-android-more-vertical"></i></a>
+                                        <ul class="dropdown-menu dropdown-menu-right animated fadeIn" role="menu">
+                                            <li><a href="#" data-val="enable" data-id="{{ row['ID'] }}">Enabled</a></li>
+                                            <li><a href="#" data-val="disable" data-id="{{ row['ID'] }}">Disabled</a></li>
+                                        </ul>
+                                    </div>    
+                                </td> -->
+                            </tr>
+                        </tbody>
+                        <tbody ng-show="dcmgriddata.length == 0">
+                            <tr>
+                                <td colspan="10" style="text-align: center;">No Result Found!</td>
+                            </tr>                        
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>  
+    </div>
+
+    <div class="modal model_ruleengine" id="model_ruleengine" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg animated fadeInDown">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Intel DCM Add</h4>
+                </div>
+                <div class="modal-body">
+                    <form id="DCMAddForm" name="DCMAddForm">
+                        <div class="form-group">
+                            <label>Communication Type</label>
+                            <select class="form-control" id="seladdcommunicatiotyp" name="seladdcommunicatiotyp">
+                                <option value="">-- SELECT --</option>
+                                <option value="{{row}}" ng-repeat="row in dcmCommunicationType.communication_type">{{row}}</option>
+                                <!-- <option value="ANY">ANY</option> -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>DCM IP</label>
+                            <input type="text" class="form-control" name="txtadddcmip" id="txtadddcmip" placeholder="Enter DCM IP">
+                        </div>
+                        <div class="form-group">
+                            <label>DCM Port</label>
+                            <input type="number" class="form-control" name="txtadddcmport"  id="txtadddcmport" placeholder="Enter DCM Port Number">
+                        </div>
+                        <div class="form-group">
+                            <label>DCM User</label>
+                            <input type="text" class="form-control" name="txtadddcmusername"  id="txtadddcmusername" placeholder="Enter DCM Username">
+                        </div>
+                        <div class="form-group">
+                            <label>DCM Password</label>
+                            <input type="password" class="form-control" name="txtadddcmpwd"  id="txtadddcmpwd" placeholder="Enter DCM Password">
+                        </div>
+                        <div class="form-group">
+                            <label>Config Name</label>
+                            <input type="text" class="form-control" name="txtaddconfigname" id="txtaddconfigname" placeholder="Enter DCM Config Name">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-success btn_dcm_save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

@@ -1,0 +1,230 @@
+{
+  "result": "success",
+  "data": [{
+    "aidev-winmem": {
+                   "C:\\ Drive Space": {
+                                  "last_check": 1564989371000,
+                                  "status": "warning",
+                                  "value_description": "c: - total: 49.66 Gb - used: 40.23 Gb (81%) - free 9.42 Gb (19%)"
+                   },
+                   "CPU Load": {
+                                  "last_check": 1564989372000,
+                                  "status": "ok",
+                                  "value_description": "CPU Load 2% (5 min average)"
+                   },
+                   "GNS 3": {
+                                  "last_check": 1564989370000,
+                                  "status": "critical",
+                                  "value_description": "gns3.exe: not running"
+                   },
+                   "Memory Usage": {
+                                  "last_check": 1564989361000,
+                                  "status": "ok",
+                                  "value_description": "Memory usage: total:7123.55 MB - used: 3110.24 MB (44%) - free: 4013.31 MB (56%)"
+                   },
+                   "SQLSERVER Availability Group Health": {
+                                  "last_check": 1564989369000,
+                                  "status": "ok",
+                                  "value_description": "OK"
+                   },
+                   "SQLSERVER CPU Busy": {
+                                  "last_check": 1564989360000,
+                                  "status": "ok",
+                                  "value_description": "OK - CPU busy 0.26%"
+                   },
+                   "SQLSERVER DB Connected Users": {
+                                  "last_check": 1564989364000,
+                                  "status": "ok",
+                                  "value_description": "OK - 4 connected users"
+                   },
+                   "SQLSERVER DB Connection Time": {
+                                  "last_check": 1564989361000,
+                                  "status": "ok",
+                                  "value_description": "OK - 0.01 seconds to connect as sa"
+                   },
+                   "SQLSERVER Database Free": {
+                                  "last_check": 1564989362000,
+                                  "status": "ok",
+                                  "value_description": "OK - database autointellidb has 99.98% free space left, database autointellidb has 100.00% free log space left"
+                   },
+                   "SQLSERVER Database Full Scans": {
+                                  "last_check": 1564989361000,
+                                  "status": "ok",
+                                  "value_description": "OK - 0.58 full table scans / sec"
+                   },
+                   "SQLSERVER Database Size": {
+                                  "last_check": 1564989363000,
+                                  "status": "ok",
+                                  "value_description": "OK - db autointellidb allocated 3.0000MB, db autointellidb logs allocated 1.0000MB"
+                   },
+                   "SQLSERVER Database online": {
+                                  "last_check": 1564989370000,
+                                  "status": "ok",
+                                  "value_description": "OK - autointellidb is online and accepting connections"
+                   },
+                   "SQLSERVER Lock Waits": {
+                                  "last_check": 1564989370000,
+                                  "status": "ok",
+                                  "value_description": "OK"
+                   },
+                   "SQLSERVER batch Requests": {
+                                  "last_check": 1564989368000,
+                                  "status": "ok",
+                                  "value_description": "OK - 12.17 batch requests / sec"
+                   },
+                   "SQLSERVER database backup age": {
+                                  "last_check": 1564989368000,
+                                  "status": "critical",
+                                  "value_description": "CRITICAL - QADB was backed up 2145h ago"
+                   },
+                   "SQLSERVER io busy": {
+                                  "last_check": 1564989369000,
+                                  "status": "ok",
+                                  "value_description": "OK - IO busy 0.28%"
+                   },
+                   "SQLSERVER transactions per sec": {
+                                  "last_check": 1564989371000,
+                                  "status": "ok",
+                                  "value_description": "OK - autointellidb has 0.0909 transactions / sec"
+                   },
+                   "Uptime": {
+                                  "last_check": 1564989372000,
+                                  "status": "ok",
+                                  "value_description": "System Uptime - 8 day(s) 10 hour(s) 16 minute(s)"
+                   },
+                   "W3SVC": {
+                                  "last_check": 1564989364000,
+                                  "status": "ok",
+                                  "value_description": "W3SVC: Started"
+                   },
+                   "Windows Remote MAnagement Service": {
+                                  "last_check": 1564989364000,
+                                  "status": "ok",
+                                  "value_description": "WinRM: Started"
+                   }
+    },
+    "autointelliui": {
+                   "Check Docker Container": {
+                                  "last_check": 1564989367000,
+                                  "status": "ok",
+                                  "value_description": "OK - Container mytestcontainer is running. IP: 172.17.0.2, StartedAt: 2019-05-03T06:34:47.974447734Z"
+                   },
+                   "Crond Service": {
+                                  "last_check": 1564989364000,
+                                  "status": "critical",
+                                  "value_description": "PROCS CRITICAL: 0 processes with command name 'crond'"
+                   }
+    },
+    "intellidb": {
+                   "Check Interface Bandwidth - eth0": {
+                                  "last_check": 1564989117000,
+                                  "status": "ok",
+                                  "value_description": "RX Bytes: 53GB, TX Bytes: 54GB: RX Speed:  8KBps, TX Speed: 10KBps: OK bandwidth utilization"
+                   },
+                   "Crond Service": {
+                                  "last_check": 1564989210000,
+                                  "status": "ok",
+                                  "value_description": "PROCS OK: 2 processes with command name 'crond'"
+                   },
+                   "Current Load": {
+                                  "last_check": 1564989224000,
+                                  "status": "ok",
+                                  "value_description": "OK - load average: 0.95, 1.16, 1.15"
+                   },
+                   "Current Users": {
+                                  "last_check": 1564989119000,
+                                  "status": "ok",
+                                  "value_description": "USERS OK - 2 users currently logged in"
+                   },
+                   "Firewalld Service": {
+                                  "last_check": 1564989212000,
+                                  "status": "ok",
+                                  "value_description": "PROCS OK: 1 process with command name 'firewalld'"
+                   },
+                   "PING": {
+                                  "last_check": 1564989174000,
+                                  "status": "ok",
+                                  "value_description": "PING OK - Packet loss = 0%, RTA = 0.04 ms"
+                   },
+                   "Root Partition": {
+                                  "last_check": 1564989121000,
+                                  "status": "ok",
+                                  "value_description": "DISK OK - free space: / 29226 MB (57.11% inode=99%):"
+                   },
+                   "SSH": {
+                                  "last_check": 1564989118000,
+                                  "status": "critical",
+                                  "value_description": "connect to address 127.0.0.1 and port 22: Connection refused"
+                   },
+                   "Security Failed Login": {
+                                  "last_check": 1564989112000,
+                                  "status": "critical",
+                                  "value_description": "CRITICAL - There are 978 Failed Logins"
+                   },
+                   "Swap Usage": {
+                                  "last_check": 1564989119000,
+                                  "status": "ok",
+                                  "value_description": "SWAP OK - 50% free (1322 MB out of 2687 MB)"
+                   },
+                   "Total Processes": {
+                                  "last_check": 1564989210000,
+                                  "status": "ok",
+                                  "value_description": "PROCS OK: 88 processes with STATE = RSZDT"
+                   }
+    },
+    "intelliengine": {
+                   "/dev/hda1 Free Space": {
+                                  "last_check": 1564989361000,
+                                  "status": "ok",
+                                  "value_description": "DISK OK - free space: /boot 792 MB (78.19% inode=100%):"
+                   },
+                   "CPU Load": {
+                                  "last_check": 1564989372000,
+                                  "status": "ok",
+                                  "value_description": "OK - load average per CPU: 0.12, 0.12, 0.12"
+                   },
+                   "Check Application": {
+                                  "last_check": 1564989361000,
+                                  "status": "ok",
+                                  "value_description": "PROCS OK: 6 processes with command name 'httpd'"
+                   },
+                   "Check Application log Size": {
+                                  "last_check": 1564989362000,
+                                  "status": "ok",
+                                  "value_description": "OK: The folder size is 0MB"
+                   },
+                   "Check Bandwidth Usage": {
+                                  "last_check": 1564989365000,
+                                  "status": "ok",
+                                  "value_description": "RX Bytes: 11GB, TX Bytes:  6GB: RX Speed:  2KBps, TX Speed:  1KBps: OK bandwidth utilization"
+                   },
+                   "Check Failed Login": {
+                                  "last_check": 1564989357000,
+                                  "status": "critical",
+                                  "value_description": "CRITICAL - There are 233 Failed Logins"
+                   },
+                   "Current Users": {
+                                  "last_check": 1564989363000,
+                                  "status": "ok",
+                                  "value_description": "USERS OK - 0 users currently logged in"
+                   },
+                   "Memory Usage": {
+                                  "last_check": 1564989368000,
+                                  "status": "ok",
+                                  "value_description": "[MEMORY] Total: 4797 MB - Used: 663 MB - 13% [SWAP] Total: 2687 MB - Used: 283 MB - 10%"
+                   },
+                   "Total Processes": {
+                                  "last_check": 1564989362000,
+                                  "status": "warning",
+                                  "value_description": "PROCS WARNING: 196 processes"
+                   },
+                   "Zombie Processes": {
+                                  "last_check": 1564989361000,
+                                  "status": "ok",
+                                  "value_description": "PROCS OK: 0 processes with STATE = Z"
+                   }
+    }
+}
+
+  ]
+}

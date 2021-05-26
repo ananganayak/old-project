@@ -1,0 +1,158 @@
+<div class="reportBandwidthscontainer" ng-controller="reportPerformanceController" ng-init="init()">
+   <div class="panel panel-white">
+      <div class="panel-body" style="padding: 0px">
+         <div class="main-bandwidth-form">
+            <form name="Formbandwidths" id="Formbandwidths">
+               <div class="well well-lg header-well" ng-hide="formview1" style="padding: 10px 10px;  border: 1px solid #efefef; background-color: #fbfbfb;">
+                  <div class="row">
+                     <div class="col-lg-3">
+                        <div class="form-group ">
+                           <label>Select Interface<span style="color: red;">*</span></label>
+                           <select class="form-control" id="selbandinterface" autocomplete="off" ng-model="bandinterface" ng-change="interfacelistget()" name="selbandinterface">
+                                 <option value="">-- select --</option>
+                                 <option ng-repeat="(key, values) in getbandwidthval" value="{{key}}">{{key}}</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-lg-3">
+                        <div class="form-group ">
+                           <label>Select Port<span style="color: red;">*</span></label>
+                           <select class="form-control" id="selbandport" autocomplete="off" name="selbandport">
+                                 <option value="">-- select --</option>
+                                 <option ng-repeat="(key, values) in portval" value="{{key}}">{{key}} - {{values}}</option>
+                           </select>
+                        </div>
+                     </div>
+                     <div class="col-lg-2" >
+                        <div class="form-group ">
+                           <label>Start Date <span style="color: red;">*</span></label>
+                           <input type="text" class="form-control datepickers" name="txtbwsstartdate" id="txtbwsstartdate">
+                        </div>
+                     </div>
+                     <div class="col-lg-2" >
+                        <div class="form-group ">
+                           <label>End Date <span style="color: red;">*</span></label>
+                           <input type="text" class="form-control datepickers" name="txtbwsendate" id="txtbwsendate">
+                        </div>
+                     </div>
+                     <div class="col-lg-2">
+                        <button class="btn btn-primary" style=" margin-top: 23px;" ng-click="btngetbanddetfn()">Get</button>
+                     </div>
+                  </div>
+                  <span class="marquee-text">This module is live from 01-SEP-2020. Search Accordingly.</span>
+               </div>
+            </form>               
+         </div>
+         <div class="" id="bandwidthchartdiv" style="background-color: #fff;">
+            <div class="col-lg-12 well" style="background-color: #fff; box-shadow: 0px 0px 2px 0px #efefef;"  ng-show="bandwidthchartdiv">
+               <table class="table borderless" style="margin-bottom: 0px;">
+                  <thead>
+                     <tr>
+                        <th width="14.2%">IP </th>
+                        <th width="14.2%">Sensor</th>
+                        <th width="14.2%">Name</th>
+                        <th width="14.2%">Description</th>
+                        <th width="14.2%">Sensor Type</th>
+                        <th width="14.2%">Interval</th>
+                        <th width="14.2%">Download</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td style=" border-top: 0px solid #efefef;">{{ipval}}</td>
+                        <td style=" border-top: 0px solid #efefef;">{{IPport}}</td>
+                        <td style=" border-top: 0px solid #efefef;">{{bandtotval.Name}}</td>
+                        <td style=" border-top: 0px solid #efefef;">{{bandtotval.Description}}</td>
+                        <td style=" border-top: 0px solid #efefef;">SNMP Traffic 64bit</td>
+                        <td style=" border-top: 0px solid #efefef;">every 60 s</td>
+                        <td style=" border-top: 0px solid #efefef;">
+                           <div style="padding-right: 15px;">
+                              <!-- <a href="" ng-click="getbwPDF(this)" download="bandwidth-chart.jpg" title="Download Chart">Chart <i class="fa fa-lg fa-download" aria-hidden="true"></i></a>  -->
+                              <a href="#" style="margin-left: 15px;" ng-click="getcsvfn()" title="Download Table">Table <i class="fa fa-lg fa-download" aria-hidden="true"></i></a> 
+                           </div>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div class="col-lg-12 well" style="height: 465px; box-shadow: 0px 0px 2px 0px #efefef; " >
+               <div class="chart-body" style="padding: 15px; background-color: #fff;">
+                  <div class="executive_suppression_content" >
+                     <div id="chartvals" style="height: 400px; width: 900px;" ></div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-lg-12 well" style="background-color: #fff; box-shadow: 0px 0px 2px 0px #efefef;"  ng-show="bandwidthchartdiv">
+               <div class="table-responsive">
+                  <table class="table table-bordered" id="bandwidthsumtable">
+                     <caption style="display: none;">{{ipval}}__{{bandtotval.Name}}__{{bandtotval.Description}}__sum</caption>
+                     <thead style="background-color:#efefef;">
+                        <tr>
+                           <th>Date Time</th>
+                           <th>Traffic Total (volume)</th>
+                           <th>Traffic Total (speed)</th>
+                           <th>Traffic In (volume)</th>
+                           <th>Traffic In (speed)</th>
+                           <th>Traffic Out (volume)</th>
+                           <th>Traffic Out (speed)</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr>
+                           <td>Sum (of {{bandplotlegnth.length}} values)</td>
+                           <td>{{bandtotval.Sums['Traffic Total(volume)']}} {{bandtotval.VolumeMetrics}}</td>
+                           <td></td>
+                           <td>{{bandtotval.Sums['Traffic In(volume)']}} {{bandtotval.VolumeMetrics}}</td>
+                           <td></td>
+                           <td>{{bandtotval.Sums['Traffic Out(volume)']}} {{bandtotval.VolumeMetrics}}</td>
+                           <td></td>
+                        </tr>
+                        <tr>
+                           <td>Averages (of {{bandplotlegnth.length}} values)</td>
+                           <td>{{bandtotval.Average['Traffic Total(volume)']}} {{bandtotval.VolumeMetrics}}</td>
+                           <td>{{bandtotval.Average['Traffic Total(speed)']}} {{bandtotval.SpeedMetrics}}</td>
+                           <td>{{bandtotval.Average['Traffic In(volume)']}} {{bandtotval.VolumeMetrics}}</td>
+                           <td>{{bandtotval.Average['Traffic In(speed)']}} {{bandtotval.SpeedMetrics}}</td>
+                           <td>{{bandtotval.Average['Traffic Out(volume)']}} {{bandtotval.VolumeMetrics}}</td>
+                           <td>{{bandtotval.Average['Traffic Out(speed)']}} {{bandtotval.SpeedMetrics}}</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+            <div class="col-lg-12 well" style="background-color: #fff; box-shadow: 0px 0px 2px 0px #efefef;" ng-show="bandwidthchartdiv">
+               <div class="table-responsive" >
+                  <table class="table table-bordered" id="bandwidthplottable">
+                     <caption style="display: none;">{{ipval}}__{{bandtotval.Name}}__{{bandtotval.Description}}__Total</caption>
+                     <thead style="background-color:#efefef;">
+                        <tr>
+                           <th>Date Time</th>
+                           <th>Traffic Total (volume)</th>
+                           <th>Traffic Total (speed)</th>
+                           <th>Traffic In (volume)</th>
+                           <th>Traffic In (speed)</th>
+                           <th>Traffic Out (volume)</th>
+                           <th>Traffic Out (speed)</th>
+                        </tr>
+                     </thead>
+                     <tbody>
+                        <tr ng-repeat="rows in bandplotlegnth">
+                           <td>{{rows[0]}}</td>
+                           <td>{{rows[3]}} {{bandtotval.VolumeMetrics}}</td>
+                           <td>{{rows[6]}} {{bandtotval.SpeedMetrics}}</td>
+                           <td>{{rows[1]}} {{bandtotval.VolumeMetrics}}</td>
+                           <td>{{rows[4]}} {{bandtotval.SpeedMetrics}}</td>
+                           <td>{{rows[2]}} {{bandtotval.VolumeMetrics}}</td>
+                           <td>{{rows[5]}} {{bandtotval.SpeedMetrics}}</td>
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+      </div> 
+
+   </div>
+</div>
+
+

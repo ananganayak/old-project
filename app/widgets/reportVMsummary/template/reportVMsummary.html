@@ -1,0 +1,78 @@
+<div class="reportVMsummarycontainer" ng-controller="reportVMsummaryController" ng-init="init()">
+   <div class="panel panel-white">
+      <div class="panel-body" style="padding: 0px;">
+         <form name="Formreportvmummary" id="Formreportvmummary">
+            <div class="well well-lg header-well">
+               <div class="row">
+                  <div class="col-lg-3">
+                     <div class="form-group">
+                        <label>Technology <span style="color: red;">*</span></label>
+                        <select class="form-control" id="selrepotech" autocomplete="off" ng-model="selrepotech" ng-change="getrepocustlov()" name="selrepotech">
+                           <option value="">-- select --</option>
+                           <option value="vmware">vmware</option> 
+                           <option value="kvm">kvm</option> 
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-lg-3">
+                     <div class="form-group">
+                        <label>Customer<span style="color: red;">*</span></label>
+                        <select class="form-control" id="selrepocustid" autocomplete="off" ng-model="selrepocustid" name="selrepocustid">
+                           <option value="">-- select --</option>
+                           <option ng-repeat="x in getrepocustval" value="{{x[0]}}">{{x[0]}}</option>
+                        </select>
+                     </div>
+                  </div>
+                  <div class="col-lg-2" style="width: 12%;">
+                     <div class="form-group">
+                        <label>Start Date <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control datepickers" name="txtrepocuststartdate" id="txtrepocuststartdate">
+                     </div>
+                  </div>
+                  <div class="col-lg-2" style="width: 12%;">
+                     <div class="form-group">
+                        <label>End Date <span style="color: red;">*</span></label>
+                        <input type="text" class="form-control datepickers" name="txtrepocustsendate" id="txtrepocustsendate">
+                     </div>
+                  </div>
+                  <div class="col-lg-2">
+                     <button class="btn btn-primary" style="margin-top: 25px;"  ng-click="btnpostvmsumfn()">Get</button>
+                  </div>
+               </div>
+               <span class="marquee-text">Disk related information are available only for VMs which has VMWare Tools installed.</span>
+            </div>
+         </form>
+         <div class="table-responsive panel-view" >
+            <table class="table table-bordered">
+                <thead style="background-color: #efefef;">
+                    <tr>
+                        <th>Date Time</th>
+                        <th>Meta</th>
+                        <!-- <th>Link</th> -->
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="rep in getrepocustgrid">
+                        <td>{{rep[0]}}</td>
+                        <td>{{rep[1]}}</td>
+                        <!-- <td>{{rep[2]}}</td> -->
+                        <td>
+                           <span ng-show="rep[3] == 0">
+                              Processing <i class="fa fa-spinner fa-pulse "></i>
+                           </span>
+                           <span ng-show="rep[3] == 1">
+                              <a href="" ng-click="getCSVDownload(rep[2])">
+                                 <i class="fa fa-file-excel-o" aria-hidden="true"></i>
+                              </a>
+                           </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+      </div>
+   </div>
+</div>
+
+

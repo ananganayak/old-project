@@ -1,0 +1,114 @@
+<div class="vmwareOverviewContainer" ng-controller="vmwareOverviewController" ng-init="init()">
+    <div class="panel panel-white">
+        <div class="panel-body" style="padding: 0px">
+            <form name="Formvmwareoverview" id="Formvmwareoverview">
+                <div class="well well-lg header-well">
+                    <div class="row">
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label>Time stamp<span style="color: red;">*</span></label>
+                                <select class="form-control" id="selvmovtimestamp" autocomplete="off" ng-model="selvmovtimestamp" ng-change="timestampbasedgetfn()" name="selvmovtimestamp">
+                                    <option value="">-- select --</option>
+                                    <option ng-repeat="row in gettimstampval" value="{{row[1]}}">{{row[0]}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label>vCenter Server<span style="color: red;">*</span></label>
+                                <select class="form-control" id="selvmovvcenter" autocomplete="off" ng-model="selvmovvcenter" ng-change="vcenterbasedgetfn()" name="selvmovvcenter">
+                                    <option value="">-- select --</option>
+                                    <option value="All">All</option>
+                                    <option ng-repeat="row in getlistvcenterval" value="{{row.hypervisor_ip_address}}">{{row.hypervisor_ip_address}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label>Cluster<span style="color: red;">*</span></label>
+                                <select class="form-control" id="selvmovcluster" autocomplete="off" ng-model="selvmovcluster" ng-change="clusterbaseddetfn()" name="selvmovcluster">
+                                    <option value="">-- select --</option>
+                                    <option value="All">All</option>
+                                    <option ng-repeat="row in getlistClustersval" value="{{row}}">{{row}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label>ESXi Server<span style="color: red;">*</span></label>
+                                <select class="form-control" id="selvmocesxiserver" ng-model="selvmocesxiserver" autocomplete="off" name="selvmocesxiserver">
+                                    <option value="">-- select --</option>
+                                    <option value="All">All</option>
+                                    <option ng-repeat="row in getlistEsxisval" value="{{row}}">{{row}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <div class="form-group">
+                                <label>Data Store<span style="color: red;">*</span></label>
+                                <select class="form-control" id="selvmocdatastore" ng-model="selvmocdatastore" autocomplete="off" name="selvmocdatastore">
+                                    <option value="">-- select --</option>
+                                    <option value="All">All</option>
+                                    <option ng-repeat="row in getlistDatastoresval" value="{{row}}">{{row}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-1">
+                            <div class="form-group">
+                                <label>VM<span style="color: red;">*</span></label>
+                                <select class="form-control" id="selvmocvms" ng-model="selvmocvms" autocomplete="off" name="selvmocvms">
+                                    <option value="">-- select --</option>
+                                    <option ng-repeat="row in getlistVMsval" value="{{row}}">{{row}}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-lg-1">
+                            <button class="btn btn-primary" style=" margin-top: 23px;" ng-click="btn()">Get</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+     </div>
+    <div class="panel panel-default" ng-show="vsphereoverviewpanel">
+        <div class="panel-heading">{{getvsphereval.heading}}</div>
+        <div class="panel-body" style="padding: 0px; padding-top: 15px;">
+            <div class="col-xl-3 col-md-3 col-lg-3" ng-repeat="(key, values) in getvsphereval.data">
+                <div class="well" style="text-align: center;
+                color: #fff;
+                background-image: linear-gradient(
+            45deg
+            , #3f51b5, #2196f3);">
+                    <p style="font-size: 17px;">{{key}}</p>
+                    <h2 style="font-size: 40px; font-weight: 700;">{{values}}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="panel panel-default" ng-show="clusteroverviewpanel">
+        <div class="panel-heading"> Cluster Overview</div>
+        <div class="panel-body" style="padding: 0px; padding-top: 15px;">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="col-lg-4" ng-repeat="(key, values) in getclusteroverviewval.data">
+                        <div class="well">
+                            <p>{{key}}</p>
+                            <h2>{{values}}</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="panel panel-default" id="clustercpuusagepanel" ng-show="clustercpuusagepanel">
+                <div class="panel-heading">{{getclustercpuval.heading}}</div>
+                <div class="panel-body">
+                    <div id="vmOvCpuUsageChart" style="height: 300px; width: 670px;"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6"></div>
+    </div>
+</div>

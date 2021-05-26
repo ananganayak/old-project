@@ -1,0 +1,409 @@
+<div class="hypervisorcontainer" ng-controller="hypervisorController" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12"  ng-show="hypergrid">
+            <div class="clearfix">
+                <div class="pull-left col-lg-6">
+                    <div style="">
+                        <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchtxt"
+                            value="" placeholder="Search ..." autocomplete="off" style="height: 34px; float:left; border-radius: 0px;"/>
+                    </div>
+                    <p style="float:left; margin: 6px 15px;">{{(hyper_grid_res | filter : searchtxt).length}} out of {{hyper_grid_res.length}} </p> 
+                </div>
+                <div class="pull-right  col-lg-6" style="margin-bottom: 15px; text-align: right;">
+                    <a class="btn btn-default btnaddmodal" ng-click="btnaddmodal()" > <i class="fa fa-plus" style="padding-right:5px;" aria-hidden="true"></i> ADD</a>
+                </div>
+            </div>
+            <div class="panel panel-white">
+                <div class="panel-body" style="padding: 0px">
+                    <table class="table tbl_discovery" style="margin-bottom: 0px;border: 1px solid #ddd;">
+                        <thead style="background: #ebeef0;">
+                            <tr class="discovery-table-header">
+                                <th>Application Name</th>
+                                <th>Application IP</th>
+                                <th>Application Type</th>
+                                <th>Credential</th>
+                                <th style="text-align: center;">Actions</th>
+                            </tr>    
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="hgd in hyper_grid_res | filter : searchtxt">
+                                <td>{{hgd[1]}} <span class="label" ng-show="hgd[6] > 0" style="background-color: #4CAF50; padding-bottom: 0.5px;">New : {{hgd[6]}}</span><span hidden>{{hgd[0]}}</span></td>
+                                <td>{{hgd[2]}}</td>
+                                <td>{{hgd[3]}}</td>
+                                <td>
+                                    <select class="form-control" disabled>
+                                        <option value="">-- Select --</option>
+                                        <option value="{{hyc[0]}}" ng-selected="{{hyc[0] == hgd[4]}}" ng-repeat="hyc in hyper_cred_res"> {{hyc[1]}} </option>
+                                    </select>
+                                </td>
+                                <!-- <td>{{hgd[6]}}</td> -->
+                                <td style="text-align: center;">
+                                    <a href="#" ng-click="btnhyperedit(hgd)" 
+                                       style="color:#12AFCB; font-size: 24px;" title="Update">
+                                       <i class="fa fa-pencil " aria-hidden="true"></i>
+                                    </a>
+                                    <a href=""  ng-click="btnhyperdel(hgd[0])" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" title="Delete" >
+                                        <i class="fa fa-trash-o " aria-hidden="true"></i>
+                                    </a>
+                                    <a href="" ng-show="hgd[5] == 'Y'"  ng-click="btnhyperdetail(hgd[0], hgd[3])" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" title="Explore" >
+                                        <i class="fa fa-external-link-square" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="" ng-show="hgd[5] == 'N'"  style="color:#e41844; margin-left: 15px; font-size: 24px;" title="NO" >
+                                        <i class="fa fa-external-link-square" aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr  ng-show="discovery_list_res.length == 0">
+                                <td colspan="5" style="text-align:center;">
+                                   No Records Found
+                                </td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12" ng-show="hyperdetgrid">
+            <div class="clearfix">
+                <div class="pull-left" style="width: 80%; ">
+                    <div class="row">
+                        <div class="col-lg-2" style="padding-right: 0px;">
+                            <select class="form-control" ng-model="selval" id="seldefval" ng-change="gethypkeyfn()" >
+                                <option value="">-- Select --</option>
+                                <option value="{{key}}" ng-repeat="(key, values) in hyper_ingrid_res"> {{key}} </option>
+                            </select>
+                        </div>
+                        <div class="col-lg-10">
+                            <a class="btn btn-default btn-sm" ng-click="gethypkeydet(xs.object_type)" style="margin: 5px; margin-left: 0px; font-size: 15px; margin-top: 0px; padding-top: 4px;" ng-repeat="xs in selbtnval">
+                                {{xs.object_type}} - <span class="label" style="color: #000; margin-right: 10px;padding: 0px; border:0px; font-size: 60%;">Total : {{xs.total}}</span><span class="label label-success" ng-hide="xs.new < 1" style="font-size: 60%;background: #4CAF50;">New : {{xs.new}}</span>
+                            </a>
+                        </div>
+                        <!-- <div class="col-lg-9"  ng-repeat="(key, values) in hyper_ingrid_res">
+                            <lable style="font-size: 20px;">{{key}} : </lable>
+                            <a class="btn btn-default btn-sm" ng-click="gethypkeydet(key, xs.object_type)" style="margin: 5px; margin-left: 0px; font-size: 15px; margin-top: 0px; padding-top: 2px;" ng-repeat="xs in values">
+                                {{xs.object_type}} - <span class="label" style="color: #000; margin-right: 10px;padding: 0px; border:0px; font-size: 60%;">Total : {{xs.total}}</span><span class="label label-success" ng-hide="xs.new < 1" style="font-size: 60%;background: #4CAF50;">New : {{xs.new}}</span>
+                            </a>
+                        </div> -->
+                    </div>
+                </div>
+                <div class="pull-right " style="width: 20%; margin-bottom: 15px; text-align: right;">
+                    <a class="btn btn-primary" ng-show="hypingrid" style="float: right; margin-bottom: 15px; margin-left: 15px;" ng-click="btncsvhypfn()"> Download CSV</a>
+                    <a class="btn btn-default" ng-click="btnbackfn()"> <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+                </div>
+            </div>
+            <div class="panel panel panel-white" ng-show="hypingrid">
+                <div class="panel-body" style="padding: 0px;">
+                    <div class="row">
+                        <div class="col-lg-12" >
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h4>{{hypkeys}} - {{hypvals}}</h4>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchKeywords"
+                            value="" placeholder="Search ..." autocomplete="off" style="height: 34px; float: right; border-radius: 0px;"/>
+                    <p style="float: right; margin: 6px 15px;">{{(hyper_ingrid_det | filter : searchKeywords).length}} out of {{hyper_ingrid_det.length}} </p> 
+                            
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="table-responsive" id="hyperingrid" style="overflow: hidden; overflow-y: scroll;">
+                                <table class="table tbl_discovery" style="margin-bottom: 0px;border: 1px solid #ddd;">
+                                    <thead style="background: #ebeef0;">
+                                        <tr>
+                                            <th hidden>Object ID</th>
+                                            <th width="35%">{{hypvals}} Name</th>
+                                            <th ng-show="hypvals == 'esxivm'" width="25%">Customer Name</th>
+                                            <th width="15%">Last Modified Date</th>
+                                            <th width="25%">Remark</th>
+                                        </tr>    
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="rows in hyper_ingrid_det | filter: searchKeywords">
+                                            <td hidden> {{rows[1]}}</td>
+                                            <td><span hidden>{{rows[6]}} - {{rows[2]}} - {{rows[0]}}</span>
+                                                <span class="label" ng-show="'{{rows[6]}}'=='poweredOff'" style="background-color: #e41844; text-transform: uppercase;" title="Power OFF">OFF</span> 
+                                                <span class="label" ng-show="'{{rows[6]}}'=='poweredOn'" style="background-color: #4CAF50; text-transform: uppercase;" title="Power ON">ON</span>
+                                                <span class="label" ng-show="'{{rows[6]}}'=='suspended'" style="background-color: #03a9f4; text-transform: uppercase;" title="Suspended">SUS</span> &nbsp; &nbsp;
+                                                <span class="td_overflow" title="{{rows[2]}}">{{rows[2]}}</span> 
+                                                <span class="label" ng-show="rows[0] == 'new'" style="background-color: #4CAF50; padding-bottom: 0.5px;">New</span></td>
+                                            <td ng-show="hypvals == 'esxivm'" >{{rows[5]}}</td>
+                                            <td>{{rows[3]}}</td>
+                                            <td>
+                                                <!-- <span hidden>{{rows[4]}}</span> -->
+                                                <span class="label" ng-show="'{{rows[4] | split : ':' : 0}}'=='red'" style="background-color: #e41844;" title="Delete from Unknow to Disappear">{{rows[4] | split : ':' : 1}}</span>
+                                                <span class="label" ng-show="'{{rows[4] | split : ':' : 0}}'=='green'" style="background-color: #4CAF50;" title="Service Addition is in Progress">{{rows[4] | split : ':' : 1}}</span>
+                                            </td>
+                                        </tr>
+                                        <tr  ng-show="hyper_grid_res.length == 0">
+                                            <td colspan="5" style="text-align:center;">
+                                               No Records Found
+                                            </td> 
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12" ng-show="hyperdetfwgrid">
+            <div class="row">
+                <div class="col-lg-6">
+                    <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchfwcus"
+                    value="" placeholder="Search ..." autocomplete="off" style="height: 34px; float: left; border-radius: 0px;"/>
+                    <p style="float: left; margin: 6px 15px;">{{(hyperfw_ingrid_res | filter : searchfwcus).length}} out of {{hyperfw_ingrid_res.length}} </p> 
+                </div>
+                <div class="col-lg-6">
+                    <a class="btn btn-primary" style="float: right; margin-bottom: 15px; margin-left: 15px;" ng-click="btncsvfwfn()"> Download CSV</a>
+                    <a class="btn btn-default" style="float: right; margin-bottom: 15px;" ng-click="btnbackfn()"> <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+                </div>
+                <div class="col-lg-12">
+                    <div class="panel panel panel-white">
+                        <div class="panel-body" style="padding: 0px;">
+                            <div class="table-responsive" id="hyperfwingrid" style="overflow: hidden; overflow-y: scroll;">
+                                <table class="table tbl_discovery" style="margin-bottom: 0px;border: 1px solid #ddd;">
+                                    <thead style="background: #ebeef0;">
+                                        <tr>
+                                            <th width="35%">Interface</th>
+                                            <th width="25%">Interface Name</th>
+                                        </tr>    
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="rows in hyperfw_ingrid_res | filter : searchfwcus">
+                                            <td>{{rows[0]}}</td>
+                                            <td>{{rows[1]}}</td>
+                                        </tr>
+                                        <tr  ng-show="hyperfw_ingrid_res.length == 0">
+                                            <td colspan="5" style="text-align:center;">
+                                                No Records Found
+                                            </td> 
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12" ng-show="hyperkvmgrid">
+            <div class="clearfix">
+                <div class="pull-left" style="width: 80%; ">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <a class="btn btn-default btn-sm" ng-click="gethypkvmgrid(key)" style="margin: 5px; margin-left: 0px; font-size: 15px; margin-top: 0px; padding-top: 4px;" ng-repeat="(key, values) in hyperkvm_ingrid_res[0]">
+                                {{key}} - <span class="label" style="color: #000; margin-right: 10px;padding: 0px; border:0px; font-size: 60%;">Total : {{values}}</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right " style="width: 20%; margin-bottom: 15px; text-align: right;">
+                    <a class="btn btn-primary" ng-show="hypkvcusgrid" style="float: right; margin-bottom: 15px; margin-left: 15px;" ng-click="btncsvkvmcusfn()"> Download CSV</a>
+                    <a class="btn btn-primary" ng-show="hypkvmhostsgrid" style="float: right; margin-bottom: 15px; margin-left: 15px;" ng-click="btncsvkvmhostfn()"> Download CSV</a>
+                    <a class="btn btn-primary" ng-show="hypkvmvmsgrid" style="float: right; margin-bottom: 15px; margin-left: 15px;" ng-click="btncsvkvmvmsfn()"> Download CSV</a>
+
+                    <a class="btn btn-default" ng-click="btnbackfn()"> <i class="fa fa-arrow-left" aria-hidden="true"></i> Back</a>
+                </div>
+            </div>
+            <div class="panel panel panel-white" ng-show="hypkvcusgrid">
+                <div class="panel-body" style="padding: 0px;">
+                    <div class="row">
+                        <div class="col-lg-12" >
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h4>KVM - {{kvmval}}</h4>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchkvmcus"
+                            value="" placeholder="Search ..." autocomplete="off" style="height: 34px; float: right; border-radius: 0px;"/>
+                            <p style="float: right; margin: 6px 15px;">{{(hyper_kvm_cus | filter : searchkvmcus).length}} out of {{hyper_kvm_cus.length}} </p> 
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="table-responsive" id="hypkvcusgrid" style="overflow: hidden; overflow-y: scroll;">
+                                <table class="table tbl_discovery" style="margin-bottom: 0px;border: 1px solid #ddd;">
+                                    <thead style="background: #ebeef0;">
+                                        <tr>
+                                            <th hidden>ID</th>
+                                            <th width="40%">Customer Name</th>
+                                            <th width="20%">Customer ID</th>
+                                            <th width="20%">VM Count</th>
+                                        </tr>    
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="rows in hyper_kvm_cus | filter: searchkvmcus">
+                                            <td hidden>{{rows[0]}}</td>
+                                            <td>{{rows[1]}}</td>
+                                            <td>{{rows[2]}}</td>
+                                            <td>{{rows[3]}}</td>
+                                        </tr>
+                                        <tr  ng-show="hyper_kvm_cus.length == 0">
+                                            <td colspan="5" style="text-align:center;">
+                                               No Records Found
+                                            </td> 
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel panel-white" ng-show="hypkvmhostsgrid">
+                <div class="panel-body" style="padding: 0px;">
+                    <div class="row">
+                        <div class="col-lg-12" >
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h4>KVM - {{kvmval}}</h4>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchkvmhost"
+                            value="" placeholder="Search ..." autocomplete="off" style="height: 34px; float: right; border-radius: 0px;"/>
+                                    <p style="float: right; margin: 6px 15px;">{{(hyper_kvm_host | filter : searchkvmhost).length}} out of {{hyper_kvm_host.length}} </p> 
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="table-responsive" id="hypkvmhostsgrid" style="overflow: hidden; overflow-y: scroll;">
+                                <table class="table tbl_discovery" style="margin-bottom: 0px;border: 1px solid #ddd;">
+                                    <thead style="background: #ebeef0;">
+                                        <tr>
+                                            <th>Host ID</th>
+                                            <th hidden>Host Type</th>
+                                            <th>Host</th>
+                                            <th>Host Label</th>
+                                            <th>Host OS</th>
+                                            <th>Host OS Version</th>
+                                            <th>Total VMs</th>
+                                        </tr>    
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="rows in hyper_kvm_host | filter: searchkvmhost">
+                                            <td>{{rows[0]}}</td>
+                                            <td hidden>{{rows[1]}}</td>
+                                            <td>{{rows[2]}}</td>
+                                            <td>{{rows[3]}}</td>
+                                            <td>{{rows[4]}}</td>
+                                            <td>{{rows[5]}}</td>
+                                            <td>{{rows[6]}}</td>
+                                        </tr>
+                                        <tr  ng-show="hyper_kvm_host.length == 0">
+                                            <td colspan="7" style="text-align:center;">
+                                               No Records Found
+                                            </td> 
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="panel panel panel-white" ng-show="hypkvmvmsgrid">
+                <div class="panel-body" style="padding: 0px;">
+                    <div class="row">
+                        <div class="col-lg-12" >
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <h4>KVM - {{kvmval}}</h4>
+                                </div>
+                                <div class="col-lg-6">
+                                    <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchkvms"
+                            value="" placeholder="Search ..." autocomplete="off" style="height: 34px; float: right; border-radius: 0px;"/>
+                                    <p style="float: right; margin: 6px 15px;">{{(hyper_kvm_vms | filter : searchkvms).length}} out of {{hyper_kvm_vms.length}} </p> 
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="table-responsive" id="hypkvmvmsgrid" style="overflow: hidden; overflow-y: scroll;">
+                                <table class="table tbl_discovery" style="margin-bottom: 0px;border: 1px solid #ddd;">
+                                    <thead style="background: #ebeef0;">
+                                        <tr>
+                                            <th width="20%"> &nbsp; VM ID</th>
+                                            <th width="15%">VM Name</th>
+                                            <th width="15%">VM OS</th>
+                                            <th width="15%">Customer ID</th>
+                                            <th width="15%">Host</th>
+                                            <th width="20%">VM IP</th>
+                                        </tr>    
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="rows in hyper_kvm_vms | filter: searchkvms">
+                                            <td>
+                                                <span hidden>{{rows[0]}} - {{rows[1]}}</span>
+                                                <span class="label" ng-show="'{{rows[0]}}'=='POWEREDOFF'" style="background-color: #e41844; text-transform: uppercase;" title="Power OFF">OFF</span> 
+                                                <span class="label" ng-show="'{{rows[0]}}'=='POWEREDON'" style="background-color: #4CAF50; text-transform: uppercase;" title="Power ON">ON</span>
+                                                <span class="label" ng-show="'{{rows[0]}}'=='SUSPENDED'" style="background-color: #03a9f4; text-transform: uppercase;" title="Suspended">SUS</span> &nbsp; &nbsp;
+                                                <span class="td_overflow" title="{{rows[1]}}">{{rows[1]}}</span> 
+                                            </td>
+                                            <td>{{rows[2]}}</td>
+                                            <td>{{rows[3]}}</td>
+                                            <td>{{rows[4]}}</td>
+                                            <td>{{rows[5]}}</td>
+                                            <td>{{rows[6]}}</td>
+                                        </tr>
+                                        <tr  ng-show="hyper_grid_res.length == 0">
+                                            <td colspan="5" style="text-align:center;">
+                                               No Records Found
+                                            </td> 
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade " id="model_hyp_add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog animated fadeInDown">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" ng-show="addheader">ADD Application</h4>
+                        <h4 class="modal-title" ng-show="updateheader">Update Application</h4>
+                    </div>
+                    <div class="modal-body clearfix">
+                    <div class="smpt_form_container">
+                        <form id="hypervisorForm" name="hypervisorForm" class="ng-pristine ng-valid"  novalidate="novalidate">
+                            <div class="form-group">
+                                <label>Application Name</label> 
+                                <input type="text"  class="form-control" id="txthypname" name="txthypname" placeholder="Enter The Name">
+                            </div>
+                            <div class="form-group">
+                                <label>Application IP</label> 
+                                <input type="text"  class="form-control" id="txthypip" name="txthypip" placeholder="Enter The IP">
+                            </div>
+                            <div class="form-group" >
+                                <label>Application Type</label> 
+                                <select class="form-control" id="selhyptype" name="selhyptype">
+                                    <option value="">-- Select --</option>
+                                    <option value="VMWare vCenter"> VMWare vCenter </option>
+                                    <option value="vmware nsx"> VMWare NSX </option>
+                                    <option value="OnApp KVM"> OnApp KVM </option>
+                                    <option value="Firewall"> Firewall </option>
+                                    <option value="Switch"> Switch </option>
+                                    <option value="Router"> Router </option>
+                                    <option value="Load Balancer"> Load Balancer </option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label >Credential</label>
+                                <select class="form-control"  id="selhypcred" name="selhypcred">
+                                    <option value="">-- Select --</option>
+                                    <option value="{{hyc[0]}} " ng-repeat="hyc in hyper_cred_res">{{hyc[1]}}</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                <a href="" id="btnaddhyper" class="btn btn-sm btn-success" style="margin-right: 10px;">Save</a>
+                            </div>
+                        </form>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

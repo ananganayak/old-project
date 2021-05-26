@@ -1,0 +1,342 @@
+<div ng-controller="botsController" ng-init="init()">
+    <div class="panel panel-white" style="margin-bottom: 10px;">
+        <div class="panel-body" style="padding-bottom: 0px;">
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body">
+                            <div class="info-box-stats">
+                                <p class="counter">331</p>
+                                <span class="info-box-title">HOSTS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body">
+                            <div class="info-box-stats">
+                                <p class="counter">25</p>
+                                <span class="info-box-title">FAILED HOSTS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body">
+                            <div class="info-box-stats">
+                                <p class="counter">54</p>
+                                <span class="info-box-title">INVENTORIES</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body">
+                            <div class="info-box-stats">
+                                <p class="counter">1</p>
+                                <span class="info-box-title">INVENTORY SYNC FAILURES</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body">
+                            <div class="info-box-stats">
+                                <p class="counter">8</p>
+                                <span class="info-box-title">PROJECTS</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="panel info-box panel-white">
+                        <div class="panel-body">
+                            <div class="info-box-stats">
+                                <p class="counter">8</p>
+                                <span class="info-box-title">PROJECT SYNC FAILURES</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="panel panel-white" style="margin-bottom: 10px;">
+        <div class="panel-heading">
+            <h3 class="panel-title">JOB STATUS</h3>
+            <div class="pull-right">
+                <table>
+                    <tr>
+                        <td  valign="top"><span style="line-height: 2.5;padding-right: 10px;font-weight: normal;">PERIOD</span></td>
+                        <td style="padding-right: 20px;">
+                            <select class="form-control m-b-sm" style="padding-right: 20px;">
+                                <option>POST MONTH</option>                                                
+                            </select>
+                        </td>
+                        <td  valign="top"><span style="line-height: 2.5;padding-right: 10px;font-weight: normal;">JOB TYPE</span></td>
+                        <td style="padding-right: 20px;">
+                            <select class="form-control m-b-sm" style="padding-right: 20px;">
+                                <option>ALL</option>                                               
+                            </select>
+                        </td>
+                        <td  valign="top"><span style="line-height: 2.5;padding-right: 10px;font-weight: normal;">VIEW</span></td>
+                        <td>
+                            <select class="form-control m-b-sm" >
+                                <option>ALL</option>                                  
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="panel-body">
+            <div id="flot4"></div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6" style="padding-right: 5px;">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h3 class="panel-title">RECENTLY USED JOB TEMPLATE</h3>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default btn-rounded" style="margin-top: -10px">VIEW ALL</button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table" style="margin-bottom: 0px;">
+                        <thead style="background: #ebeef0;">
+                        <th>TITLE</th>
+                        <th>ACTIVITY</th>
+                        <th style="text-align: center;">ACTIONS</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="" style="font-size: 14px;font-weight: bold;cursor: pointer;"><span>App demo web server</span></a>
+                                </td>
+                                <td>
+                                    <ul class="ul_activity_color_panel">
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" style="margin-left: 5px;color: #0a0a0a;">
+                                        <i class="fa fa-pencil-square-o" style="font-size: 16px;"></i>
+                                    </a>
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" style="margin-left: 5px;color: #0a0a0a;">
+                                        <i class="fa fa-times-circle" style="font-size: 16px;"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="" style="font-size: 14px;font-weight: bold;cursor: pointer;"><span>Deploy Demo Instance</span></a>
+                                </td>
+                                <td>
+                                    <ul class="ul_activity_color_panel">
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <br/>
+                                            <span style="background: red;"></span>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" style="margin-left: 5px;color: #0a0a0a;">
+                                        <i class="fa fa-pencil-square-o" style="font-size: 16px;"></i>
+                                    </a>
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" style="margin-left: 5px;color: #0a0a0a;">
+                                        <i class="fa fa-times-circle" style="font-size: 16px;"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="" style="font-size: 14px;font-weight: bold;cursor: pointer;"><span>Update JBoss webapp stack</span></a>
+                                </td>
+                                <td>
+                                    <ul class="ul_activity_color_panel">
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <br/>
+                                            <span style="background: red;"></span>
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" style="margin-left: 5px;color: #0a0a0a;">
+                                        <i class="fa fa-pencil-square-o" style="font-size: 16px;"></i>
+                                    </a>
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" style="margin-left: 5px;color: #0a0a0a;">
+                                        <i class="fa fa-times-circle" style="font-size: 16px;"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="" style="font-size: 14px;font-weight: bold;cursor: pointer;"><span>Update Apache server</span></a>
+                                </td>
+                                <td>
+                                    <ul class="ul_activity_color_panel">
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>
+                                        <li>
+                                            <span></span>
+                                        </li>                                                                                                            
+                                    </ul>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" style="margin-left: 5px;color: #0a0a0a;">
+                                        <i class="fa fa-pencil-square-o" style="font-size: 16px;"></i>
+                                    </a>
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic" style="margin-left: 5px;color: #0a0a0a;">
+                                        <i class="fa fa-times-circle" style="font-size: 16px;"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6" style="padding-left: 5px;">
+            <div class="panel panel-white">
+                <div class="panel-heading">
+                    <h3 class="panel-title">RECENT JOB RUNS</h3>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-default btn-rounded" style="margin-top: -10px">VIEW ALL</button>
+                    </div>
+                </div>
+                <div class="panel-body">
+                    <table class="table" style="margin-bottom: 0px;">
+                        <thead style="background: #ebeef0;">
+                        <th style="width:70%">TITLE</th>                                       
+                        <th style="width:30%">TIME</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <a href="" style="font-size: 14px;font-weight: bold;cursor: pointer;">
+                                        Deploy JBoss webapp stock
+                                    </a>
+                                </td>
+                                <td>
+                                    <span>7/12/2016 12:24:40 PM</span>
+                                </td> 
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="" style="font-size: 14px;font-weight: bold;cursor: pointer;">
+                                        App demo web server
+                                    </a>
+                                </td>
+                                <td>
+                                    <span>7/12/2016 12:24:40 PM</span>
+                                </td> 
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="" style="font-size: 14px;font-weight: bold;cursor: pointer;">
+                                        Update Apache server
+                                    </a>
+                                </td>
+                                <td>
+                                    <span>7/12/2016 12:24:40 PM</span>
+                                </td> 
+                            </tr>
+                            <tr>
+                                <td>
+                                    <a href="" style="font-size: 14px;font-weight: bold;cursor: pointer;">
+                                        Deploy Demo Instance
+                                    </a>
+                                </td>
+                                <td>
+                                    <span>7/12/2016 12:24:40 PM</span>
+                                </td> 
+                            </tr>                                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>        
+</div>

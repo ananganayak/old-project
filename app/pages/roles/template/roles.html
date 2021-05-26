@@ -1,0 +1,76 @@
+<section class="rolescontainer" ng-init="init()">
+    <div style="max-width: 1024px;margin: auto;">
+        <div class="row">
+            <div class="col-md-4 roles_left_container" style="padding: 0px;">
+                <div class="roles_left_panel">
+                    <div class="roles_left_leader">
+                        <div class="pull-left  margin0">
+                            <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">Roles</h3>
+                        </div>
+                        <div class="pull-right">
+                            <a href="" id="btnadd" class="btn btn-sm btn-default pull-right"> 
+                                <i class="fa fa-plus" style="padding-right:5px;"></i> New
+                            </a>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+                    <div class="roles_left_content">
+                        <ul class="ul_roles_left_content">
+                            <li ng-repeat="row in roles_list_res" class="li_roles_name" data-name="{{row}}">
+                                <span class="span_name">{{row}}</span>
+                                <span class="span_delete"><i class="fa fa-times-circle" style="font-size: 16px;"></i></span>
+                            </li>
+                            <li ng-show="roles_list_res.length == 0">
+                                No Records Found
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 roles_right_container" style="padding: 0px;">
+                <div id="roles_right_panel" class="">
+                    <div style="padding: 10px;">
+                        <div class="roles_right_header">
+                            <div class="pull-right">
+                                <a href="" id="btnclose" class="btn btn-sm btn-default pull-right">Close</a> 
+                                <a href="" id="btnsave" class="btn btn-sm btn-success pull-right" ng-click="role_save();" style="margin-right: 10px;">Save</a> 
+                            </div>
+                            <div style="clear: both;"></div>
+                        </div>
+                        <div class="roles_right_content" style="margin-top: 25px;">
+                            <form name="formroles" id="formroles">
+                                <div class="form-group">
+                                    <label for="txtrolename">Role Name</label>
+                                    <input type="text" id="txtrolename" name="txtrolename" class="form-control" placeholder="Role Name">
+                                </div>
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Permission</label>
+                                    <div style=" height: 325px; overflow: auto;">
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Modules</th>
+                                                    <th>Read</th>
+                                                    <th>Write</th>
+                                                    <th>Delete</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr ng-repeat="row in tab_list_res" data-name="{{row}}" ng-init="$last && finished()">
+                                                    <td>{{row}}</td>
+                                                    <td><div class="checker"><span class=""><div class="checker"><span class=""><input type="checkbox" name="chkread{{row}}"></span></div></span></div></td>
+                                                    <td><div class="checker"><span class=""><div class="checker"><span class=""><input type="checkbox" name="chkwrite{{row}}"></span></div></span></div></td>
+                                                    <td><div class="checker"><span class=""><div class="checker"><span class=""><input type="checkbox" name="chkdelete{{row}}"></span></div></span></div></td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

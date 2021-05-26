@@ -1,0 +1,204 @@
+<div class="eventsController" ng-controller="eventsController" ng-init="init()">
+    <div class="row">
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body infobox_active" data_filter_name="all">
+                    <div class="info-box-stats">
+                        <p class="counter event_total_count">0</p>
+                        <span class="info-box-title">TOTAL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body" data_filter_name="open">
+                    <div class="info-box-stats">
+                        <p class="counter event_open_count">0</p>
+                        <span class="info-box-title">OPEN</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body" data_filter_name="wip">
+                    <div class="info-box-stats">
+                        <p class="counter event_wip_count">0</p>
+                        <span class="info-box-title">WIP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body" data_filter_name="pending">
+                    <div class="info-box-stats">
+                        <p class="counter event_pending_count">0</p>
+                        <span class="info-box-title">PENDING</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body" data_filter_name="resolved">
+                    <div class="info-box-stats">
+                        <p class="counter event_resolved_count">0</p>
+                        <span class="info-box-title">RESOLVE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body" data_filter_name="closed">
+                    <div class="info-box-stats">
+                        <p class="counter event_closed_count">0</p>
+                        <span class="info-box-title">CLOSE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div style="margin-bottom: 10px;">  
+                <div class="pull-left" style="width:600px;">
+                    <div class="filters">
+                        <div class="col-md-12" style="padding-left: 0px;">
+                            <div class="col-md-3" style="padding-left: 0px;"> 
+                                <select class="form-control tbl_event_filter_sel">
+                                    <option value="event_id">Event Id</option>           
+                                    <option value="alert_id">Alert Id</option>
+                                    <option value="ciname">CI Name</option>
+                                    <option value="component">Component</option>
+                                    <option value="datetime">Date Time</option>
+                                    <option value="source">Source</option>
+                                    <option value="severity">Severity</option>  
+                                    <option value="customer_id">Customer Name</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5 filter_event_control" style="padding-left: 0px;"> 
+                                <div class="tbl_event_search_txt_pnl">
+                                    <input type="text" class="form-control filter_event_searchbox" name="search" value="" placeholder="Search ..." autocomplete="off" style="border-radius: 0px;width: 230px;">
+                                </div>
+                                <div class="tbl_custs_search_txt_pnl">
+                                    <input type="text" class="form-control filter_custs_searchbox" id="custeventvalueid" value="" name="search" ng-change="searchcustfn()" ng-model="searchevcust" placeholder="Search Customer Name" autocomplete="off" style="border-radius: 0px;width: 228px;">
+                                    <div class="custssearch">
+                                        <p ng-repeat="cn in custdetlov | filter : searchevcust"><a href="" ng-click="getsearchval(cn[0])" value="{{cn[0]}}">{{cn[0]}}</a></p>
+                                    </div>
+                                </div>
+                                <div class="tbl_event_search_date_pnl">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control filter_event_searchdate" name="event_est_date" value="">
+                                        <span class="input-group-addon est-date-picker"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="tbl_event_search_sel_pnl">
+                                    <select id="sel_event_source" class="form-control">
+                                        <option value="">Open</option>                                       
+                                    </select>
+                                    <select id="sel_event_severity" class="form-control">
+                                        <option value="">Open</option>                                       
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="padding-left: 0px;">
+                                <button type="button" class="btn btn-success btn_search_event_go">Go</button>
+                                <button type="button" class="btn btn-success btn_event_search_clear" style="margin-left: 3px;">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">                               
+                    <div class="pull-right" style="margin-left: 10px;">
+                        <span data-test-id="pagination-details" ng-bind="span_page_status"></span> of <span ng-bind="span_total_count"></span>
+                        </span>  
+                        <div class="btn-group user_nav_btn" style="margin-left: 5px;">
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(eventcurrentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(eventcurrentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                        </div>
+                    </div>                    
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="panel panel-white">
+                <div class="panel-body" style="padding: 0px">
+                    <div class="table-responsive">
+                        <table class="table event_table" style="margin-bottom: 0px;">
+                            <thead style="background: #ebeef0;">
+                                <tr class="event_header">                                                                     
+                                    <th class="sorting_desc" data-col="sorting" data-key="event_id" width="10%">Event Id</th>
+                                    <th class="sorting" data-col="sorting" data-key="alert_id" width="10%">Alert Id</th>
+                                    <th class="sorting" data-col="sorting" data-key="ciname" width="20%">CI Name</th>
+                                    <th class="sorting" data-col="sorting" data-key="component" width="10%">Component</th>
+                                    <th width="15%">Description</th>                                                                    
+                                    <th width="15%">Notes</th>
+                                    <th class="sorting" data-col="sorting" data-key="severity" width="5%">Severity</th>
+                                    <th width="5%">Created</th>
+                                    <th class="sorting" data-col="sorting" data-key="source" width="5%">Source</th>
+                                    <th width="5%">Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="row in events_list_res">
+                                    <td class="icon_event" style="padding: 0px !important;" width="10%">
+                                        <div class="{{ setrowstatuscolor(row.severity); }}" >
+                                            <span style="padding-left: 5px;">{{row.eventid}} </span>
+                                        </div> 
+                                    </td>
+                                    <td width="10%">{{row.alertid}}</td>
+                                    <td width="20%" class="content-td-of" title="{{row.ci_name}}">{{row.ci_name}}</td>
+                                    <td width="10%">{{row.component}}</td>
+                                    <td width="15%" class="content-td-of" title="{{row.description}}">{{row.description}}</td>
+                                    <td width="15%" class="content-td-of" title="{{row.notes}}">{{row.notes}}</td>
+                                    <td width="5%">{{row.severity}}</td>
+                                    <td width="5%">{{row.event_created_time}}</td>
+                                    <td width="5%">{{row.source}}</td>
+                                    <td width="5%">{{row.status}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>              
+            </div>
+            <div style=" margin-top: 40px; margin-bottom: 40px;">
+                <div style="text-align: center;">
+                    <nav aria-label="Page navigation example" style="display: inline-block;margin-left: 135px;">
+                        <pagination class="pagination-sm"
+                                    ng-model="eventcurrentPage"
+                                    total-items="totalitemCount"
+                                    max-size="5"
+                                    ng-change="PaginationLink(eventcurrentPage)"
+                                    items-per-page="eventnumPerPage"
+                                    rotate="false"
+                                    previous-text="&lsaquo;" next-text="&rsaquo;"
+                                    boundary-links="true"></pagination>
+                    </nav>
+                    <div class="pull-right">
+                        <div class="pull-right" style="margin-left: 10px;">
+                            <span data-test-id="pagination-details">show 
+                                <div class="btn-group dropup" role="group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false" style="padding: 5px;">
+                                        <span class="span_pagination_text">10</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pagination_dropdown" role="menu">                                         
+                                        <li><a href="">10</a></li>
+                                        <li><a href="">20</a></li>
+                                        <li><a href="">30</a></li>
+                                        <li><a href="">50</a></li>
+                                        <li><a href="">100</a></li>
+                                    </ul>                                                 
+                                </div>     
+                            </span> of <span>entries per page</span>
+                            </span>
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

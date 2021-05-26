@@ -1,0 +1,327 @@
+<div class="csAutoscaleController" ng-controller="csAutoscaleController" ng-init="init()">
+    <div class="row">
+        <style>
+            #datatablepanel{
+                overflow: hidden;
+                overflow-y: scroll;
+            }
+        </style>
+        <div class="col-md-12 monitorpage-content">
+            <div class="row">
+                <div class="col-md-3 n-menu">
+                    <div class="panel panel-default" id="hostname" style="margin-bottom: 0px;">
+                        <div class="panel-heading">Auto-Scale List 
+                            <span><a href="" ng-click="showSearch()"><i class="fa fa-search" aria-hidden="true"></i></a></span>
+                            <p ng-hide="showsearchtxt"  style="margin-top: 7px;"><input type="text" class="form-control" id="txtshowsearch" ng-model="searchText" name="search" value="" placeholder="Search ..." autocomplete="off"></p>
+                        </div>
+                        <div class="panel-body" id="hostbody">
+                            <div class="value-row row" data-key="{{row[1]}}" ng-repeat="row in aslist" >
+                                <a href="" class="btn btn-link" style="float: left;" ng-click="getUpdateDet(row[0])">{{row[1]}}</a>
+                                <!-- <a href="" class="btn btn-info" style="float: right;margin-left: 5px;"><i class="fa fa-eye" aria-hidden="true"></i></a> -->
+                                <a href="" class="btn btn-danger" style="float: right;" ng-click="deletefn(row[1])"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            </div>
+                            <!-- <div class="value-row row" data-key="" >
+                                <a href="" class="btn btn-link" style="float: left;">NIFHW-AS</a>
+                                <a href="" class="btn btn-info" style="float: right;margin-left: 5px;"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <a href="" class="btn btn-danger" style="float: right;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="col-lg-12" style="text-align: right;">
+                        <button class="btn btn-default" ng-click="addnewasfn()" style="margin-right: 15px;">Add New</button>
+                        <button class="btn btn-default" ng-click="closeformfn()">Cancel</button>
+                    </div>
+                    <div class="col-lg-12">
+                        <div class="panel panel-white" id="datatablepanel" ng-show="showformadd" style="margin-bottom: 0px;">
+                            <div class="panel-body" style="padding: 0px" >
+                                <form id="autoscaleform">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label >Auto-Scale Name</label> 
+                                                <input type="text"  class="form-control" id="txtasname" ng-model="txtasname" name="txtasname" placeholder="Enter The Auto-Scale Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label >Real Service Group</label> 
+                                                <input type="text"  class="form-control" id="txtasrsg" ng-model="txtasrsg" name="txtasrsg" placeholder="Enter The Real Service Group">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="txtsmtpip">Hypervisor ENV <span style="color: red;">*</span></label> 
+                                                <select class="form-control" id="selhyperenv" ng-model="selhyperenv" autocomplete="off" name="selhyperenv" ng-change="getiplistfn(selhyperenv)">
+                                                   <option  value="">-- select --</option>
+                                                   <option  value="{{key}}" ng-repeat="(key, values) in hyplist">{{key}}</option>
+                                                </select>
+                                             </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="txtsmtpip">Tenants Type<span style="color: red;">*</span></label> 
+                                                <select class="form-control" id="selhypervisor" ng-model="selhypervisor" autocomplete="off" name="selhypervisor" ng-change="getvmwarelistfn()">
+                                                   <option  value="">-- select --</option>
+                                                   <option  value="{{row[0]}}" ng-repeat="row in astenantlist">{{row[0]}}</option>
+                                                </select>
+                                             </div>
+                                        </div>
+                                        <!-- <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="txtsmtpip">Hypervisor <span style="color: red;">*</span></label> 
+                                                <select class="form-control" id="selhypervisor" ng-model="selhypervisor" autocomplete="off" name="selhypervisor" ng-change="getvmwarelistfn()">
+                                                   <option value="">-- select --</option>
+                                                   <option value="{{as}}" ng-repeat="as in iplist">{{as}}</option>
+                                                </select>
+                                             </div>
+                                        </div> -->
+                                        <div class="col-lg-12" style="border: 1px solid #efefef; padding: 10px; margin: 17px; width: 97%;">
+                                            <div class="row" style="height: 280px; overflow: scroll; overflow-y: scroll; width: 100%; margin-left: 0px !important; padding: 15px 5px 5px 15px;">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="txtsearchvms" ng-model="txtsearchvms" name="txtsearchvms" ng-change="searchCheckval(0)"  placeholder="Enter The VMs">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3" ng-repeat="chk in hypvmwarelist | filter : txtsearchvms">
+                                                    <div class="form-group">
+                                                        <div class="checkbox" >
+                                                          <label style="padding-left: 0px;">
+                                                            <input type="checkbox" id="chkaddvmware{{chk | split: '.' : 0}}" ng-click="chckaddval(chk)">{{chk}}
+                                                          </label>
+                                                        </div>
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                           <div class="row">
+                                              <div class="col-lg-2">
+                                                 Minimum Power On
+                                              </div>
+                                              <div class="col-lg-3">
+                                                 <div class="form-group">
+                                                    <input type="number" class="form-control" id="txtminpoweron" ng-model="txtminpoweron" name="txtminpoweron" placeholder="">
+                                                </div>
+                                              </div>
+                                           </div>
+                                            <div class="row">
+                                                <div class="col-lg-2">
+                                                    Power ON
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <select class="form-control" id="selpoweronone" ng-model="selpoweronone" autocomplete="off" name="selpoweronone">
+                                                           <option  value="">-- select --</option>
+                                                           <option  value="cpu">CPU</option>
+                                                           <option  value="mem">MEM</option>
+                                                        </select>
+                                                     </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <input type="text"  class="form-control" id="txtpoweronone" ng-model="txtpoweronone" readonly name="txtpoweronone" placeholder=">">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="txtpowerontwo" ng-model="txtpowerontwo" name="txtpowerontwo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-2">
+                                                    Power OFF
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <select class="form-control" id="selpoweroffone" ng-model="selpoweroffone" autocomplete="off" name="selpoweroffone">
+                                                           <option  value="">-- select --</option>
+                                                           <option  value="cpu">CPU</option>
+                                                           <option  value="mem">MEM</option>
+                                                        </select>
+                                                     </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <input type="text"  class="form-control" id="txtpoweroffone" ng-model="txtpoweroffone" readonly  name="txtpoweroffone" placeholder="<">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <input type="number"  class="form-control" id="txtpowerofftwo" ng-model="txtpowerofftwo" name="txtpowerofftwo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button class="btn btn-success" ng-click="btnsubmitasfn()">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div> 
+                        </div>
+                        <div class="panel panel-white" id="datatablepanel" ng-show="showformup" style="margin-bottom: 0px;" >
+                            <div class="panel-body" style="padding: 0px" >
+                                <form id="autoscaleupform">
+                                    <div class="row">
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label >Auto-Scale Name</label> 
+                                                <input type="text"  class="form-control" id="txtupasname" ng-model="updateasval.name" name="txtupasname" disabled placeholder="Enter The Auto-Scale Name">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label >Real Service Group</label> 
+                                                <input type="text"  class="form-control" id="txtupasrsg" ng-model="updateasval.realservicegroup" name="txtupasrsg" placeholder="Enter The Real Service Group">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="txtsmtpip">Hypervisor ENV  <span style="color: red;">*</span></label> 
+                                                <select class="form-control" id="seluphyperenv" ng-model="updateasval.h_type" autocomplete="off" name="seluphyperenv" ng-change="getiplistfn(updateasval.h_type)">
+                                                   <option  value="">-- select --</option>
+                                                   <option  value="{{key}}" ng-repeat="(key, values) in hyplist">{{key}}</option>
+                                                </select>
+                                             </div>
+                                        </div>
+                                        <div class="col-lg-3">
+                                            <div class="form-group">
+                                                <label for="txtsmtpip">Tenants<span style="color: red;">*</span></label> 
+                                                <select class="form-control" id="seluphypervisor" ng-model="updateasval.h_ip" autocomplete="off" name="seluphypervisor" ng-change="getupvmwarelistfn()">
+                                                   <option  value="">-- select --</option>
+                                                   <option  value="{{row[0]}}" ng-selected="'{{row[0] | split: '.' : 0}}' == '{{updateasval.h_ip}}'"  ng-repeat="row in astenantlist">{{row[0]}}</option>
+                                                </select>
+                                             </div>
+                                        </div>
+                                        <!-- <div class="col-lg-4">
+                                            <div class="form-group">
+                                                <label for="txtsmtpip">Hypervisor <span style="color: red;">*</span></label> 
+                                                <select class="form-control" id="seluphypervisor" ng-model="updateasval.h_ip" autocomplete="off" name="seluphypervisor" ng-change="getvmwarelistfn()">
+                                                   <option value="">-- select --</option>
+                                                   <option value="{{as}}" ng-selected="'{{as}}' == '{{updateasval.h_ip}}'" ng-repeat="as in iplist">{{as}}</option>
+                                                </select>
+                                             </div>
+                                        </div> -->
+                                        <div class="col-lg-12" style="border: 1px solid #efefef; padding: 10px; margin: 17px; width: 97%;">
+                                            <div class="row" style="height: 280px;
+                                            overflow: scroll;
+                                            overflow-y: scroll; width: 100%; margin-left: 0px !important; padding: 15px 5px 5px 15px;">
+                                                <div class="col-lg-12">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="txtassearch" ng-model="txtassearch" name="txtassearch" ng-change="searchCheckval(1)" placeholder="Enter The VMs">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-3" ng-repeat="chk in hypvmwarelist | filter : txtassearch">
+                                                    <div class="form-group">
+                                                        <div class="checkbox" >
+                                                          <label style="padding-left: 0px;">
+                                                            <input type="checkbox" id="chkupvmware{{chk | split: '..' : 0}}" ng-click="chckupval(chk)">{{chk}}
+                                                          </label>
+                                                        </div>
+                                                     </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                           <div class="row">
+                                              <div class="col-lg-2">
+                                                 Minimum Power On
+                                              </div>
+                                              <div class="col-lg-3">
+                                                 <div class="form-group">
+                                                    <input type="number" class="form-control" id="txtupminpoweron" ng-model="updateasval.min_poweron" name="txtupminpoweron" placeholder="">
+                                                </div>
+                                              </div>
+                                           </div>
+                                            <div class="row">
+                                                <div class="col-lg-2">
+                                                    Power ON
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <select class="form-control" id="seluppoweronone" ng-model="updateasval.poweron.unit" autocomplete="off" name="seluppoweronone">
+                                                           <option  value="">-- select --</option>
+                                                           <option  value="cpu">CPU</option>
+                                                           <option  value="mem">MEM</option>
+                                                        </select>
+                                                     </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <input type="text"  class="form-control" id="txtuppoweronone" ng-model="txtuppoweronone" readonly name="txtuppoweronone" placeholder=">">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <input type="text" class="form-control" id="txtuppowerontwo" ng-model="updateasval.poweron['unit value']" name="txtuppowerontwo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <div class="row">
+                                                <div class="col-lg-2">
+                                                    Power OFF
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <select class="form-control" id="seluppoweroffone" ng-model="updateasval.poweroff.unit" autocomplete="off" name="seluppoweroffone">
+                                                           <option  value="">-- select --</option>
+                                                           <option  value="cpu">CPU</option>
+                                                           <option  value="mem">MEM</option>
+                                                        </select>
+                                                     </div>
+                                                </div>
+                                                <div class="col-lg-3">
+                                                    <div class="form-group">
+                                                        <input type="text"  class="form-control" id="txtuppoweroffone" ng-model="txtuppoweroffone" readonly  name="txtuppoweroffone" placeholder="<">
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-4">
+                                                    <div class="form-group">
+                                                        <input type="number"  class="form-control" id="txtuppowerofftwo" ng-model="updateasval.poweroff['unit value']" name="txtuppowerofftwo">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <button class="btn btn-success" ng-click="btnsubmitasupfn()">Submit</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal fade " id="model_chart_view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg animated fadeInDown">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Chart</h4>
+                        </div>
+                        <div class="modal-body clearfix">
+                            <!-- <iframe ng-src="{{trustSrc(dashboardmap)}}" height="600" width="100%"> </iframe>  -->
+                            <div class="graphcpupercent col-lg-6"></div>
+                            <div class="graphcpucount col-lg-6"></div>
+                            <div class="graphcpuidle col-lg-6"></div>
+                            <div class="graphcpuser col-lg-6"></div>
+                            <div class="graphcpusystem col-lg-6"></div>
+  
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="chartmodalbtn" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                   </div>
+                </div>
+             </div>
+        </div>
+    </div>
+</div>

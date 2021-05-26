@@ -1,0 +1,191 @@
+<div ng-controller="dashboardEventAnalyticsController" ng-init="init()">
+    <div class="panel panel-default" style="box-shadow: none;border: 1px solid #ddd !important;margin-bottom: 4px;">
+        <div class="panel-heading" style="padding: 5px 20px;height: auto;border-bottom:1px solid #ddd !important;">Filter</div>
+        <div class="panel-body event_filter_panel" style="padding: 5px;">
+            <div style="text-align: center;">
+                <button type="button" class="btn btn-default btn-rounded btn-info" data-val="all">All</button>
+                <button type="button" class="btn btn-default btn-rounded" data-val="today">Today</button>
+                <button type="button" class="btn btn-default btn-rounded" data-val="yesterday">Yesterday</button>
+                <button type="button" class="btn btn-default btn-rounded" data-val="this_week">This Week</button>
+                <button type="button" class="btn btn-default btn-rounded" data-val="this_month">This Month</button>
+                <button type="button" class="btn btn-default btn-rounded" data-val="last_month">Last Month</button>                
+                <button type="button" class="btn btn-default btn-rounded date_range" data-val="date_range">Date Range</button>
+            </div>
+            <!--<div style="text-align: center;margin-top: 10px;" class="date_range_panel">
+                <input type="text" id="txteventstartdate" class="form-control" placeholder="Start Date" ng-model="eventStartdate" style="background-color: #ffffff;"/>
+                <input type="text" id="txteventenddate" class="form-control" placeholder="End Date" ng-model="eventEnddate" style="margin-left:25px;background-color: #ffffff;"/>
+            </div>-->
+        </div>
+    </div>
+    <div class="row" style="margin-bottom: 6px;">
+        <div class="col-md-12 summary_content_panel">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <div class="info-box" style="border-left:0px;">
+                        <span class="info-box-icon bg-blue" style="float: left;"><i class="fa fa-warning"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number suppressed_total">1000</span>
+                            <span class="info-box-text" title="Total Events">Total Events</span>
+                        </div>                                                    
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <div class="info-box" style="border-left:0px;">
+                        <span class="info-box-icon bg-success" style="float: left;"><i class="fa fa-filter"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number suppressed_percent">900</span>
+                            <span class="info-box-text" title="Total Suppressed">Total Suppressed</span>
+                        </div>                                                    
+                    </div>
+                </div>  
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <div class="info-box" style="border-left:0px;">
+                        <span class="info-box-icon bg-purple" style="float: left;"><i class="fa fa-scissors"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number dropped_percent">100</span>
+                            <span class="info-box-text" title="Total Dropped">Total Dropped</span>
+                        </div>                                                    
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="info-box" style="border-left:0px;">
+                        <span class="info-box-icon bg-light-blue" style="float: left;"><i class="fa fa-adjust"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number suppressed_rate">95%</span>
+                            <span class="info-box-text" title="Suppression Rate">Suppression Rate</span>
+                        </div>                                                    
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="info-box">
+                        <span class="info-box-icon bg-yellow" style="float: left;"><i class="fa fa-tachometer"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number dropped_rate">5%</span>
+                            <span class="info-box-text" title="Dropped Rate">Dropped Rate</span>
+                        </div>                                                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 chart-main-div">
+            <div class="row event_donut_container">
+                <div class="chart-div-1 col-md-4 col-lg-4 col-xs-12 col-sm-12" >
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <h4 class="panel-title">Top 5 Alert Producing CIs</h4>
+                            </div>
+                            <div class="panel-body donut_alert_panel" >
+                                <div class="donut_alert_content">
+                                     <div id="donuteventalert" style="width:100%;height: 200px;"></div>
+                                </div>
+                                <div class="donut_alert_no_resord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-div-2 col-md-4 col-lg-4 col-xs-12 col-sm-12" >
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <h4 class="panel-title">Top 3 Alert Producing KPIs</h4>
+                            </div>
+                            <div class="panel-body donut_event_panel" >
+                                <div class="donut_event_content">
+                                     <div id="donuteventevent" style="width:100%;height: 200px;"></div>
+                                </div>
+                                <div class="donut_event_no_resord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-div-3 col-md-4 col-lg-4 col-xs-12 col-sm-12" >
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Alerts by Severity</h4>
+                            </div>
+                            <div class="panel-body donut_severity_panel">
+                                <div class="donut_severity_content">
+                                     <div id="donuteventseverity" style="width:100%;height: 200px;"></div>
+                                </div>
+                                <div class="donut_severity_no_resord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>   
+            <div class="row">
+                <div class="col-md-12 chart-div-12 heatmap_container">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading clearfix" >
+                                <h4 class="panel-title">Event Heatmap - <span  ng-bind="eventheatmaptitle"></span></h4>
+                                <div class="pull-right" style="margin-left: 10px;margin-top: -10px;">
+                                    <div class="btn-group user_nav_btn" style="margin-left: 5px;">
+                                        <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(currentWeekNO - 1)" data-toggle="tooltip" data-placement="bottom" data-original-title="Prev"><i class="fa fa-chevron-left"></i></button>
+                                        <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(currentWeekNO + 1)" data-toggle="tooltip" data-placement="bottom" data-original-title="Next"><i class="fa fa-chevron-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body" >
+                                <div id="event_heatmap" style="width:100%;height:240px;"></div>
+                                <div class="heatmap1_norecord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 chart-div-12">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading clearfix" >
+                                <h4 class="panel-title">Alert Heatmap - <span  ng-bind="alertheatmaptitle"></span></h4>
+                                <div class="pull-right" style="margin-left: 10px;margin-top: -10px;">
+                                    <div class="btn-group user_nav_btn" style="margin-left: 5px;">
+                                        <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noAlertPrevious()}" ng-click="selectAlertPage(currentAlertWeekNO - 1)"><i class="fa fa-chevron-left"></i></button>
+                                        <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noAlertNext()}" ng-click="selectAlertPage(currentAlertWeekNO + 1)"><i class="fa fa-chevron-right"></i></button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body" >
+                                <div id="alert_heatmap" style="width:100%;height:240px;"></div>
+                                <div class="heatmap2_norecord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 chart-div-12">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <div class="pull-left  margin0">
+                                    <h4 class="panel-title">Weekly Severity Trend</h4>
+                                </div>                                                            
+                            </div>
+                            <div class="panel-body">                       
+                                <div id="alertseveritytrend" style="width:100%;height:240px;"></div>
+                                <div class="alertseveritytrend_norecord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

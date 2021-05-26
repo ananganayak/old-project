@@ -1,0 +1,186 @@
+<section class="admincontainer" ng-init="init()">
+    <div class="admin_home_container">
+        <div style="text-align: center;">
+            <div class="icon-grid">
+                <div class="case-wrapper" id="user_tab"> 
+                    <a href="#/users">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-user" title="Users" style=""></i>
+                        </div>   
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">Users</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper" id="group_tab"> 
+                    <a href="roles_new.html">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-group" title="Groups" style=""></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">Groups</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper" id="roles_tab"> 
+                    <a href="#/roles">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-lock" title="Roles" style=""></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">Roles</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper" id="smtp_tab"> 
+                    <a href="#/smtp">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="glyphicon glyphicon-envelope" title="SMTP" style=""></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">SMTP</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper" id="ldap_tab"> 
+                    <a href="#/ldap">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-wrench" title="LDAP" style=""></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">LDAP</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper" id="Intel_DCM_tab"> 
+                    <a href="#/Intel_DCM">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-database" title="Intel DCM" aria-hidden="true"></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">Intel DCM</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper" id="manage_engine_tab" title="" style=""> 
+                    <a href="#/manageEngine">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-plug" title="Manage Engine" style=""></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">Manage Engine</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper"  id="itsm_tab" title="" style=""> 
+                    <a href="#/itsmintegration">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-plug" title="Item" style=""></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">ITSM Integration</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper" id="evm_tab" style="display: none;"> 
+                    <a href="roles_new.html">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-calendar" title="EVM Integrations" style=""></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">EVM Integrations</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper" id="bots_tab"> 
+                    <a href="#/botrepo">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="Bots Repo">
+                            <i class="fa fa-android" title="Bots Repo" style=""></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">Bots Repo</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper" id="pe_tab"> 
+                    <a href="#/policyengine">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="Policy Engine">
+                            <i class="fa fa-cogs" title="Policy Engine" style=""></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">Policy Engine</span>
+                    </div> 
+                </div>
+                <div class="case-wrapper" id="csm_tab"> 
+                    <a href="#/CSMapping">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-exchange" title="CS Mapping" aria-hidden="true"></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div><span class="case-label-text">CS Mapping</span>
+                    </div> 
+                </div> 
+                <div class="case-wrapper" id="arcon_tab"> 
+                    <a href="#/arcon">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="ARCON">
+                            <i class="fa fa-cubes" title="ARCON" aria-hidden="true"></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div><span class="case-label-text">ARCON</span>
+                    </div> 
+                </div> 
+                <div class="case-wrapper" id="license_tab"> 
+                    <a href="#/licence">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="Licence">
+                            <i class="fa fa-key" title="Licence" aria-hidden="true"></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">Licence</span>
+                    </div> 
+                </div> 
+                <div class="case-wrapper" id="rca_tab" > 
+                    <a href="#/rcaFeedback">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-newspaper-o" title="RCA Feedback" aria-hidden="true"></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> </div>  <span class="case-label-text">RCA Feedback</span>
+                    </div> 
+                </div> 
+                <div class="case-wrapper" id="ucim_tab" > 
+                    <a href="#/uciMapping">
+                        <div class="app-icon" style="background-color: #7f8c8d;" title="">
+                            <i class="fa fa-users" aria-hidden="true"></i>
+                        </div> 
+                    </a>
+                    <div class="case-label ellipsis"> 
+                        <div class="circle module-count-item" style="display: none;"> 
+                            <span class="circle-text"></span> 
+                        </div>  
+                        <span class="case-label-text">UCI Mapping</span>
+                    </div> 
+                </div>                                                
+            </div>
+        </div>
+    </div>
+</section>

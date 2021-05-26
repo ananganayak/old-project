@@ -1,0 +1,30 @@
+{
+	"Module": "alert",
+	"InformationType": "json",
+	"Action": "update",
+	"Data": {
+		"alertid": 1732,
+		"event_details": {
+			"eventid": 4796,
+			"ci_name": "aidev-winmem",
+			"component": "SQLCPU",
+			"description": "OK - CPU busy 15.10%",
+			"notes": "SEV : OK\tHOST : aidev-winmem\tDESC: OK - CPU busy 15.10%",
+			"severity": "OK",
+			"event_created_time": 1556255819.0,
+			"source": "NAGIOS",
+			"status": "closed"
+		},
+		"alert_details": {
+			"severity": "OK"
+		},
+		"status_legends": {
+			"open": -1,
+			"total": 0,
+			"wip": 0,
+			"pending": 0,
+			"resolve": 0,
+			"closed": 1
+		}
+	}
+}

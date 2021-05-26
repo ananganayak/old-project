@@ -1,0 +1,588 @@
+<div class="monitoringReportController" ng-controller="monitoringReportController" ng-init="init()">
+    <div class="row">
+        <style>
+            textarea {
+                resize: vertical;
+            }
+        </style>
+        <div class="col-md-12  monitoringReport-content">
+            <div class="row">
+               <div class="col-md-3 n-menu">
+                    <div class="panel panel-default" id="reports">
+                        <div class="panel-heading">Menu
+                        </div>
+                        <div class="panel-body" style="padding: 0 0px 15px 0px; height: 555px;">
+                            <ul class="nav nav-pills nav-stacked">
+                                <li class="active" id="report_availability"><a data-toggle="tab" data-target="#availability_content">Availability Report</a></li>
+                                <li id="report_performance"><a data-toggle="tab"  data-target="#performance_content">Performance Report</a></li>
+                                <li id="report_capacity"><a data-toggle="tab"  data-target="#capacity_content">Capacity Report</a></li>
+                                <li id="report_bwutilisation"><a data-toggle="tab"  data-target="#bwutilisation_content">Bandwidth Utilisation Report</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div style="padding: 0px; height: 555px;">
+                        <div class="tab-content" style="padding: 0px;">
+                            <div class="tab-pane fade in active" id="availability_content" >
+                                <div class="formview">
+                                    <div class="well well-lg header-well" style="text-align: center; padding: 1px 10px; height: 40px;">
+                                        <div class="col-lg-6">
+                                            <h3 style="text-align: left; margin-top: 10px; " class="ng-binding">Availability Report</h3>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <button class="btn btn-success" style="margin-top: 3px; float: right;" ng-click="getavailablereport()">Refresh</button>
+                                        </div>
+                                    </div>
+                                    <div class="main-legacy-form">
+                                        <form name="LegacyFormAvailble" id="LegacyFormAvailble">
+                                            <div class="well well-lg header-well" ng-hide="formview1" style="padding: 10px 10px;  border: 1px solid #efefef; background-color: #fbfbfb;">
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                                                        <div class="form-group ">
+                                                            <label>Select Hostgroup<span style="color: red;">*</span></label>
+                                                            <select class="form-control" id="selavailhostgrp" ng-change="selavaihostgrpfn()" ng-model="selavaihostgrpmodel"  autocomplete="off" name="selavailhostgrp">
+                                                                <option value="">-- select --</option>
+                                                                <option ng-repeat="hg in getallappval" value="{{hg}}">{{hg}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group ">
+                                                            <label>Select Host<span style="color: red;">*</span></label>
+                                                            <select class="form-control" id="selavaihost" ng-model="selavaihost" autocomplete="off" name="selavaihost">
+                                                                <option value="">-- select --</option>
+                                                                <option ng-repeat="hst in getavaihotlst.host_display_name" value="{{hst}}">{{hst}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                   <div class="col-lg-2 col-md-4 col-sm-4 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label>Select Period<span style="color: red;">*</span></label>
+                                                            <select class="form-control" id="selreportpreriod" ng-model="selreportpreriod"  autocomplete="off" name="selreportpreriod">
+                                                                <option value="">-- select --</option>
+                                                                <option value="Today">Today</option>
+                                                                <option value="Last 24 Hours">Last 24 Hours</option>
+                                                                <option value="Last 7 Days">Last 7 Days</option>
+                                                               <!-- <option ng-repeat="getrp in getperiodval.report_period" value="{{getrp}}">{{getrp}}</option> -->
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3" ng-show="selreportpreriod == 'Custom Period'">
+                                                        <div class="form-group ">
+                                                            <label>Start Date <span style="color: red;">*</span></label>
+                                                            <input type="text" class="form-control dateavaipicker" name="txtavaistartdate" id="txtavaistartdate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3" ng-show="selreportpreriod == 'Custom Period'">
+                                                        <div class="form-group ">
+                                                            <label>End Date <span style="color: red;">*</span></label>
+                                                            <input type="text" class="form-control dateavaipicker" name="txtavaiendate" id="txtavaiendate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                                                        <div class="form-group">
+                                                            <label>Comment<span style="color: red;">*</span></label>
+                                                            <textarea class="form-control" id="txtavailcomnt" name="txtavailcomnt" cols="10" rows="1"></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-1 col-md-4 col-sm-4 col-xs-12">
+                                                        <button class="btn btn-primary" style="margin-top: 23px;" ng-click="btngetreportval()">Submit</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="row">
+                                            <div class="col-lg-12" ng-show="tablepanel">
+                                                <div class="table-responsive panel-view" >
+                                                    <table class="table table-bordered">
+                                                        <thead style="background-color: #efefef;">
+                                                            <tr>
+                                                                <th>Date Time</th>
+                                                                <th>Host Group</th>
+                                                                <th>Comment</th>
+                                                                <th>Start Date</th>
+                                                                <th>End Date</th>
+                                                                <!-- <th>Status</th> -->
+                                                                <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr ng-repeat="rep in getreportdata">
+                                                                <td>{{rep.datetime}}</td>
+                                                                <td>{{rep.meta.hostgroup}}</td>
+                                                                <td>{{rep.meta.comment}}</td>
+                                                                <td>{{rep.meta.start_date}}</td>
+                                                                <td>{{rep.meta.end_date}}</td>
+                                                                <!-- <td>{{rep.status}}</td> -->
+                                                                <td>
+                                                                    <span ng-show="rep.status == 0">
+                                                                        Processing <i class="fa fa-spinner fa-pulse "></i>
+                                                                    </span>
+                                                                    <span ng-show="rep.status == 1">
+                                                                        <a href=""  ng-click="viewmodaldata(rep)" data-toggle="modal" data-target="#model_host_view" style="float: left;">
+                                                                            <i class="fa fa-table fa-lg" aria-hidden="true"></i>
+                                                                        </a>
+                                                                        <a href="" ng-click="viewpdfdata(rep)" style="float: left; margin-left: 15px;">
+                                                                            <i class="fa fa-pie-chart fa-lg" aria-hidden="true"></i>
+                                                                        </a>
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-12 " ng-show="chartpanel" id="chartpanel">
+                                                <div class="row">
+                                                    <div class="col-lg-8"><h4 class="modal-title" id="myModalLabel">Average Availability Report</h4></div>
+                                                    <div class="col-lg-4">
+                                                        <button type="button" class="btn btn-dark" aria-label="Close" ng-click="backtotableview()" style="float: right; margin-right: 10px;">Back</button>
+                                                        <button class="btn btn-primary" ng-click="exportpie()" style="float: right; margin-right: 5px;"><i class="fa fa-download" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="row" id="exfortavaihost" style="background-color: #fff;">
+                                                    <div class="col-lg-12">
+                                                        <div class="row" style="margin: 0px 0px 5px;">
+                                                            <div class="col-lg-6">
+                                                                <img src="{{ brand_logo }}" alt="brand logo" style="margin-left: -25px;">
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <h4 style="text-align: right;">Date-Time : {{availrptgentime}}</h4>
+                                                            </div>
+                                                            <div class="col-lg-12">
+                                                                <hr>
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <p>Hostgroup : <b>{{mainrepdata.hostgroup}}</b></p>
+                                                                <p>Comment : <b>{{mainrepdata.comment}}</b></p>
+                                                                <!-- <p>Hostgroup : <b>{{mainrepdata.hostgroup}}</b></p> -->
+                                                            </div>
+                                                            <div class="col-lg-6">
+                                                                <p>Start Date : <b>{{mainrepdata.start_date}}</b></p>
+                                                                <p>End Date : <b>{{mainrepdata.end_date}}</b></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="row">
+                                                            <div class="col-md-12">
+                                                                <div class="panel panel-default">
+                                                                    <div class="panel-heading" >
+                                                                        <h4 class="panel-title" style="display: block; float: none;">Average Host Availability </h4>
+                                                                    </div>
+                                                                    <div class="panel-body" style="padding: 0px;padding-top: 15px;">
+                                                                        <div id="donuthostavail" style="width:500px;height: 260px;"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Host</th>
+                                                                                <th>Up</th>
+                                                                                <th>Down</th>
+                                                                                <th>Unreachable</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>Average</td>
+                                                                                <td>{{availchartval.Host_Average.up}}</td>
+                                                                                <td>{{availchartval.Host_Average.down}}</td>
+                                                                                <td>{{availchartval.Host_Average.unreachable}}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-6">
+                                                        <div class="row">
+                                                            <div class="col-md-12" >
+                                                                <div class="panel panel-default">
+                                                                    <div class="panel-heading" >
+                                                                        <h4 class="panel-title" style="display: block; float: none;">Average Service Availability </h4>
+                                                                    </div>
+                                                                    <div class="panel-body" style="padding: 0px;padding-top: 15px;">
+                                                                        <div id="donutservavail" style="width:500px;height: 260px;"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12">
+                                                                <div class="table-responsive">
+                                                                    <table class="table table-bordered">
+                                                                        <thead>
+                                                                            <tr>
+                                                                                <th>Service</th>
+                                                                                <th>Ok</th>
+                                                                                <th>Warning</th>
+                                                                                <th>Unknown</th>
+                                                                                <th>Critical</th>
+                                                                            </tr>
+                                                                        </thead>
+                                                                        <tbody>
+                                                                            <tr>
+                                                                                <td>Average</td>
+                                                                                <td>{{availchartval.Service_Average.ok}}</td>
+                                                                                <td>{{availchartval.Service_Average.warning}}</td>
+                                                                                <td>{{availchartval.Service_Average.unknown}}</td>
+                                                                                <td>{{availchartval.Service_Average.critical}}</td>
+                                                                            </tr>
+                                                                        </tbody>
+                                                                    </table>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in " id="performance_content">
+                                <div class="formview1">
+                                    <div class="well well-lg header-well" style="text-align: center; padding: 0px 10px; height: 40px;">
+                                        <div class="col-lg-6">
+                                            <h3 style="text-align: left; margin-top: 10px; " class="ng-binding">Performance Report</h3>
+                                        </div>
+                                    </div>
+                                    <div class="main-legacy-form">
+                                        <form name="LegacyFormperformance" id="LegacyFormperformance">
+                                            <div class="well well-lg header-well" ng-hide="formview1" style="padding: 10px 10px;  border: 1px solid #efefef; background-color: #fbfbfb;">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group ">
+                                                            <label>Select Hostgroup<span style="color: red;">*</span></label>
+                                                            <select class="form-control" id="selperhostgrp"  ng-change="selperhostgrpfn()" ng-model="selperhostgrpmodel" autocomplete="off" name="selperhostgrp">
+                                                                <option value="">-- select --</option>
+                                                                <option ng-repeat="hgs in getallappval" value="{{hgs}}">{{hgs}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group ">
+                                                            <label>Select Host<span style="color: red;">*</span></label>
+                                                            <select class="form-control" id="selperhost" ng-model="selperhostmodel" autocomplete="off" name="selperhost">
+                                                                <option value="">-- select --</option>
+                                                                <!-- <option value="saathidbprod">saathidbprod</option> -->
+                                                                <option ng-repeat="hst in getperhotlst.host_display_name" value="{{hst}}">{{hst}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-2">
+                                                        <div class="form-group">
+                                                            <label>Select Period<span style="color: red;">*</span></label>
+                                                            <select class="form-control" id="selreportperfpreriod" ng-model="selreportperfpreriod" autocomplete="off" name="selreportperfpreriod">
+                                                                <option value="">-- select --</option>
+                                                                <option ng-repeat="getrp in getperformanceperiod" value="{{getrp}}">{{getrp}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3" ng-show="selreportperfpreriod == 'custom'">
+                                                        <div class="form-group ">
+                                                            <label>Start Date <span style="color: red;">*</span></label>
+                                                           <input type="text" class="form-control datepicker" name="txtperstartdate" id="txtperstartdate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3" ng-show="selreportperfpreriod == 'custom'">
+                                                        <div class="form-group ">
+                                                            <label>End Date <span style="color: red;">*</span></label>
+                                                            <input type="text" class="form-control datepicker" name="txtperendate" id="txtperendate">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-1">
+                                                        <button class="btn btn-primary" style=" margin-top: 23px;" ng-click="btngetperreportval()">Get</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                        <div class="col-md-12 col-lg-12 col-sm-12">
+                                            <iframe  ng-src="{{trustSrc(getpereportvl)}}" height="600" width="100%"> </iframe>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in" id="capacity_content">
+                                <div class="formview2">
+                                    <div class="well well-lg header-well" style="text-align: center; padding: 0px 10px; height: 40px;">
+                                        <div class="col-lg-6">
+                                            <h3 style="text-align: left; margin-top: 10px; " class="ng-binding">Capacity Report</h3>
+                                        </div>
+                                    </div>
+                                    <div class="main-legacy-form">
+                                        <form name="LegacyFormCapacity" id="LegacyFormCapacity">
+                                            <div class="well well-lg header-well" ng-hide="formview1" style="padding: 10px 10px;  border: 1px solid #efefef; background-color: #fbfbfb;">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group ">
+                                                            <label>Select Hostgroup<span style="color: red;">*</span></label>
+                                                            <select class="form-control" id="selcaphostgrp" autocomplete="off" name="selcaphostgrp">
+                                                                <option ng-repeat="hgs in getallappval" value="{{hgs}}">{{hgs}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group">
+                                                            <label>Select Period<span style="color: red;">*</span></label>
+                                                            <select class="form-control" id="selcapreportpreriod"  autocomplete="off" name="selcapreportpreriod">
+                                                               <option ng-repeat="getrp in getperiodval.report_period" value="{{getrp}}">{{getrp}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="col-lg-3">
+                                                        <button class="btn btn-primary" style=" margin-top: 23px;" ng-click="btngetcapreportval()">Get</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade in" id="bwutilisation_content">
+                                <div class="">
+                                    <div class="well well-lg header-well" style="text-align: center; padding: 0px 10px; height: 40px;">
+                                        <div class="col-lg-6">
+                                            <h3 style="text-align: left; margin-top: 10px; " class="ng-binding">Bandwidth Utilisation Report</h3>
+                                        </div>
+                                    </div>
+                                    <div class="main-legacy-form">
+                                        <form name="LegacyFormbwutiliztion" id="LegacyFormbwutiliztion">
+                                            <div class="well well-lg header-well" ng-hide="formview1" style="padding: 10px 10px;  border: 1px solid #efefef; background-color: #fbfbfb;">
+                                                <div class="row">
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group ">
+                                                            <label>Select Hostgroup<span style="color: red;">*</span></label>
+                                                            <select class="form-control" id="selcaphostgrp" autocomplete="off" name="selcaphostgrp">
+                                                                <option ng-repeat="hgs in getallappval.hostgroups" value="{{hgs}}">{{hgs}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <div class="form-group">
+                                                            <label>Select Period<span style="color: red;">*</span></label>
+                                                            <select class="form-control" id="selcapreportpreriod"  autocomplete="off" name="selcapreportpreriod">
+                                                               <option ng-repeat="getrp in getperiodval.report_period" value="{{getrp}}">{{getrp}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-3">
+                                                        <button class="btn btn-primary" style=" margin-top: 23px;" ng-click="btngetcapreportval()">Get</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                    <div class="data_content">
+                                        <div class="">
+                                            <div class="">
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>                                                    
+                </div>
+            </div>
+            
+            <!-- host view chart pdf -->
+            <div class="modal fade " id="model_host_view_chart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg animated fadeInDown">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn btn-dark" data-dismiss="modal" aria-label="Close" style="float: right; margin-right: 10px;"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            <button class="btn btn-primary" ng-click="exportpie()" style="float: right; margin-right: 5px;"><i class="fa fa-download" aria-hidden="true"></i></button>
+                            <h4 class="modal-title" id="myModalLabel">Average Availability Report</h4>
+                        </div>
+                        <div class="modal-body clearfix" id="exfortavaihost" style="background-color: #fff;">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="row" style="margin: 0px 0px 5px;">
+                                        <div class="col-lg-6">
+                                            <img src="{{ brand_logo }}" alt="brand logo" style="margin-left: -25px;">
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <h4 style="text-align: right;">Date-Time : {{availrptgentime}}</h4>
+                                        </div>
+                                        <div class="col-lg-12">
+                                            <hr>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p>Hostgroup : <b>{{mainrepdata.hostgroup}}</b></p>
+                                            <p>Comment : <b>{{mainrepdata.comment}}</b></p>
+                                        </div>
+                                        <div class="col-lg-6">
+                                            <p>Start Date : <b>{{mainrepdata.start_date}}</b></p>
+                                            <p>End Date : <b>{{mainrepdata.end_date}}</b></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" >
+                                                    <h4 class="panel-title" style="display: block; float: none;">Average Host Availability </h4>
+                                                </div>
+                                                <div class="panel-body" style="padding: 0px;padding-top: 15px;">
+                                                    <div id="donuthostavail" style="width:500px;height: 260px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Host</th>
+                                                            <th>Up</th>
+                                                            <th>Down</th>
+                                                            <th>Unreachable</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Average</td>
+                                                            <td>{{availchartval.Host_Average.up}}</td>
+                                                            <td>{{availchartval.Host_Average.down}}</td>
+                                                            <td>{{availchartval.Host_Average.unreachable}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <div class="row">
+                                        <div class="col-md-12" >
+                                            <div class="panel panel-default">
+                                                <div class="panel-heading" >
+                                                    <h4 class="panel-title" style="display: block; float: none;">Average Service Availability </h4>
+                                                </div>
+                                                <div class="panel-body" style="padding: 0px;padding-top: 15px;">
+                                                    <div id="donutservavail" style="width:500px;height: 260px;"></div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Service</th>
+                                                            <th>Ok</th>
+                                                            <th>Warning</th>
+                                                            <th>Unknown</th>
+                                                            <th>Critical</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Average</td>
+                                                            <td>{{availchartval.Service_Average.ok}}</td>
+                                                            <td>{{availchartval.Service_Average.warning}}</td>
+                                                            <td>{{availchartval.Service_Average.critical}}</td>
+                                                            <td>{{availchartval.Service_Average.unknown}}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="chartmodalbtn" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                   </div>
+                </div>
+            </div>
+
+            <!-- host view table -->
+            <div class="modal fade " id="model_host_view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg animated fadeInDown" >
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="btn btn-dark" data-dismiss="modal" aria-label="Close" style="float: right; margin-right: 10px;"><i class="fa fa-times" aria-hidden="true"></i></button>
+                            <button id="exporthost" class="btn btn-primary" data-export="export" style="float: right; margin-right: 10px;"><i class="fa fa-download" aria-hidden="true"></i></button>
+                            <h4 class="modal-title" id="myModalLabel">Average Availability</h4>
+                        </div>
+                        <div class="modal-body clearfix">
+                            <div class="table-responsive">
+                                <h4>Availability Host Report</h4>
+                                <table class="table tblapplication" id="tablehostdata" style="margin-bottom: 0px; border: 1px solid #ebeef0;">
+                                    <caption style="display: none;">Availability Host Report</caption>
+                                    <thead style="background: #ebeef0;">
+                                        <tr class="discovery_header">                                                                     
+                                            <th>Host</th>
+                                            <th>UP</th>
+                                            <th>Down</th>
+                                            <th>Unreachable</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="det-row" ng-repeat="(key, value) in availtableval">
+                                            <td>{{key}}</td>
+                                            <td style=" background-color: #8bc34a52;">{{value.Status.up}}</td>
+                                            <td style=" background-color: #ef535040;" >{{value.Status.down}}</td>
+                                            <td style=" background-color: #9e9e9e0d;" >{{value.Status.unreachable}}</td>
+                                        </tr> 
+                                        <tr ng-show="availtableval.length == 0">
+                                            <td colspan="5" style="text-align:center;">
+                                                No Records Found
+                                            </td> 
+                                        </tr>                                                                
+                                    </tbody>
+                                </table> 
+                                <hr>
+                                <h4>Availability Service Report</h4>
+                                <table class="table tblapplication" id="tableservicedata" style="margin-bottom: 0px; border: 1px solid #ebeef0;">
+                                    <caption style="display: none;">Availability Service Report</caption>
+                                    <thead style="background: #ebeef0;">                                        
+                                        <tr class="discovery_header">                                                                     
+                                            <th width="30%">Host</th>
+                                            <th width="30%">Service</th>
+                                            <th width="10%">Ok</th>
+                                            <th width="10%">Warning</th>
+                                            <th width="10%">Critical</th>
+                                            <th width="10%">Unknown</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody> 
+                                        <tr ng-repeat="row in dataser">
+                                            <td>{{row.Host}}</td>
+                                            <td>{{row.Service}}</td>
+                                            <td style="background-color: #8bc34a52;" >{{row.Ok}}</td>
+                                            <td style="background-color: #f8edbb;" >{{row.Warning}}</td>
+                                            <td style="background-color: #ef535040;" >{{row.Critical}}</td>
+                                            <td style="background-color: #9e9e9e0d;" >{{row.Unknown}}</td>
+                                        </tr>                                                                
+                                    </tbody>
+                                    <tbody>
+                                        <tr ng-show="dataser.length == 0">
+                                            <td colspan="5" style="text-align:center;">
+                                                No Records Found
+                                            </td> 
+                                        </tr>                                                                
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="chartmodalbtn" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                   </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

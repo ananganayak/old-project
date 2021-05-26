@@ -1,0 +1,419 @@
+<div ng-controller="workflowController" class="workflowController">
+    <style>
+    .iconcheck{
+        position: relative;
+        float: right;
+        margin-right:  40px !important;
+        margin-top: -1px;
+    }
+    </style>
+    
+        <div id="workflow_list_container" style="height: 750px;">
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="margin: 7px 0px 4px;">
+                        <div class="pull-left  margin0">
+                            <h3 class="" style="margin-top: 2px; padding: 5px;margin-right: 15px;display: inline-block;">List of Workflow</h3>                    
+                        </div>
+                        <div class="pull-right">                              
+                            <div class="pull-right" style="margin-left: 10px;">
+                                <span data-test-id="pagination-details" ng-bind="span_page_status"></span> of <span ng-bind="span_total_count"></span>                           
+                                <div class="btn-group" style="margin-left: 5px;">
+                                    <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(workflowcurrentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                                    <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(workflowcurrentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                            <a href="" class="btn btn-sm btn-default pull-right" ng-click="create_workflow();"> 
+                                <i class="fa fa-plus" style="padding-right:5px;"></i> Create Workflow
+                            </a>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+    
+                    <div class="panel panel-white" style="margin-bottom: 50px;">
+                        <div class="panel-body" style="padding: 0px">
+                            <table class="table tbl_workflow_list" style="margin-bottom: 0px;">
+                                <thead style="background: #ebeef0;">
+                                    <tr>    
+                                        <th style="width:20px;"></th>  
+                                        <th>Workflow Name</th>
+                                        <th style="display:none;">Project Name</th>
+                                        <th style="display:none;">Department</th>
+                                        <th style="display:none;">Organization</th>                                
+                                        <th style="width:10%;text-align: center;">Actions</th>                                                
+                                    </tr>
+                                </thead>
+                                <tbody ng-repeat="row in currentWorkflowPageHistory" on-finish-render="workflow_finish_render()"> 
+                                    <tr>
+                                        <td class="icon_arrow">
+                                            <i class="fa fa-chevron-right" style="cursor: pointer;"></i>
+                                        </td>
+                                        <td>{{ row.process_name}}</td>
+                                        <td style="display: none;">{{ row.project_name}}</td>
+                                        <td style="display: none;">{{ row.department}}</td>
+                                        <td style="display: none;">{{ row.organization}}</td>
+                                        <td style="width:10%;text-align: center;" data-formname="{{row.cprocess_id}}" data-procname="{{ row.process_name}}" data-projname="{{ row.project_name}}">
+                                            <div class="btn-group">
+                                                <a class="media-action lead" href="" data-toggle="dropdown" aria-expanded="false"><i class="ion-android-more-vertical"></i></a>
+                                                <ul class="dropdown-menu dropdown-menu-right animated fadeIn" role="menu">
+                                                    <li><a href="#" data-name="{{ row.process_name}}" data-link="{{ generate_edit_link(row);}}" class="workflow_edit_link">Edit</a></li>
+                                                    <li><a href="#" ng-click="workflow_process_deploy(row.process_name)">Deploy Workflow</a></li>
+                                                    <li><a href="" data-name="{{ row.process_name}}" class="workflow_delete_link">Delete Workflow</a></li>
+                                                    <li><a href="" class="create_process_form">Create Workflow Form</a></li>
+                                                    <li><a href="" class="create_task_form">Create Task Form</a></li>
+                                                </ul>
+                                            </div>    
+                                        </td>
+                                        <!--<td style="text-align: center;">
+                                            <a href="" data-name="{{ row.process_name}}" data-link="{{ generate_edit_link(row);}}" class="workflow_edit_link" style="color: #9b2538;">
+                                                <i class="fa fa-pencil" style="font-size: 16px;"></i>
+                                            </a>                                    
+                                        </td>-->                            
+                                    </tr> 
+                                    <tr class="row_more_details">
+                                        <td colspan="6">
+                                            <table class="table table-bordered policyengine_details" style="margin-top: 6px; margin-bottom: 10px;">
+                                                <tr style="background: #eff5f9b8;">
+                                                    <!-- <th style="padding: 5px 10px !important;">Workflow Id</th> -->
+                                                    <th style="padding: 5px 10px !important;">Task Id</th>
+                                                    <th style="padding: 5px 10px !important;">Form Type</th>   
+                                                    <th style="padding: 5px 10px !important; text-align: center;">Action</th>
+                                                </tr>
+                                                <tr ng-repeat="subrow in row.forms">
+                                                    <!-- <td style="padding: 10px !important;">{{ subrow.processid }}</td> -->
+                                                    <td style="padding: 10px !important;">{{ subrow.taskid }}</td>
+                                                    <td style="padding: 10px !important;">{{ subrow.formType }}</td>
+                                                    <td style="padding: 10px !important; text-align: center;">
+                                                        <a href="" data-link="{{ generate_formedit_link(subrow); }}" class="form_edit" style="color: #9b2538;margin-right: 5px;" data-toggle="tooltip" data-original-title="Edit">
+                                                            <i class="fa fa-pencil" style="font-size: 16px;"></i>
+                                                        </a>
+                                                        <a href="" data-link="{{ generate_formdelete_link(subrow); }}" data-pid="{{ subrow.processid }}" data-tid="{{ subrow.taskid }}" data-ftype="{{ subrow.formType }}" class="form_delete" style="color: #9b2538;margin-left: 10px;" data-toggle="tooltip" data-original-title="Delete">
+                                                            <i class="fa fa-trash-o" style="font-size: 16px;"></i>
+                                                        </a>
+                                                    </td>
+                                                </tr>
+                                                <tr ng-show="row.forms.length == 0">
+                                                    <td colspan="4" style="text-align:center;">
+                                                        No Records Found
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tbody ng-show="workflow_list.length == 0">
+                                    <tr>
+                                        <td colspan="7" style="text-align:center; padding-bottom: 15px !important;">
+                                            No Records Found
+                                        </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+    
+                    <div style="margin-top: 10px; margin-bottom: 30px;">
+                        <div style="text-align: center;">
+                            <pagination class="pagination-sm"
+                                        ng-model="workflowcurrentPage"
+                                        total-items="workflow_list.length"
+                                        max-size="4"
+                                        ng-change="workflowpageselect(workflowcurrentPage)"
+                                        items-per-page="workflownumPerPage"
+                                        rotate="false"
+                                        previous-text="&lsaquo;" next-text="&rsaquo;"
+                                        boundary-links="true"></pagination>
+                            <div class="pull-right">                              
+                                <div class="pull-right" style="margin-left: 10px;">
+                                    <span data-test-id="pagination-details">show 
+                                        <div class="btn-group dropup" role="group">
+                                            <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                                    aria-expanded="false" style="padding: 5px;">
+                                                <span class="span_pagination_text">10</span>
+                                                <span class="caret"></span>
+                                            </button>
+                                            <ul class="dropdown-menu pagination_dropdown" role="menu">                                            
+                                                <li><a href="">10</a></li>
+                                                <li><a href="">20</a></li>
+                                                <li><a href="">30</a></li>
+                                                <li><a href="">50</a></li>
+                                                <li><a href="">100</a></li>
+                                            </ul>                                                 
+                                        </div>     
+                                    </span> of <span>entries per page</span>
+                                    </span>
+                                </div>                                   
+                            </div>
+                        </div>
+                    </div>
+    
+                </div>
+            </div>
+        </div>
+    
+        <div id="workflow_designer_container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div>
+                        <div class="pull-left  margin0">
+                            <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">Workflow Designer - <span class="span_project_name"></span></h3>                                        
+                        </div>
+                        <div class="pull-right">
+                            <a href="" class="btn btn-sm btn-default pull-right" ng-click="deploy_process();"> 
+                                <i class="fa fa-upload" style="padding-right:5px;"></i> Deploy Process
+                            </a>
+                            <a href="" class="btn btn-sm btn-default pull-right" style="margin-right: 5px;" ng-click="back_workflow_list();"> 
+                                <i class="fa fa-chevron-left" style="padding-right:5px;"></i> Back to Workflow List
+                            </a>
+                            <a href="" class="workflow_full_screen btn btn-default " style="padding: 4px 6px;  margin-right: 6px;" data-toggle="tooltip"  data-original-title="Full Screen">
+                                <img src="app/img/expand.png" style="width: 20px; height: 20px; "/>
+                            </a>
+                            <a href="" class="workflow_exit_screen btn btn-default" style="padding: 4px 6px;  margin-right: 6px;" data-toggle="tooltip" data-original-title="Exit Full Screen">
+                                <img src="app/img/exitfullscreen.png" style="width: 20px; height: 20px; "/>
+                            </a>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="panel panel-white" style="margin-bottom: 0px;">
+                        <div class="panel-body" style="padding:0px">
+                            <div style="position: relative;">
+                                <iframe id="iframeworkflowdesigner" src="" style="width:100%; "></iframe>
+                            </div>                        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+       
+        <div id="form_designer_container" style="">
+            <div class="row">
+                <div class="col-md-12">
+                    <div style="margin-bottom: 10px; margin-top: 6px;">
+                        <div class="pull-left  margin0">
+                            <form class="form-inline">
+                                <div class="form-group" style="display: none;">
+                                    <label for="txtprocessversion">Process Version</label>
+                                    <input type="text" id="txtprocessversion" name="txtprocessversion" class="form-control" style="margin-right: 10px;"/>
+                                </div>
+                                <div class="form-group">
+                                    <label for="txtprocessid">Workflow Id</label>
+                                    <input type="text" id="txtprocessid" name="txtprocessid" class="form-control" style="margin-right: 10px;width:300px;"/>
+                                </div> 
+                                <div class="form-group task_field">
+                                    <label for="txttaskid">Task Id</label>
+                                    <!--<input type="text" id="txttaskid" name="txttaskid" class="form-control" style="margin-right: 10px;width:300px;"/>-->
+                                    <select id="seltaskid" name="txttaskid" class="form-control" style="margin-right: 10px;width:300px;">
+                                        <!--<option value="">Select Task</option>-->
+                                        <option  ng-repeat="row in task_list">{{ row }}</option>
+                                    </select>
+                                </div> 
+                            </form>
+                        </div>
+                        <div class="pull-right">
+                            <a href="" id="btnformsave" class="btn btn-sm btn-default pull-right"> 
+                                <i class="fa fa-save" style="padding-right:5px;"></i> Save
+                            </a>
+                            <a href="" id="btndesignerback" class="btn btn-sm btn-default pull-right" style="margin-right: 5px;"> 
+                                <i class="fa fa-chevron-left" style="padding-right:5px;"></i> Back to Workflow List
+                            </a>
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                </div>
+                <div class="col-md-12">                               
+                    <div style="position: relative;">
+                        <div id="build-wrap"></div>
+                    </div>                                
+                </div>
+            </div>
+        </div>
+        
+        <div class="modal side-form-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg animated fadeInRight" style="width: 400px;">
+                <div class="modal-content" style="height:100%;">
+                    <div class="modal-header">                       
+                        <h4 class="modal-title" id="myLargeModalLabel" style="font-size: 24px;">New Workflow</h4>
+                    </div>
+                    <div class="modal-body" style="padding:0px;padding-top: 85px;">
+                        <div class="slimscroll" style="padding: 0px 20px 20px 20px;">
+                            <form class="form-element" name="formworkflow" id="formworkflow">
+                                <div class="form-group" style="display: none;">   
+                                    <label for="exampleInputEmail1">Organization <span style="color: red;">*</span></label>
+                                    <select class="form-control" id="selorganization" name="selorganization" style="padding-left: 0px !important;">                                                                    
+                                        <option value="AutoIntelli">AutoIntelli</option>                                       
+                                    </select>
+                                </div>
+                                <div class="form-group" style="display: none;">   
+                                    <label for="exampleInputEmail1">Department <span style="color: red;">*</span></label>
+                                    <select class="form-control" id="seldepartment" name="seldepartment" style="padding-left: 0px !important;">
+                                        <option value="automation">Automation</option>                                       
+                                    </select>
+                                </div>
+                                <div class="form-group has-feedback" style="display: none;">  
+                                    <label for="exampleInputEmail1">Project <span style="color: red;">*</span></label>
+                                    <!--<input type="text" id="txtprojectname" name="txtprojectname" class="form-control" style="padding-left: 0px !important;" placeholder="Project">-->
+                                    <select class="form-control" id="txtprojectname" name="txtprojectname" style="padding-left: 0px !important;">
+                                        <option value="automation">Automation</option>                                       
+                                    </select>
+                                </div>
+                                <div class="form-group has-feedback">  
+                                    <label for="exampleInputEmail1">Workflow Name <span style="color: red;">*</span></label>
+                                    <input type="text" id="txtprocessname" name="txtprocessname" class="form-control" style="padding-left: 0px !important;" placeholder="Workflow Name">
+                                </div>
+                                <div class="form-group has-feedback">  
+                                    <label for="exampleInputEmail1">Description</label>
+                                    <textarea class="form-control" id="txtprocesdesc" name="txtprocesdesc" style="padding-left: 0px !important;height: 75px;" placeholder="Description" autocomplete="off"></textarea>                                    
+                                </div>
+                                <div class="form-group">      
+                                    <label for="exampleInputEmail1">Category <span style="color: red;">*</span></label>
+                                    <select class="form-control has-feedback" id="selprocesscatagory" ng-model="selprocesscatagory" name="selprocesscatagory" style="padding-left: 0px !important;">                                                                    
+                                        <option value="">-- select --</option>    
+                                        <option value="New Category">Add New Category</option>     
+                                        <option ng-repeat="cl in catlist" value="{{cl}}">{{cl}}</option>        
+                                               
+                                    </select>
+                                </div>
+                                <div class="form-group has-feedback">  
+                                    <label for="exampleInputEmail1">Manual Effort (in mins) <span style="color: red;">*</span></label>
+                                    <input type="text" id="txtmanualeffort" name="txtmanualeffort" class="form-control" style="padding-left: 0px !important;" placeholder="Manual Effort">
+                                </div>
+                                <div class="form-group has-feedback">  
+                                    <label for="exampleInputEmail1">Cost / Hour (in INR) <span style="color: red;">*</span></label>
+                                    <input type="text" id="txtcosthour" name="txtcosthour" class="form-control" style="padding-left: 0px !important;" placeholder="Cost / Hour">
+                                </div>
+                                <div class="form-group has-feedback" ng-show="selprocesscatagory == 'New Category'">  
+                                    <label for="exampleInputEmail1">Add Category Name<span style="color: red;">*</span></label>
+                                    <input type="text" id="txtprocesscatagory" name="txtprocesscatagory" class="form-control" style="padding-left: 0px !important;" placeholder="Workflow Name">
+                                </div>
+                                <div class="form-group processiconpanel">
+                                    <label for="exampleInputEmail1">Icon</label>
+                                    <!-- <select class="form-control" id="selprocessicon" name="selprocessicon" data-live-search="true" style="padding-left: 0px !important;">                                    
+                                    </select> -->
+                                    <p>
+                                        <img style="width: 55px;" src="{{sleiconval}}" class="showicon" >
+                                        <a class="image-add-btn" ><i class="fa fa-plus" aria-hidden="true"></i> </a>
+                                        <a class="image-remove-btn btn-xs" ><i class="fa fa-times" aria-hidden="true"></i></a>
+                                        <!-- <a class="btn btn-primary image-change-btn" ><i class="fa fa-exchange" aria-hidden="true"></i></a> -->
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnworkflowclose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" ng-click="save_workflow();">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+        <div class="modal img-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg animated fadeInRight" style="width: 100%;">
+                <div class="modal-content" style="height:100%;">
+                    <div class="modal-header">                       
+                        <h4 class="modal-title" id="myLargeModalLabel" style="font-size: 24px;">Select Icon</h4>
+                    </div>
+                    <div class="modal-body" style="padding:0px;padding-top: 85px;">
+                        <div class="slimscroll" style="padding: 0px 20px 20px 20px;">
+                            <div  class="tab-struct custom-tab-1 mt-40">
+                                <ul role="tablist" class="nav nav-tabs" id="myiconTabs">    
+                                    <li class="active">
+                                        <a data-toggle="tab" id="icon_tab01" role="tab" data-target="#tab_icon_1" aria-expanded="false">ACTIVE DIRECTORY</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" id="icon_tab02" role="tab" data-target="#tab_icon_2" aria-expanded="false">MICROSOFT EXCHANGE</a>
+                                    </li>
+                                    <li>
+                                        <a data-toggle="tab" id="icon_tab03" role="tab" data-target="#tab_icon_3" aria-expanded="false">CENTOS / RHEL </span></a>
+                                    </li> 
+                                    <li>
+                                        <a data-toggle="tab" id="icon_tab04" role="tab" data-target="#tab_icon_4" aria-expanded="false">MICROSOFT WINDOWS </span></a>
+                                    </li> 
+                                    <li>
+                                        <a data-toggle="tab" id="icon_tab05" role="tab" data-target="#tab_icon_5" aria-expanded="false">MYSQL </span></a>
+                                    </li> 
+                                    <li>
+                                        <a data-toggle="tab" id="icon_tab06" role="tab" data-target="#tab_icon_6" aria-expanded="false">POSTGRES </span></a>
+                                    </li> 
+                                    <li>
+                                        <a data-toggle="tab" id="icon_tab07" role="tab" data-target="#tab_icon_7" aria-expanded="false">PROXMOX </span></a>
+                                    </li> 
+                                </ul>
+                                <div class="tab-content" id="myTabiconContent">   
+                                    <div id="tab_icon_1" class="tab-pane fade active in" role="tabpanel">
+                                        <div class="col-lg-12" >
+                                            <div class="col-lg-2" style="margin: 15px auto; height: 150px" ng-repeat="adicon in imgsrc | filter:{category:'ACTIVE DIRECTORY'} ">
+                                                <a href="" ng-click="imgvalget(adicon.icon)"><span>{{adicon.name}}</span><br><br>
+                                                    <img style="width:50%" src="{{adicon.icon}}">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_icon_2" class="tab-pane fade" role="tabpanel">
+                                        <div class="col-lg-12" >
+                                            <div class="col-lg-2" style="margin: 15px auto; height: 150px" ng-repeat="adicon in imgsrc | filter:{category:'MICROSOFT EXCHANGE'} ">
+                                                <a href="" ng-click="imgvalget(adicon.icon)"><span>{{adicon.name}}</span><br><br>
+                                                    <img style="width:50%" src="{{adicon.icon}}">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_icon_3" class="tab-pane fade" role="tabpanel">
+                                        <div class="col-lg-12" >
+                                            <div class="col-lg-2" style="margin: 15px auto; height: 150px" ng-repeat="adicon in imgsrc | filter:{category:'CENTOS / RHEL'} ">
+                                                <a href="" ng-click="imgvalget(adicon.icon)"><span>{{adicon.name}}</span><br><br>
+                                                    <img style="width:50%" src="{{adicon.icon}}">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_icon_4" class="tab-pane fade" role="tabpanel">
+                                        <div class="col-lg-12" >
+                                            <div class="col-lg-2" style="margin: 15px auto; height: 150px" ng-repeat="adicon in imgsrc | filter:{category:'MICROSOFT WINDOWS'} ">
+                                                <a href="" ng-click="imgvalget(adicon.icon)"><span>{{adicon.name}}</span><br><br>
+                                                    <img style="width:50%" src="{{adicon.icon}}">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_icon_5" class="tab-pane fade" role="tabpanel">
+                                        <div class="col-lg-12" >
+                                            <div class="col-lg-2" style="margin: 15px auto; height: 150px" ng-repeat="adicon in imgsrc | filter:{category:'MYSQL'} ">
+                                                <a href="" ng-click="imgvalget(adicon.icon)"><span>{{adicon.name}}</span><br><br>
+                                                    <img style="width:50%" src="{{adicon.icon}}">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_icon_6" class="tab-pane fade" role="tabpanel">
+                                        <div class="col-lg-12" >
+                                            <div class="col-lg-2" style="margin: 15px auto; height: 150px" ng-repeat="adicon in imgsrc | filter:{category:'POSTGRES'} ">
+                                                <a href="" ng-click="imgvalget(adicon.icon)"><span>{{adicon.name}}</span><br><br>
+                                                    <img style="width:50%" src="{{adicon.icon}}">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="tab_icon_7" class="tab-pane fade" role="tabpanel">
+                                        <div class="col-lg-12" >
+                                            <div class="col-lg-2" style="margin: 15px auto; height: 150px" ng-repeat="adicon in imgsrc | filter:{category:'PROXMOX'} ">
+                                                <a href="" ng-click="imgvalget(adicon.icon)"><span>{{adicon.name}}</span><br><br>
+                                                    <img style="width:50%" src="{{adicon.icon}}">
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btnimgmodalclose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    
+    </div>

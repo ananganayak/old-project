@@ -1,0 +1,237 @@
+<div class="dashboardcontainer" ng-controller="dashboardExecSummaryController" ng-init="init()">
+    <div class="panel panel-default" style="box-shadow: none;border: 1px solid #ddd !important;margin-bottom: 4px;">
+        <div class="panel-heading" style="padding: 5px 20px;height: auto;border-bottom:1px solid #ddd !important;">Filter</div>
+        <div class="panel-body executive_filter_panel" style="padding: 5px;">
+            <div style="text-align: center;">
+                <button type="button" class="btn btn-default btn-rounded btn-info" data-val="all">All</button>
+                <button type="button" class="btn btn-default btn-rounded" data-val="today">Today</button>
+                <button type="button" class="btn btn-default btn-rounded" data-val="yesterday">Yesterday</button>
+                <button type="button" class="btn btn-default btn-rounded" data-val="this_week">This Week</button>
+                <button type="button" class="btn btn-default btn-rounded" data-val="this_month">This Month</button>
+                <button type="button" class="btn btn-default btn-rounded" data-val="last_month">Last Month</button>                
+                <button type="button" class="btn btn-default btn-rounded date_range" data-val="date_range">Date Range</button>
+            </div>
+            <!--<div style="text-align: center;margin-top: 10px;" class="executive_range_panel">
+                <input type="text" id="txtexecutivestartdate" class="form-control" placeholder="Start Date" ng-model="execstartdate" style="background-color: #ffffff;"/>
+                <input type="text" id="txtexecutiveenddate" class="form-control" placeholder="End Date" ng-model="execenddate" style="margin-left:25px;background-color: #ffffff;"/>
+            </div>-->
+        </div>
+    </div>      
+    <div class="row" style="margin-bottom:6px;">
+        <div class="col-md-12 summary_content_panel">
+            <div class="row">
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" >
+                    <div class="info-box" style="border-left:0px;">
+                        <span class="info-box-icon bg-blue" style="float: left;"><i class="fa fa-warning"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number events_total">0</span>
+                            <span class="info-box-text " title="Total Events">Total Events</span>
+                        </div>                                                    
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12">
+                    <div class="info-box" style="border-left:0px;">
+                        <span class="info-box-icon bg-success" style="float: left;"><i class="fa fa-volume-up"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number alerts_total">500</span>
+                            <span class="info-box-text" title="Total Alerts">Total Alerts</span>
+                        </div>                                                    
+                    </div>
+                </div>  
+                <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12" >
+                    <div class="info-box" style="border-left:0px;">
+                        <span class="info-box-icon bg-purple" style="float: left;"><i class="fa fa-file"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number tickets_total">500</span>
+                            <span class="info-box-text" title="Total Tickets" >Total Tickets</span>
+                        </div>                                                    
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                    <div class="info-box" style="border-left:0px;">
+                        <span class="info-box-icon bg-light-blue" style="float: left;"><i class="fa fa-gears"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number automation_total">500</span>
+                            <span class="info-box-text" title="Total BOTs Executed">Total BOTs Executed</span>
+                        </div>                                                    
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12" >
+                    <div class="info-box">
+                        <span class="info-box-icon bg-yellow" style="float: left;"><i class="fa fa-wrench"></i></span>
+                        <div class="info-box-content">
+                            <span class="info-box-number workflow_total">0</span>
+                            <span class="info-box-text" title="Total Workflows Executed">Total Workflows Executed</span>
+                        </div>                                                    
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12 chart-main-div">
+            <div class="row">
+                <div class="chart-div-1 col-md-4 col-sm-12 col-xs-12 col-lg-4">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <h4 class="panel-title">Alert Analysis</h4>
+                            </div>
+                            <div class="panel-body" >
+                                <div id="barchart1" style="width:100%;height: 200px;"></div>
+                                <div class="barchart1_no_resord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-div-2 col-md-4 col-sm-12 col-xs-12 col-lg-4">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <h4 class="panel-title">BOT Resolution Type</h4>
+                            </div>
+                            <div class="panel-body" >
+                                <div id="barchart2" style="width:100%;height: 200px;display: none;"></div>
+                                <div class="barchart2_no_resord" style="min-height: 200px;">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-div-3 col-md-4 col-sm-12 col-xs-12 col-lg-4">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <h4 class="panel-title">Workflow Analysis</h4>
+                            </div>
+                            <div class="panel-body" >
+                                <div id="barchart3" style="width:100%;height: 200px;"></div>
+                                <div class="barchart3_no_resord" style="min-height: 200px;">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row executive_donut_container_one">
+                <div class="chart-div-1 col-md-4 col-sm-12 col-xs-12 col-lg-4">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <h4 class="panel-title">Alert Status</h4>
+                            </div>
+                            <div class="panel-body executive_alert_panel" >
+                                <div class="executive_alert_content">
+                                    <div id="donutexecalert" style="width:100%;height: 200px;"></div>
+                                </div>
+                                <div class="executive_alert_no_resord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-div-2 col-md-4 col-sm-12 col-xs-12 col-lg-4">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <h4 class="panel-title">Ticket Status</h4>
+                            </div>
+                            <div class="panel-body executive_ticket_panel">
+                                <div class="executive_ticket_content">
+                                    <div id="donutexectickets" style="width:100%;height: 200px;"></div>
+                                </div>
+                                <div class="executive_ticket_no_resord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-div-3 col-md-4 col-sm-12 col-xs-12 col-lg-4">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <h4 class="panel-title">BOT Status</h4>
+                            </div>
+                            <div class="panel-body executive_automation_panel" >
+                                <div class="executive_automation_content">
+                                     <div id="donutexecautomation" style="width:100%;height: 200px;"></div>
+                                </div>
+                                <div class="executive_automation_no_resord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="row executive_donut_container_two" >
+                <div class="chart-div-1 col-md-4 col-sm-12 col-xs-12 col-lg-4">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading">
+                                <h4 class="panel-title">Top 5 KPIs</h4>
+                            </div>
+                            <div class="panel-body executive_top5component_panel" >
+                                <div class="executive_top5component_content">
+                                    <div id="donutexectop5component" style="width:100%;height: 200px;"></div>
+                                </div>
+                                <div class="executive_top5component_no_resord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chart-div-2 col-md-4 col-sm-12 col-xs-12 col-lg-4">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <h4 class="panel-title">Top 5 BOTs</h4>
+                            </div>
+                            <div class="panel-body executive_top5automation_panel" >
+                                <div class="executive_top5automation_content">
+                                    <div id="donutexectop5automation" style="width:100%;height: 200px;"></div>
+                                </div>
+                                <div class="executive_top5automation_no_resord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12 chart-div-12">
+                    <div class="panel info-box panel-white">
+                        <div class="pietwo_panel">
+                            <div class="panel-heading" >
+                                <div class="pull-left  margin0">
+                                    <h4 class="panel-title">Suppression Trent - Events to Alerts</h4>
+                                </div>
+                                <div class="pull-right">
+                                    <div class="btn-group" style="display: none;">
+                                        <button type="button" class="btn btn-default active">Today</button>
+                                        <button type="button" class="btn btn-default">Weekly</button>
+                                        <button type="button" class="btn btn-default">Monthly</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-body" >
+                                <div class="executive_suppression_content">
+                                    <div id="areachart1" style="width:100%;height: 240px;"></div>
+                                </div>                        
+                                <div class="executive_suppression_no_resord">
+                                    <span style="display: inline-block;margin-top: 70px;">No Data Found!</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+<div class="csAnalyticsController" ng-controller="csAnalyticsController" ng-init="init()">
+    <div class="row">
+        <style>
+            #datatablepanel{
+                overflow: hidden;
+                overflow-y: scroll;
+            }
+        </style>
+        <div class="col-md-12 monitorpage-content">
+            <div class="row">
+                <div class="col-md-3 n-menu">
+                    <div class="panel panel-default" id="hostname" style="margin-bottom: 0px;">
+                        <div class="panel-heading">Auto-Scale List 
+                            <span><a href="" ng-click="showSearch()"><i class="fa fa-search" aria-hidden="true"></i></a></span>
+                            <p ng-hide="showsearchtxt"  style="margin-top: 7px;"><input type="text" class="form-control" id="txtshowsearch" ng-model="searchText" name="search" value="" placeholder="Search ..." autocomplete="off"></p>
+                        </div>
+                        <div class="panel-body" id="hostbody">
+                            <div class="value-row row" data-key="{{row[1]}}" ng-repeat="row in aslist" >
+                                <a href="" class="btn btn-link" style="float: left;" ng-click="getChartDetFn(row[1])">{{row[1]}}</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9" >
+                    <div class="col-lg-12" style="text-align: right;">
+                        <button class="btn btn-default" ng-show="showchartdiv"  ng-click="closeformfn()">Cancel</button>
+                        <button class="btn btn-success" ng-show="showchartdiv"  ng-click="csvChartdownload(1)">Report 1 <i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+                        <button class="btn btn-success" ng-show="showchartdiv"  ng-click="csvChartdownload(2)">Report 2 <i class="fa fa-file-excel-o" aria-hidden="true"></i></button>
+                        <button class="btn btn-primary" ng-show="showchartdiv"  ng-click="pdfChartdownload()">PDF <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                        <button class="btn btn-primary" ng-click="csvardownload()">Audit Report <i class="fa fa-file-pdf-o" aria-hidden="true"></i></button>
+                    </div>
+                    <div class="col-lg-12" ng-show="showchartdiv" >
+                        <div class="panel panel-white" id="analyticspdf" style="margin-bottom: 0px;">
+                            <div class="panel-body" style="padding: 0px" >
+                                <div id="csachart1" style="height: 400px; width: 1200px;"></div>
+                                <hr>
+                                <div id="csachart2" style="height: 400px; width: 1200px;"></div>
+                            </div> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,264 @@
+<div class="monitoringdcmdashController" ng-controller="monitoringdcmdashController" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12  monitorpage-content" style="min-height: 500px;">
+            <div class="row">
+                <form name="Formmonitordcm" id="Formmonitordcm">
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Config Name</label>
+                            <select class="form-control" id="seldcmconfigname" name="seldcmconfigname" ng-model="seldcmconfignm" ng-change="getdatacenterfn()">
+                                <option value=""> -- Select -- </option>
+                                <option value="{{cn.dbname}}" ng-repeat="cn in getconfignameval">{{cn.dbname}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Data Centers</label>
+                            <select class="form-control"  id="seldcmdatacenter" name="seldcmdatacenter" ng-model="seldcmdatacntr"  ng-click="getovaralldashdetfn()">
+                                <option value=""> -- Select -- </option>
+                                <option value="{{dc[0]}}" ng-repeat="dc in getdcval">{{dc[1]}}</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-6"   ng-show="dashboardpage">
+                        <div class="form-group" style="width: 150px; float: right;">
+                            <label>Auto Refresh</label>
+                            <select class="form-control"  id="seldcmaftime" name="seldcmaftime" ng-model="seldcmaftime"  ng-change="getdcmaftimefn()">
+                                <option value=""> -- Select -- </option>
+                                <option value="Off"> Off </option>
+                                <option value="30Sec"> 30 Seconds </option>
+                                <option value="1Min"> 1 Minutes</option>
+                                <option value="2Min"> 2 Minutes</option>
+                            </select>
+                        </div>
+                    </div>
+                    <!-- <div class="col-lg-3">
+                        <div class="form-group">
+                            <label>Start Date <span style="color: red;">*</span></label>
+                            <input type="text" class="form-control datepickers" name="txtdcmstartdate" id="txtdcmstartdate">
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <button class="btn btn-primary" style=" margin-top: 23px;">Get</button>
+                    </div> -->
+                </form>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-default"  ng-show="dashboardpage">
+                        <div class="panel-heading">Inventory</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">{{getdcinventoryval.details.resourceCategories[0].categoryType}}</div>
+                                        <div class="panel-body">
+                                            <div class="col-lg-2"><i class="fa fa-2x fa-microchip" aria-hidden="true"></i></div>
+                                            <div class="col-lg-10">
+                                                <p>{{getdcinventoryval.details.resourceCategories[0].categoryProperties[0].categoryPropertyName}} : <b> {{getdcinventoryval.details.resourceCategories[0].categoryProperties[0].categoryPropertyValue}}</b></p>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">{{getdcinventoryval.details.resourceCategories[1].categoryType}}</div>
+                                        <div class="panel-body">
+                                            <div class="col-lg-2"><i class="fa fa-2x fa-database" aria-hidden="true"></i></div>
+                                            <div class="col-lg-10">
+                                                <p>{{getdcinventoryval.details.resourceCategories[1].categoryProperties[0].categoryPropertyName}} : <b> {{getdcinventoryval.details.resourceCategories[1].categoryProperties[0].categoryPropertyValue}}</b></p>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">{{getdcinventoryval.details.resourceCategories[2].categoryType}}</div>
+                                        <div class="panel-body">
+                                            <div class="col-lg-2"><i class="fa fa-2x fa-archive" aria-hidden="true"></i></div>
+                                            <div class="col-lg-10">
+                                                <p>{{getdcinventoryval.details.resourceCategories[2].categoryProperties[0].categoryPropertyName}} : <b> {{getdcinventoryval.details.resourceCategories[2].categoryProperties[0].categoryPropertyValue}}</b></p>
+                                            </div>
+                                        </div>
+                                    </div> 
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Support Device</div>
+                                        <div class="panel-body">
+                                            <div class="col-lg-2"><i class="fa fa-2x fa-laptop" aria-hidden="true"></i></div>
+                                            <div class="col-lg-10"><p>Count : <b>{{getdcinventoryval.supportedDeviceCount}}</b></p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Total Device</div>
+                                        <div class="panel-body">
+                                            <div class="col-lg-2"><i class="fa fa-2x fa-laptop" aria-hidden="true"></i></div>
+                                            <div class="col-lg-10"><p>Count : <b>{{getdcinventoryval.totalDeviceCount}}</b></p></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Max Inlet Temp Value</div>
+                                        <div class="panel-body">
+                                            <div class="col-lg-2"><i class="fa fa-2x fa-thermometer-empty" aria-hidden="true"></i></div>
+                                            <div class="col-lg-10">
+                                                <p>DC Name : <b>{{getdcmaxtempval.dcName}}</b></p>
+                                                <p>Max Temperature : <b>{{getdcmaxtempval.maxTemperature}}</b></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">Power Capacity Value</div>
+                                        <div class="panel-body">
+                                            <div class="col-lg-2"><i class="fa fa-2x fa-battery-half" aria-hidden="true"></i></div>
+                                            <div class="col-lg-10">
+                                                <p>Power Capacity : <b>{{getdcpowercapacityval.powerCapacity}}</b></p>
+                                                <p>Power Used : <b>{{getdcpowercapacityval.powerUsed}}</b></p>
+                                            </div> 
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="panel panel-default"  ng-show="dashboardpage">
+                        <div class="panel-heading">Health Summary</div>
+                        <div class="panel-body">
+                            <div class="col-lg-5">
+                                <div id="piechart" style="height: 300px;"></div>
+                            </div>
+                            <div class="col-lg-7">
+                                <div class="col-lg-6" ng-repeat="row in getdchealthval.components">
+                                    <p>{{row.component}} : <b>{{row.count}}</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default"  ng-show="dashboardpage">
+                        <div class="panel-heading">Power</div>
+                        <div class="panel-body">
+                            <div id="powerchartline" style="height: 250px; width : 700px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="panel panel-default"  ng-show="dashboardpage">
+                        <div class="panel-heading">Thermal</div>
+                        <div class="panel-body">
+                            <div id="thermalchartline" style="height: 250px; width : 700px"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12">
+                    <div class="panel panel-default"  ng-show="dashboardpage">
+                        <div class="panel-heading">Events</div>
+                        <div class="panel-body">
+                            <div class="row">
+                                <div class="col-lg-1">
+                                    <label>Start Date <span style="color: red;">*</span></label>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control datepickers" name="txtdcmstartdate" id="txtdcmstartdate" ng-model="txtdcmstartdate">
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <button class="btn btn-primary" ng-click="geteventdetfn(1)">Get</button>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="table-responsive">
+                                    <table class="table alert_table" style="margin-bottom: 0px;margin-top: 15px;">
+                                        <thead style="background: #ebeef0;">
+                                            <tr>                                                                     
+                                                <th width="5%">Severity</th>
+                                                <th width="15%">Entity </th>
+                                                <th width="5%">Event ID</th>
+                                                <th width="15%">Event Type</th>
+                                                <th width="10%">Timestamp</th>                                                                     
+                                                <th width="10%">Asset Tag</th>
+                                                <th width="20%">Description</th>
+                                                <th width="10%">Category</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="row in dcmevent_list_res.dataList">
+                                                <td width="5%">
+                                                    <span style="color: #15c2f6;" ng-show="row.severity == 'INFORMATIVE'"><i class="fa fa-lg fa-info-circle" aria-hidden="true"></i></span>
+                                                    <span style="color: #f6d415;" ng-show="row.severity == 'WARNING'"><i class="fa fa-lg fa-exclamation-triangle" aria-hidden="true"></i></span>
+                                                </td>
+                                                <td width="15%">{{row.entityName}}<span hidden>{{row.entityId}}</span></td>
+                                                <td width="5%">{{row.eventId}}</td>
+                                                <td width="15%">{{row.eventType}}</td>
+                                                <td width="10%">{{row.timestamp}}</td>
+                                                <td width="10%">{{row.assetTag}}</td>
+                                                <td width="20%"><p id="table-scrollbar"><code>{{row.description}}</code></p></td>
+                                                <td width="10%">{{row.eventCategory}}</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div style="text-align: center;">
+                                    <div class="pull-left">
+                                        <span data-test-id="pagination-details" ng-bind="span_page_status"></span> 
+                                        of <span ng-bind="span_total_count"></span>  
+                                        <div class="btn-group user_nav_btn" style="margin-left: 5px;">
+                                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(dcmeventcurrentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(dcmeventcurrentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                                        </div>
+                                    </div>
+                                    <nav aria-label="Page navigation example" style="display: inline-block;margin-left: 135px;">
+                                        <pagination class="pagination-sm"
+                                                    ng-model="dcmeventcurrentPage"
+                                                    total-items="totalitemCount"
+                                                    max-size="5"
+                                                    ng-change="PaginationLink(dcmeventcurrentPage)"
+                                                    items-per-page="dcmeventnumPerPage"
+                                                    rotate="false"
+                                                    previous-text="&lsaquo;" next-text="&rsaquo;"
+                                                    boundary-links="true"></pagination>
+                                    </nav>   
+                                    <div class="pull-right">                              
+                                        <div class="pull-right" style="margin-left: 10px;">
+                                            <span data-test-id="pagination-details">show 
+                                                <div class="btn-group dropup" role="group">
+                                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                                            aria-expanded="false" style="padding: 5px;">
+                                                        <span class="span_pagination_text">10</span>
+                                                        <span class="caret"></span>
+                                                    </button>
+                                                    <ul class="dropdown-menu pagination_dropdown" role="menu">                                         
+                                                        <li><a href="">10</a></li>
+                                                        <li><a href="">25</a></li>
+                                                        <li><a href="">50</a></li>
+                                                        <li><a href="">100</a></li>
+                                                        <li><a href="">250</a></li>
+                                                        <li><a href="">500</a></li>
+                                                    </ul>                                                 
+                                                </div>     
+                                            </span> of <span>entries per page</span>
+                                            </span>
+                                        </div>                                   
+                                    </div> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

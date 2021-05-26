@@ -1,0 +1,49 @@
+{
+  "Data": {
+    "Plan A": {
+      "Reboot": {
+        "Reboot": "Yes", 
+        "Timeout": 1200
+      }, 
+      "blacklist": [
+        "KB12345677"
+      ], 
+      "servergroup": [
+        "WebServer", 
+        "TerminalServers", 
+        "DBServers"
+      ], 
+      "updates": [
+        "Application", 
+        "Connectors", 
+        "Critical Updates"
+      ], 
+      "whitelistlist": [
+        "KB123456377"
+      ]
+    }, 
+    "Plan B": {
+      "Reboot": {
+        "Reboot": "Yes", 
+        "Timeout": 1200
+      }, 
+      "blacklist": [
+        "KB12345677"
+      ], 
+      "servergroup": [
+        "WebServer", 
+        "TerminalServers", 
+        "DBServers"
+      ], 
+      "updates": [
+        "Application", 
+        "Connectors", 
+        "Critical Updates"
+      ], 
+      "whitelistlist": [
+        "KB123456377"
+      ]
+    }
+  }, 
+  "Status": "Success"
+}

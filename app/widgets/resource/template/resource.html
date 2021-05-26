@@ -1,0 +1,118 @@
+<div class="resourcecontainer" ng-controller="resourceController" ng-init="init()">
+
+   <div class="row" style="margin-bottom:15px;">
+      <div class="pull-left"> 
+         <div class="col-lg-12">
+               <input type="text" class="form-control filter_searchbox"  ng-model="searchtxt" name="search" value="" placeholder="Search ..." autocomplete="off" style="height: 34px; border-radius: 0px;"/>  
+            <!-- <br> -->
+            <!-- <br> -->
+         </div>
+      </div>
+      <div class="pull-right">
+         <div class="col-lg-12">
+            <a class="btn btn-sm btn-default pull-right btnnewresourceadd" ><i class="fa fa-plus" style="padding-right:5px;" aria-hidden="true"></i> ADD</a>
+            <!-- <br>
+            <br> -->
+         </div>
+      </div>
+   </div>
+   <div class="panel panel-white">
+      <div class="panel-body" style="padding: 0px">
+         <table class="table tblresource" style="margin-bottom: 0px; border: 1px solid #ebeef0;">
+            <thead style="background: #ebeef0;">
+               <tr class="discovery_header">                                                                     
+                  <th>Resource Name</th>
+                  <th>Resource Class</th>
+                  <th>Actions</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr class="det-row" ng-repeat="resview in getresopdetlist | filter : searchtxt" ng-init="$last && finished()">
+                  <td>
+                     <p class="hidden">{{resview.resource_id}}</p>
+                     {{resview.resource_name}}                                                         
+                  </td>
+                  <td>{{resview.resource_class}}</td>
+                  <td>
+                     <a href="" class="btn-update btnresourceupdatemodal" ng-click="upresDetget(resview.resource_id)" style="color:#12AFCB; font-size: 24px;" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil " aria-hidden="true"></i></a> 
+                     <a href="" class="btn-detach" ng-click="btnresourcedelete(resview.resource_name)" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" data-toggle="tooltip" data-original-title="Delete" ><i class="fa fa-trash-o " aria-hidden="true"></i></a>
+                  </td>
+               </tr>  
+               <tr  ng-show="getresopdetlist.length == 0">
+                  <td colspan="5" style="text-align:center;">
+                     No Records Found
+                  </td> 
+               </tr>                                                               
+            </tbody>
+         </table>
+      </div>                                                    
+   </div>
+   
+   <!-- update cred Detail modal -->
+   <div class="modal fade " id="modelresourceupdatedet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog animated fadeInDown">
+         <div class="modal-content">
+            <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Update Resource Details</h4>
+            </div>
+            <div class="modal-body clearfix">
+               <div class="smpt_form_container">
+                  <form id="updateresourceForm" name="updateresourceForm" class="ng-pristine ng-valid"   novalidate="novalidate">
+                     <div class="form-group">
+                           <label>Resource Name</label> 
+                           <input type="text"  class="form-control" disabled id="txtupdateresourcename"  name="txtupdateresourcename" ng-model="updateviewmod.resource_name" placeholder="Enter The Application Name">
+                     </div>
+                     <div class="form-group ">
+                        <label for="txtsmtpip">Resource Class <span style="color: red;">*</span></label>
+                        <select class="form-control" id="selupdateresourcecls" ng-model="updateviewmod.resource_class"  autocomplete="off" name="selupdateresourcecls">
+                           <option  value="">-- select --</option>
+                           <option ng-repeat="rcl in getrescclslist.rclass_name" value="{{rcl}}">{{rcl}}</option>
+                        </select>
+                     </div>
+                     <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                           <button type="button" id="btnresourceupdatemodalcancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                           <a href="" id="btnresourcedetUpdate" class="btn btn-sm btn-success" style="margin-right: 10px;">Update</a>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   
+   <!-- Add New cred Detail modal -->
+   <div class="modal fade " id="modeladdresourcedet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog animated fadeInDown">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4 class="modal-title" id="myModalLabel">New Resource Add</h4>
+               </div>
+               <div class="modal-body clearfix">
+                  <div class="smpt_form_container">
+                     <form id="addresourceForm" name="addresourceForm" class="ng-pristine ng-valid" novalidate="novalidate">
+                        <div class="form-group">
+                           <label>Resource Name</label> 
+                           <input type="text"  class="form-control" id="txtaddresourcename"  name="txtaddresourcename" placeholder="Enter The Application Name">
+                        </div>
+                        <div class="form-group ">
+                           <label for="txtsmtpip">Resource Class <span style="color: red;">*</span></label>
+                           <select class="form-control" id="seladdresourcecls" autocomplete="off" name="seladdresourcecls">
+                              <option  value="">-- select --</option>
+                              <option ng-repeat="rescls in getrescclslist.rclass_name" value="{{rescls}}">{{rescls}}</option>
+                           </select>
+                        </div>
+                        <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                              <button type="button" id="btnaddresourcemodalcancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                              <a href="" id="btnaddresourcedet" class="btn btn-sm btn-success" style="margin-right: 10px;">Save</a>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+      </div>
+   </div>
+</div>
+
+

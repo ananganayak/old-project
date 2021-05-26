@@ -1,0 +1,436 @@
+<div class="alertsController" ng-controller="alertsController" ng-init="init()" >
+    <div class="row">
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body infobox_active" data_filter_name="all">
+                    <div class="info-box-stats">
+                        <p class="counter total_count">0</p>
+                        <span class="info-box-title">TOTAL</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body" data_filter_name="open">
+                    <div class="info-box-stats">
+                        <p class="counter open_count">0</p>
+                        <span class="info-box-title">OPEN</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body" data_filter_name="wip">
+                    <div class="info-box-stats">
+                        <p class="counter wip_count">0</p>
+                        <span class="info-box-title">WIP</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body" data_filter_name="pending">
+                    <div class="info-box-stats">
+                        <p class="counter pending_count">0</p>
+                        <span class="info-box-title">PENDING</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body" data_filter_name="resolved">
+                    <div class="info-box-stats">
+                        <p class="counter resolved_count">0</p>
+                        <span class="info-box-title">RESOLVE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="panel info-box panel-white">
+                <div class="panel-body" data_filter_name="closed">
+                    <div class="info-box-stats">
+                        <p class="counter closed_count">0</p>
+                        <span class="info-box-title">CLOSE</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12">
+            <div style="margin-bottom: 10px;">
+                <div class="pull-left" style="width:600px;">
+                    <div class="filters">
+                        <div class="col-md-12" style="padding-left: 0px;">
+                            <div class="col-md-3" style="padding-left: 0px;">
+                                <select class="form-control tbl_search_filter_sel">
+                                    <option value="alert_id">Alert ID</option>
+                                    <option value="ciname">CI Name</option>
+                                    <option value="component">Component</option>
+                                    <option value="datetime">DateTime</option>
+                                    <option value="Status" style="display: none;">Status</option>
+                                    <option value="botname">BOT Name</option>
+                                    <option value="ticketid">Ticket ID</option>
+                                    <option value="customer_id">Customer Name</option>
+                                </select>
+                            </div>
+                            <div class="col-md-5 filter_control" style="padding-left: 0px;">
+                                <div class="tbl_search_txt_pnl">
+                                    <input type="text" class="form-control filter_searchbox" name="search" value="" placeholder="Search ..." autocomplete="off" style="border-radius: 0px;width: 228px;">
+                                </div>
+                                <div class="tbl_cust_search_txt_pnl">
+                                    <input type="text" class="form-control filter_cust_searchbox" id="custvalueid" value="" name="search" ng-change="searchcustfn()" ng-model="searchcust" placeholder="Search Customer Name" autocomplete="off" style="border-radius: 0px;width: 228px;">
+                                    <div class="custsearch">
+                                        <p ng-repeat="cn in custdetlov | filter : searchcust"><a href="" ng-click="getsearchval(cn[0])" value="{{cn[0]}}">{{cn[0]}}</a></p>
+                                    </div>
+                                </div>
+                                <div class="tbl_search_date_pnl">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control filter_searchdate" name="est_date" value="">
+                                        <span class="input-group-addon est-date-picker"><i class="glyphicon glyphicon-calendar"></i></span>
+                                    </div>
+                                </div>
+                                <div class="tbl_search_sel_pnl" style="display: none;">
+                                    <select class="form-control">
+                                        <option value="">Open</option>
+                                        <option value="">Pending</option>
+                                        <option value="">Close</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4" style="padding-left: 0px;">
+                                <button type="button" class="btn btn-success btn_search_go">Go</button>
+                                <button type="button" class="btn btn-success btn_search_clear" style="margin-left: 3px;">Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right">                               
+                    <div class="pull-right" style="margin-left: 10px;">
+                        <span data-test-id="pagination-details" ng-bind="span_page_status"></span> of <span ng-bind="span_total_count"></span>
+                        </span>  
+                        <div class="btn-group user_nav_btn" style="margin-left: 5px;">
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(alertcurrentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(alertcurrentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                        </div>
+                    </div> 
+                    <div class="pull-right" style="padding-right: 10px;">
+                        <a href="" class="alert_full_screen btn btn-default" data-toggle="tooltip" data-original-title="Full Screen">
+                            <img src="app/img/expand.png" style="width: 20px; height: 20px;"/>
+                        </a>
+                        <a href="" class="alert_exit_screen btn btn-default" data-toggle="tooltip" data-original-title="Exit Full Screen">
+                            <img src="app/img/exitfullscreen.png" style="width: 20px; height: 20px;"/>
+                        </a>
+                    </div>
+                    <div class="pull-right" style="padding-right: 10px;">
+                        <div class="btn btn-default btn-sm" ng-click="backtomonitoringfn()" ng-show="backbtn">Back to NSD</div>
+                    </div>
+                    <div class="pull-right" style="padding-right: 10px;">
+                        <div class="btn btn-default btn-sm" ng-click="downloadAlertCSV()"><i class="fa fa-file-excel-o" aria-hidden="true" style="    font-size: 22px;"></i></div>
+                    </div>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+            <div class="panel panel-white">
+                <div class="panel-body" style="padding: 0px">
+                    <div class="table-responsive">
+                        <table class="table alert_table" style="margin-bottom: 0px;">
+                            <thead style="background: #ebeef0;">
+                                <tr class="alert_header">                                                                     
+                                    <th class="sorting_desc" data-col="sorting" data-key="alert_id" width="10%"><span style="padding-left: 12px !important;">Alert Id</span></th>
+                                    <th class="sorting" data-col="sorting" data-key="ciname"  width="15%">CI Name</th>
+                                    <th class="sorting" data-col="sorting" data-key="component"  width="10%">Component</th>
+                                    <th class="sorting" data-col="sorting" data-key="datetime"  width="15%">DateTime</th>
+                                    <th width="5%">Status</th>                                                                     
+                                    <th class="sorting" data-col="sorting" data-key="botname" width="10%">BOT Name</th>
+                                    <th class="sorting" data-col="sorting" data-key="ticketid" width="10%">Ticket ID</th>
+                                    <th style="text-align: center;" width="5%">Triage</th>
+                                </tr>
+                            </thead>
+                            <tbody ng-repeat="row in alerts_list_res" on-finish-render="alert_finish_render()">
+                                <tr>
+                                    <td class="icon_alert" style="padding: 0px !important;">
+                                        <i class=" fa fa-plus-square-o" style="cursor: pointer;display:none;" data-tempid="{{row.alertid}}"></i> 
+                                        <div class="{{ setrowstatuscolor(row.aseverity);}}">
+                                            <span style="padding-left: 5px;">{{row.alertid}}</span>
+                                        </div>                                    
+                                    </td>
+                                    <td class="content-td-of" title="{{row.aci_name}}">{{row.aci_name}}</td>
+                                    <td>{{row.acomponent}}</td>
+                                    <td>{{row.alert_created_time}}</td>
+                                    <td>{{row.astatus}}</td>
+                                    <td class="icon_ticket" >
+                                        <i class=" fa fa-plus-square-o" style="cursor: pointer;" data-alertid="{{row.alertid}}" data-tempid="{{row.automationid}}"></i> 
+                                        <span style="padding-left: 5px;" class="content-td-of" ng-show="row.automationid == 'None' || row.automationid == ''">More Info</span>
+                                        <span style="padding-left: 5px;" class="content-td-of" ng-show="row.automationid != 'None' && row.automationid != ''">{{row.automationid}}</span>                                    
+                                    </td>                              
+                                    <td>
+                                        <!-- <span ng-show="row.itsmid != 'None' && row.itsmid != ''">
+                                            {{row.itsmid}}
+                                        </span> -->
+                                        <div class="btn-group ticket_manage_panel">
+                                            <a ng-show="row.itsmid != ''" class="media-action" href="" data-toggle="dropdown" aria-expanded="false">
+                                                {{row.itsmid}}
+                                                <i style="margin-left: 5px; font-size: 17px; " class="fa fa-angle-down" aria-hidden="true"></i>
+                                            </a>
+                                            <a href=""  ng-show="row.itsmid == ''" ng-click="btnformcreate(ticketdropdownLov[0].value, row.alertid, row.itsmid)" aria-expanded="false">{{ticketdropdownLov[0].name}}</a>
+                                            <ul class="dropdown-menu dropdown-menu-right animated fadeIn" role="menu">
+                                                <li ng-repeat= "slov in ticketdropdownLov" ng-hide="slov.value == 'create'">
+                                                    <a href=""  ng-click="btnformcreate(slov.value, row.alertid, row.itsmid)" class="create_task_form">{{slov.name}}</a>
+                                                </li>
+                                            </ul>
+                                        </div> 
+                                    </td>
+                                    <td style="text-align: center;">
+                                        <i class="fa fa-plus-square-o triage_icon_link" data-alertid="{{row.alertid}}" style="cursor: pointer;" ></i>
+                                        <i class="fa fa-history triage_history_link" data-alertid="{{row.alertid}}" style="cursor: pointer;margin-left: 8px;" data-toggle="tooltip" data-original-title="Triage History"></i>
+                                    </td>
+                                </tr>
+                                <tr class="row_more_details">
+                                    <td colspan="8">
+                                        <div class="alter_content_panel">
+                                            <table class="alert_extra_details">
+                                                <tr>
+                                                    <td style="width:35%" valign="top"><b>Description</b> : {{row.adescription}}</td>
+                                                    <td style="width:35%" rowspan="2" valign="top">
+                                                        <b>Notes</b> : <pre style="background-color: #f5f5f508;
+                                                        border: 1px solid #f5f5f508;">{{row.anotes}}</pre>
+                                                    </td>
+                                                    <td style="width:30%;" valign="top"><b>Source</b> : {{row.asource}}</td>
+                                                </tr>
+                                            </table>
+                                            <table class="table table-bordered alert_assoiated_details" style="margin-top: 10px;">
+                                                <tr style="background: #eff5f9b8;">                                                                     
+                                                    <th style="padding: 10px 12px !important;">Event Id</th>
+                                                    <th style="padding: 10px 12px !important;">CI Name</th>
+                                                    <th style="padding: 10px 12px !important;">Component</th>
+                                                    <th style="padding: 10px 12px !important;">Description</th>
+                                                    <th style="padding: 10px 12px !important;">Notes</th>
+                                                    <th style="padding: 10px 12px !important;">Severity</th>
+                                                    <th style="padding: 10px 12px !important;">DateTime</th>                                                           
+                                                    <th style="padding: 10px 12px !important;">Source</th>
+                                                    <th style="padding: 10px 12px !important;">Status</th>
+                                                </tr>
+                                                <tr ng-repeat="subrow in row.associated_events">
+                                                    <td class="icon_alert_sub">
+                                                        <div class="{{ setsubrowstatuscolor(subrow.severity);}}">{{ subrow.eventid}}</div> 
+                                                    </td>
+                                                    <td style="padding: 5px !important;  vertical-align: middle;" class="content-td-of" title="{{subrow.ci_name}}">
+                                                        {{ subrow.ci_name}} 
+                                                    </td>
+                                                    <td style="padding: 5px !important; vertical-align: middle;">
+                                                        {{ subrow.component}} 
+                                                    </td>
+                                                    <td>
+                                                        <p id="table-scrollbar">
+                                                            {{ subrow.description}}
+                                                        </p>
+                                                    </td>
+                                                    <td>
+                                                            <pre id="table-scrollbar" style="background-color: #f5f5f508;
+                                                        border: 1px solid #f5f5f508;">{{ subrow.notes}}</pre>
+                                                    </td>
+                                                    <td style="padding: 5px !important; vertical-align: middle;">
+                                                        {{ subrow.severity}}
+                                                    </td>
+                                                    <td style="padding: 5px !important; vertical-align: middle;">
+                                                        {{ subrow.event_created_time}}
+                                                    </td>
+                                                    <td style="padding: 5px !important; vertical-align: middle;">
+                                                        {{ subrow.source}}
+                                                    </td>
+                                                    <td style="padding: 5px !important; vertical-align: middle;">
+                                                        {{ subrow.status}}
+                                                    </td>
+                                                </tr>                                            
+                                            </table>
+                                        </div>
+                                        <div class="ticket_content_panel">
+    
+                                        </div>
+                                        <div class="triage_content_panel">
+    
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div style="margin-top: 40px;  margin-bottom: 40px;">
+                <div style="text-align: center;">
+                    <nav aria-label="Page navigation example" style="display: inline-block;margin-left: 135px;">
+                        <pagination class="pagination-sm"
+                                    ng-model="alertcurrentPage"
+                                    total-items="totalitemCount"
+                                    max-size="5"
+                                    ng-change="PaginationLink(alertcurrentPage)"
+                                    items-per-page="alertnumPerPage"
+                                    rotate="false"
+                                    previous-text="&lsaquo;" next-text="&rsaquo;"
+                                    boundary-links="true"></pagination>
+                    </nav>   
+                    <div class="pull-right">                              
+                        <div class="pull-right" style="margin-left: 10px;">
+                            <span data-test-id="pagination-details">show 
+                                <div class="btn-group dropup" role="group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false" style="padding: 5px;">
+                                        <span class="span_pagination_text">10</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pagination_dropdown" role="menu">                                         
+                                        <li><a href="">10</a></li>
+                                        <li><a href="">25</a></li>
+                                        <li><a href="">50</a></li>
+                                        <li><a href="">100</a></li>
+                                        <li><a href="">250</a></li>
+                                        <li><a href="">500</a></li>
+                                    </ul>                                                 
+                                </div>     
+                            </span> of <span>entries per page</span>
+                            </span>
+                        </div>                                   
+                    </div> 
+                </div>                    
+            </div>
+        </div>
+    </div>
+
+    <div class="modal side-form-modal-lg alert-from-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg animated fadeInRight" style="width: 400px;">
+            <div class="modal-content" style="height:100%;">
+                <div class="modal-header" style="border-bottom: 1px solid #dcdcdc !important;">                       
+                    <h4 class="modal-title" id="myLargeModalLabel" style="font-size: 17px;">Ticket Form</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 85px;padding-right: 15px;">
+                    <div  class="alerts-scroll" id="stylescroll" >
+                        <form name="formworkflow" id="formworkflow">
+                            <div class="form-group" ng-repeat="fmv in formval" on-finish-render="ticket_form_finish()">  
+                                <div class="" ng-if="fmv[2] == 'Dropdown'">
+                                    <label>{{fmv[1]}}</label>
+                                    <select class="form-control" name="ctrl{{fmv[1]}}" >
+                                        <option value="">-- select --</option>                                       
+                                    </select>
+                                </div>
+                                <div class="" ng-if="fmv[2] == 'Label'">
+                                    <label>{{fmv[1]}}</label>
+                                    <input type="text" name="ctrl{{fmv[1]}}" class="form-control"/>
+                                </div>
+                                <div class="" ng-if="fmv[2] == 'TextBox'">
+                                    <label>{{fmv[1]}}</label>
+                                    <input type="text" name="ctrl{{fmv[1]}}" class="form-control"/>
+                                </div>
+                                <div class="" ng-if="fmv[2] == 'Password'">
+                                    <label>{{fmv[1]}}</label>
+                                    <input type="password" name="ctrl{{fmv[1]}}" class="form-control"/>
+                                </div>
+                                <div class="" ng-if="fmv[2] == 'Number'">
+                                    <label>{{fmv[1]}}</label>
+                                    <input type="number" name="ctrl{{fmv[1]}}" class="form-control"/>
+                                </div>
+                                <div class="" ng-if="fmv[2] == 'TextArea'">
+                                    <label>{{fmv[1]}}</label>
+                                    <textarea class="form-control"  name="ctrl{{fmv[1]}}"></textarea>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer" style="border-top: 1px solid #dcdcdc !important; padding: 10px 20px">
+                    <button id="btnworkflowclose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" id="ticketformsave">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="triage_model_form" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog animated fadeInRight">
+            <div class="modal-content" style="height:100%;overflow-y: scroll;">
+                <div class="modal-header" style="border-bottom: 1px solid #dcdcdc !important;padding: 10px;height: auto;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">{{ triage_title}}</h4>
+                </div>
+                <div class="modal-body clearfix" style="margin-top: 15px;padding: 0px;">
+                    <div class="triage_form_panel">
+                        <div class="col-lg-12" ng-repeat="row in triage_form" on-finish-render="triage_finish_render()">
+                            <div class="form-group">
+                                <label>{{ row[0]}}</label> 
+                                <input type="text" class="form-control" data-triage-ctrl="ctrl{{ row[0]}}">
+                                <label class="triage-error">please enter {{ row[0]}}</label> 
+                            </div>
+                        </div>
+                    </div>
+                    <div class="triage_form_action" style="padding: 0 20px 20px 20px;">
+                        <button type="button" id="btntriageexecute" class="btn btn-success">Execute</button>
+                    </div>
+                    <h4 class="modal-title" id="myModalLabel" style="border-top: 1px solid #dcdcdc !important;border-bottom: 1px solid #dcdcdc !important;padding: 10px;">Output</h4>
+                    <div class="triage_form_result" style="padding: 20px 20px 20px 20px;">
+                        <table class="table table-bordered" style="width:100%;">
+                            <!--<tr>
+                                <th>Output</th>
+                            </tr>-->
+                            <tr ng-repeat="row in triage_history">
+                                <td>
+                                    <p>{{ row[1]}}<p/>
+                                    <div style="width:435px;max-height:200px;overflow: scroll;">
+                                        <pre>{{ row[0]}}</pre> 
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr ng-show="triage_history.length == 0">
+                                <td colspan="2" style="text-align: center;">No Result Found!</td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade triage_result_popup" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content" >
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <a type="button" class="clipboard_btn" ng-show="triage_history_popup.length != 0" ng-click="copyToClipboard()">Copy</a>
+                    <h4 class="modal-title" id="myLargeModalLabel">Triage History</h4>
+                </div>
+                <div class="modal-body table_copy" style="overflow-y: auto;">
+                    <table class="table tbl_triage_result" style="margin-bottom: 0px;">
+                        <thead style="background: #ebeef0;">
+                            <tr>
+                                <th>Triage</th>
+                                <th>Output</th>
+                                <th>DateTime</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in triage_history_popup">
+                                <td>{{ row[0]}}</td>
+                                <td>
+                                    <div style="width:600px;max-height:200px;overflow: scroll;">
+                                        <pre>{{ row[1]}}</pre>
+                                    </div>
+                                </td>
+                                <td>{{ row[2]}}</td>
+                            </tr>
+                            <tr ng-show="triage_history_popup.length == 0">
+                                <td colspan="3" style="text-align: center;">No Result Found!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>                   
+            </div>
+        </div>
+    </div>
+</div>
+

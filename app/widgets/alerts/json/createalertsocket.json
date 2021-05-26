@@ -1,0 +1,37 @@
+{
+  "Module": "alert",
+  "InformationType": "json",
+  "Action": "create",
+  "Data": {
+    "alert_details": {
+      "alertid": 1732,
+      "ci_name": "aidev-winmem",
+      "component": "SQLCPU",
+      "description": "CRITICAL - CPU busy 94.01%",
+      "notes": "SEV : CRITICAL\tHOST : aidev-winmem\tDESC: CRITICAL - CPU busy 94.01%",
+      "severity": "CRITICAL",
+      "event_created_time": 1556255808,
+      "source": "NAGIOS",
+      "status": "open"
+    },
+    "event_details": {
+      "eventid": 4794,
+      "ci_name": "aidev-winmem",
+      "component": "SQLCPU",
+      "description": "CRITICAL - CPU busy 94.01%",
+      "notes": "SEV : CRITICAL\tHOST : aidev-winmem\tDESC: CRITICAL - CPU busy 94.01%",
+      "severity": "CRITICAL",
+      "event_created_time": 1556255808,
+      "source": "NAGIOS",
+      "status": "open"
+    },
+    "status_legends": {
+      "open": 1,
+      "total": 1,
+      "wip": 0,
+      "pending": 0,
+      "resolve": 0,
+      "closed": -1
+    }
+  }
+}

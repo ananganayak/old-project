@@ -1,0 +1,80 @@
+<section class="monitoringController" ng-init="init()">
+    <div role="tabpanel">
+        <ul role="tablist" class="nav nav-tabs" id="myTabs_7">    
+            <li class="active" data-role="">
+                <a data-toggle="tab" id="monitoringdash_tab" role="tab" ng-click="pageautorefresh()" href="#monitoring_dash_tab" aria-expanded="false">Dashboard</a>
+            </li>
+            <li class="" >
+                <a data-toggle="tab" id="dash_2_tab" role="tab" href="#monitoring_dash_2_tab" aria-expanded="false">NxtGen Support Dashboard</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" id="monitoring_tab" role="tab" href="#monitoring_content_tab" aria-expanded="false">Monitoring</a>
+            </li>
+            <li class="" data-role="">
+                <a data-toggle="tab" id="performance_tab" role="tab" href="#monitoring_performance_tab" aria-expanded="false">Performance</a>
+            </li> 
+             <li role="presentation" class="">
+                <a  data-toggle="tab" id="configuration_tab" role="tab" href="#monitoring_configuration" aria-expanded="false">Configuration</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" id="report_tab" role="tab" href="#monitoring_report_tab" aria-expanded="false">Reports</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" id="unknowns_tab" role="tab" href="#monitoring_unknow_tab" aria-expanded="false">Unknowns</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" id="dcmdash_tab" role="tab" href="#monitoring_dcmdash_tab" aria-expanded="false">DCM Dashboard</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" id="maintenancewindow_tab" role="tab" href="#monitoring_manitenace_window_tab" aria-expanded="false">Maintenance Window</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" id="networklatency_tab" role="tab" href="#monitoring_networklatency_tab" aria-expanded="false">Network Latency</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" id="admin_tab" role="tab" href="#monitoring_admin_tab" aria-expanded="false">Administration</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" id="autoscale_tab" role="tab" href="#monitoring_autoscale_tab" aria-expanded="false">AutoScale</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent_7">
+            <div  id="monitoring_dash_tab" class="tab-pane active fade in" role="tabpanel">
+                <intelli-monitoringdashtab></intelli-monitoringdashtab>
+            </div>
+            <div  id="monitoring_content_tab" class="tab-pane fade" role="tabpanel">
+                <intelli-monitoring></intelli-monitoring>
+            </div>
+            <div id="monitoring_performance_tab" class="tab-pane fade" role="tabpanel">
+                <intelli-monitorperformance></intelli-monitorperformance>
+            </div>
+            <div id="monitoring_configuration" class="tab-pane fade" role="tabpanel">
+               <intelli-configuration></intelli-configuration>
+            </div>
+            <div id="monitoring_report_tab" class="tab-pane fade" role="tabpanel">
+                <intelli-monitoringreport></intelli-monitoringreport>
+            </div>
+            <div id="monitoring_unknow_tab" class="tab-pane fade" role="tabpanel">
+                <intelli-unknowns></intelli-unknowns>
+            </div>
+            <div id="monitoring_dash_2_tab" class="tab-pane fade" role="tabpanel">
+                <intelli-cwdash></intelli-cwdash>
+            </div>
+            <div id="monitoring_dcmdash_tab" class="tab-pane fade" role="tabpanel">
+                <intelli-dcmdash></intelli-dcmdash>
+            </div>
+            <div id="monitoring_manitenace_window_tab" class="tab-pane fade" role="tabpanel">
+                <intelli-maintenancewindow></intelli-maintenancewindow>
+            </div>
+            <div id="monitoring_networklatency_tab" class="tab-pane fade" role="tabpanel">
+                <intelli-networklatency></intelli-networklatency>
+            </div>
+            <div id="monitoring_admin_tab" class="tab-pane fade" role="tabpanel">
+                <intelli-admin></intelli-admin>
+            </div>
+            <div id="monitoring_autoscale_tab" class="tab-pane fade" role="tabpanel">
+                <intelli-autoscale></intelli-autoscale>
+            </div>
+        </div>
+    </div>
+</section>

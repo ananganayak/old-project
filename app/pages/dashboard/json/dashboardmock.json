@@ -1,0 +1,101 @@
+{
+  "result": "success",
+  "data": {
+    "EVM": [],
+    "asdasdas": [
+      {
+        "dashboard_name": "asdasdas",
+        "widget_custom_name": "Supression 30 Days",
+        "widget_id": 9,
+        "widget_attributes": {
+          "width": 9,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_url": "http://95.216.28.228:4006/dashboard/api1.0/suppression30days/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "chart_name": "Line Chart"
+      },
+      {
+        "dashboard_name": "asdasdas",
+        "widget_custom_name": "Automation Status",
+        "widget_id": 5,
+        "widget_attributes": {
+          "width": 3,
+          "height": 3,
+          "top": 9,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_url": "http://95.216.28.228:4006/dashboard/api1.0/automationstatus/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "chart_name": "Donut Chart"
+      }
+    ],
+    "Automation": "no data",
+    "Manager Dashboard": "no data",
+    "Nakkeeran Dashboard": [
+      {
+        "dashboard_name": "Nakkeeran Dashboard",
+        "widget_custom_name": "Supression 30 Days",
+        "widget_id": 9,
+        "widget_attributes": {
+          "width": 12,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_url": "http://95.216.28.228:4006/dashboard/api1.0/suppression30days/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "chart_name": "Line Chart"
+      }
+    ],
+    "Dinesh Dashbaord": [
+      {
+        "dashboard_name": "Dinesh Dashbaord",
+        "widget_custom_name": "Supression 30 Days",
+        "widget_id": 9,
+        "widget_attributes": {
+          "width": 9,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_url": "http://95.216.28.228:4006/dashboard/api1.0/suppression30days/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "chart_name": "Line Chart"
+      },
+      {
+        "dashboard_name": "Dinesh Dashbaord",
+        "widget_custom_name": "Automation Type",
+        "widget_id": 2,
+        "widget_attributes": {
+          "width": 3,
+          "height": 3,
+          "top": 9,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_url": "http://95.216.28.228:4006/dashboard/api1.0/automationtypebc/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "chart_name": "Bar Chart"
+      }
+    ],
+    "System Admin View": "no data",
+    "Dev Dashboard": "no data"
+  }
+}

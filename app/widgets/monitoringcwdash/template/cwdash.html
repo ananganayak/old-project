@@ -1,0 +1,112 @@
+<div class="monitoringcwdashController" ng-controller="monitoringcwdashController" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12  monitorpage-content">
+            <div class="row">
+                <div class="col-lg-7">
+                    <button class="btn btn-critical" ng-click="getservfn('critical')">Critical</button>
+                    <button class="btn btn-warning" ng-click="getservfn('warning')">Warning</button>
+                    <div class="form-group" style="width: 300px; float: left; margin-left: 15px;">
+                        <!-- <label >Host Group</label> -->
+                        <select class="form-control"  id="selcategrp" name="selcategrp" ng-model="selcategrp" ng-change="catebslistget()">
+                            <option value="ms">Managed Service</option>
+                            <option value="nms">Non-Managed Service</option>
+                            <option value="mgmt">Management Devices</option>
+                            <option value="anon">Anonymous</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <div class="dropdown refreshbtn">
+                        <a href="javascript::void();" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                            <i class="fa fa-clock-o"></i>
+                        </a>
+                        <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
+                            <li><p class="drop-title">Auto Refresh</p></li>
+                            <li class="">
+                                <div class="radio">
+                                    <label><input type="radio" name="cwoptradio1" ng-click="selcwdrefreshtime('off')">Off</label>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="radio">
+                                    <label><input type="radio" name="cwoptradio2" ng-click="selcwdrefreshtime('30Sec')">30 Seconds</label>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="radio">
+                                    <label><input type="radio" name="cwoptradio3" ng-click="selcwdrefreshtime('1Min')">1 Minutes</label>
+                                </div>
+                            </li>
+                            <li class="">
+                                <div class="radio">
+                                    <label><input type="radio" name="cwoptradio4" ng-click="selcwdrefreshtime('2Min')" checked>2 Minutes</label>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <button class="btn btn-default" style="float: right; margin: 0px 15px;" ng-click="csvgeneratefn()">CSV Download</button>
+                    <div class="form-group" style="width: 300px; float: right;">
+                        <!-- <label>Search Service</label>  -->
+                        <input type="text" class="form-control" id="txthypip" name="txthypip" ng-model="searchservice" placeholder="Search Service" autocomplete="off">
+                    </div>
+                    <p style="float: right; margin: 6px 15px;">{{(servdata | filter : searchservice).length}} out of {{servdata.length}} </p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="panel panel-white" style="margin-bottom: 0px;">
+                        <div class="panel-body" id="datatablepanels"  style="padding: 0px" >
+                            <table class="table monitoringdash_table" id="monitoringcwdash_table" style="margin-bottom: 0px;">
+                                <thead class="monitoringdash" style="background: #f7f7f7;">
+                                    <tr> 
+                                        <th width="2%">S.No</th>
+                                        <th class="sorting" width="15%" data-col="sorting" data-key="host">VM Name</th>
+                                        <th width="10%">Address</th>
+                                        <th width="20%">Service</th>
+                                        <th width="5%">Status</th>
+                                        <th width="33%">Status Information</th>
+                                        <th width="10%" class="sorting" data-col="sorting" data-key="since">Since</th>
+                                        <th width="5%">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="border: 1px solid #efefef;">
+                                    <tr ng-repeat="as in servdata | filter : searchservice">
+                                        <td style="padding: 5px 15px!important;">{{$index + 1}}</td>
+                                        <td>{{as[0]}}</td>
+                                        <td>{{as[1]}}</td>
+                                        <td>{{as[2]}}</td>
+                                        <td><span class="label" ng-class="{'label-warning': as[3] =='WARNING', 'label-success': as[3] == 'OK', 'label-info': as[3] == 'UNKNOWN', 'label-danger': as[3] == 'CRITICAL'}">{{as[3]}}</span></td>
+                                        <td>{{as[4]}}</td>
+                                        <td>{{as[5]}}</td>
+                                        <td style="text-align: center;">
+                                            <a href="" ng-click="checkevent(as[0])" style="color: #3ab0f5;"><i class="fa fa-lg fa-external-link" aria-hidden="true"></i></a>
+                                            <!-- <a href="" ng-click="chartevent(as[0], as[2])" style="color: #3ab0f5; margin-left: 15px;"><i class="fa-lg fa fa-area-chart" aria-hidden="true"></i></a> -->
+                                        </td>
+                                    </tr>
+                                    <tr ng-show="servdata.length == 0">
+                                        <td colspan="8" style="text-align:center;">
+                                            No Records Found
+                                        </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal fade" id="hschart_modal" tabindex="-1" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content" >
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myLargeModalLabel">Chart - {{hostname}} - {{servicename}}</h4>
+                        </div>
+                        <div class="modal-body" style="overflow-y: auto;">
+                            <img src="{{chartval}}" alt="Monitoring Chart" width="100%" />
+                        </div>                   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

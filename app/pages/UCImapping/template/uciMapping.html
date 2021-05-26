@@ -1,0 +1,110 @@
+<section class="uciMappingcontainer" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12">
+            <!-- <div class="panel panel-white">
+                <div class="panel-heading">UCI Mapping</div>
+                <div class="panel-body" >
+                    <div class="row" style="margin:0px 0px 15px;">
+                        <form>
+                            <div class="col-lg-4 col-md-4">
+                                <ul>
+                                    <li ng-repeat="usl in getucialldataval.users">
+                                        <div class="radio" >
+                                            <label><input type="radio" name="optradio" value="{{usl[0]}}">{{usl[1]}}</label>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-8 col-md-8">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4"  ng-repeat="cin in getucialldataval.cinames">
+                                        <div class="checkbox">
+                                            <label><input type="checkbox"  value="{{cin[0]}}">{{cin[1]}}</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>                                                    
+            </div> -->
+            <div style="max-width: 1124px;margin: auto;">
+                <div class="row">
+                    <div class="col-md-4 roles_left_container" style="padding: 0px;">
+                        <div class="uci_left_panel">
+                            <div class="roles_left_leader">
+                                <div class="pull-left  margin0">
+                                    <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">User List</h3>
+                                </div>
+                                <!-- <div class="pull-right">
+                                    <a href="" id="btnadd" class="btn btn-sm btn-default pull-right"> 
+                                        <i class="fa fa-plus" style="padding-right:5px;"></i> New
+                                    </a>
+                                </div> -->
+                                <div style="clear: both;"></div>
+                            </div>
+                            <ul class="ul_uci_left_content">
+                                <li ng-repeat="usl in getuciallusdataval" class="li_uci_name" ng-click="getuciuserdet(usl[0], usl[1])" data-name="{{usl[0]}}">
+                                    <span class="span_name">{{usl[1]}}</span>
+                                    <!-- <span class="span_delete"><i class="fa fa-times-circle" style="font-size: 16px;"></i></span> -->
+                                </li>
+                                <li ng-show="getucialldataval.length == 0">
+                                    No Records Found
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-md-8 roles_right_container" style="padding: 0px;">
+                        <div id="uci_right_panel" class="">
+                            <div style="padding: 10px;">
+                                <div class="roles_right_content" style="margin-top: 25px;">
+                                    <form name="formroles" id="formroles">
+                                        <div class="form-group">
+                                            <label for="txtrolename">User Name</label>
+                                            <input type="text" id="txtrolename" name="txtrolename" class="form-control" ng-model="selectedusername" disabled placeholder="Role Name">
+                                        </div>
+                                        <div class="form-group">
+                                            <!-- <label for="exampleInputEmail1">Permission</label> -->
+                                            <div class="uci_table">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Configuration Items</th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr ng-repeat="cin in getuciallcindataval" data-name="{{cin[0]}}">
+                                                            <td>{{cin[1]}}</td>
+                                                            <td>
+                                                                <!-- <div class="checker">
+                                                                    <span class="">
+                                                                        <div class="checker">
+                                                                            <span class=""> -->
+                                                                                <input type="checkbox" name="checkbox{{cin[1]}}" value="{{cin[0]}}" ng-model="cin[2]">
+                                                                            <!-- </span>
+                                                                        </div>
+                                                                    </span>
+                                                                </div> -->
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div class="roles_right_header">
+                                    <div class="pull-right"> 
+                                        <a href="" id="btnsave" class="btn btn-sm btn-success pull-right" ng-click="cidata_save();" style="margin-right: 10px;">Save</a> 
+                                    </div>
+                                    <div style="clear: both;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>    
+</section>

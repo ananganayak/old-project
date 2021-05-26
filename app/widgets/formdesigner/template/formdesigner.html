@@ -1,0 +1,125 @@
+<div ng-controller="formdesignerController" ng-init="init()">
+
+    <div id="form_list_container">
+        <div class="row">
+            <div class="col-md-12">
+                <div>
+                    <div class="pull-left  margin0">
+                        <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">List of Form</h3>                                        
+                    </div>
+                    <div class="pull-right">                               
+
+                        <div class="pull-right" style="margin-left: 10px;">
+                            <span data-test-id="pagination-details">1 - 4</span> of <span>4</span>
+                            </span>  
+                            <div class="btn-group" style="margin-left: 5px;">
+                                <button type="button" class="btn btn-default btn-sm" disabled="true"><i class="fa fa-chevron-left"></i></button>
+                                <button type="button" class="btn btn-default btn-sm" disabled="true"><i class="fa fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <a href="" id="btncreatetask" class="btn btn-sm btn-default pull-right"> 
+                            <i class="fa fa-plus" style="padding-right:5px;"></i> Create a Task form
+                        </a>
+                        <a href="" id="btncreateprocess" class="btn btn-sm btn-default pull-right" style="margin-right: 5px;"> 
+                            <i class="fa fa-plus" style="padding-right:5px;"></i> Create a Process form
+                        </a>
+
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <div class="panel panel-white">
+                    <div class="panel-body" style="padding: 0px">
+                        <table class="table tbl_form_list" style="margin-bottom: 0px;">
+                            <thead style="background: #ebeef0;">
+                                <tr>                                                
+                                    <th>Process Id</th>                                    
+                                    <th>Form Type</th>                                                 
+                                    <th style="text-align: center;">Action</th>                                                
+                                </tr>
+                            </thead>
+                            <tbody> 
+                                <tr ng-repeat="row in form_list">
+                                    <td>{{ row['processid'] }}</td>                                     
+                                    <td>{{ row['formType'] }}</td>
+                                    <td style="text-align: center;">
+                                        <a href="#" data-link="{{ generate_edit_link(row); }}" class="form_edit" style="color: #9b2538;">
+                                            <i class="fa fa-pencil" style="font-size: 16px;"></i>
+                                        </a>                                                        
+                                    </td>
+                                </tr>
+                                <tr ng-show="form_list.length == 0">
+                                    <td colspan="3" style="text-align:center;">
+                                        No Records Found
+                                    </td> 
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div style="margin-top: 10px;">
+                        <div class="pull-right">                              
+                            <div class="pull-right" style="margin-left: 10px;">
+                                <span data-test-id="pagination-details">show 
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                                aria-expanded="false" style="padding: 5px;">
+                                            10
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                            <li><a href="#">10</a></li>
+                                            <li><a href="#">20</a></li>
+                                            <li><a href="#">30</a></li>
+                                            <li><a href="#">50</a></li>
+                                            <li><a href="#">100</a></li>
+                                        </ul>                                                 
+                                    </div>     
+                                </span> of <span>entries per page</span>
+                                </span>
+                            </div>                                   
+                        </div> 
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="form_designer_container" style="">
+        <div class="row">
+            <div class="col-md-12">
+                <div style="margin-bottom: 10px;">
+                    <div class="pull-left  margin0">
+                        <form class="form-inline">
+                            <div class="form-group" style="display: none;">
+                                <label for="txtprocessversion">Process Version</label>
+                                <input type="text" id="txtprocessversion" name="txtprocessversion" class="form-control" style="margin-right: 10px;"/>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtprocessid">Process Id</label>
+                                <input type="text" id="txtprocessid" name="txtprocessid" class="form-control" style="margin-right: 10px;"/>
+                            </div> 
+                            <div class="form-group task_field">
+                                <label for="txttaskid">Task Id</label>
+                                <input type="text" id="txttaskid" name="txttaskid" class="form-control" style="margin-right: 10px;"/>
+                            </div> 
+                        </form>
+                    </div>
+                    <div class="pull-right">
+                        <a href="" id="btnformsave" class="btn btn-sm btn-default pull-right"> 
+                            <i class="fa fa-save" style="padding-right:5px;"></i> Save
+                        </a>
+                        <a href="" id="btndesignerback" class="btn btn-sm btn-default pull-right" style="margin-right: 5px;"> 
+                            <i class="fa fa-chevron-left" style="padding-right:5px;"></i> Back to Form List
+                        </a>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
+            <div class="col-md-12">                               
+                <div style="position: relative;">
+                    <div id="build-wrap"></div>
+                </div>                                
+            </div>
+        </div>
+    </div>
+
+</div>

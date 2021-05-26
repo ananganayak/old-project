@@ -1,0 +1,229 @@
+<div ng-controller="deploymentController" class="deploymentcontroller" ng-init="init()">
+
+    <div class="automation_catalog_container row">
+        <div class="col-md-12" style="padding-left: 0px;padding-right: 0px;">
+            <div class="autonation_left">
+                <div class="automation_left_panel">
+                    <ul class="menu accordion-menu"> 
+                        <li class="droplink" data-name="all">
+                            <input type="text" class="form-control filter_searchbox ng-pristine ng-valid ng-touched" name="search" ng-model="searchtxt" value="" placeholder="Search Category..." autocomplete="off">
+                        </li>                       
+                        <li class="droplink active" data-name="all">
+                            <a href="#" class="waves-effect waves-button">
+                                <img src='app/img/catalog/menu/allautomation.png'/> 
+                                <p>All Automation</p>
+                            </a>
+                        </li>                        
+                        <li class="droplink" ng-repeat="row in category_list | filter: searchtxt" data-name="{{ row.name }}"> 
+                            <a href="#" class="waves-effect waves-button">
+                                <img src='{{ row.icon }}'/> 
+                                <p>{{ row.name }}</p>
+                            </a>
+                        </li>
+                        <!-- <li class="droplink" data-name="patch_automation">
+                            <a href="#" class="waves-effect waves-button">
+                                <img src='app/img/catalog/menu/patch.png'/> 
+                                <p>Patch Automation</p>
+                            </a>
+                        </li> -->
+                    </ul>
+                </div>
+            </div>
+            <div class="autonation_right">
+                <div class="automation_right_panel">
+                    <div classs="row" style="margin-top: 6px;">
+                        <div class="col-md-12">
+                            <div class="pull-left  margin0">  
+                                <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">List of Automation Catalog</h3>
+                            </div>
+                            <div class="pull-right"> 
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <button class="btn btn-default btn-sm" ng-click="load_deployment_list()" ng-class="clrclass" alt="Share Process">Shared Process</button>
+                                        </td>
+                                        <td>
+                                            <form action="#" method="GET" style="width:250px;" class="pull-right">
+                                                <div class="input-group">
+                                                    <input type="text" name="search" class="form-control input-search" placeholder="Search..." ng-model="searchKeywords">
+                                                    <span class="input-group-btn">
+                                                        <button class="btn btn-success" type="button"><i class="fa fa-search"></i></button>
+                                                    </span>
+                                                </div>
+                                            </form> 
+                                        </td>
+                                        <td style="display: none;">
+                                            <div class="btn-group" style="margin-left: 5px;">
+                                                <button type="button" class="btn btn-default btn-sm disabled" ng-class="{disabled: noPrevious()}" ng-click="selectPage(deploycurrentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                                                <button type="button" class="btn btn-default btn-sm disabled" ng-class="{disabled: noNext()}" ng-click="selectPage(deploycurrentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div style="clear:both;"></div>
+                        </div>
+                    </div>
+                    <div style="">
+                        <ul class="automation_catalog_content">
+                            <!-- <p>{{filter_deployment_list}}</p> -->
+                            <li ng-repeat="row in filter_deployment_list" on-finish-render="deployment_finish_render()" style="height: 130px; box-shadow: 0px 0px 2px 0px #d2d2d2;">
+                                <div class="automation_catalog_panel">
+                                    <span class="catalog_result_num">{{ row['total_execution']}}</span>
+                                    <button class="catalog_share_btn btn btn-primary btn-xs" type="button" data-toggle="modal" data-target="#shared_user_modal" ng-click="getservuserapi(row)" ><i class="fa fa-share" aria-hidden="true"></i></button>
+                                    <table style="width: 100%;">                                                                       
+                                        <tr style="padding-bottom: 5px;
+                                        display: block;">
+                                            <td style="width:20%;">
+                                                <div style="padding: 5px;padding-left: 10px;padding-top: 10px;">
+                                                    <img src="{{ row['logo'] }}" style="width:60px;height:60px;padding: 0px;"/>
+                                                </div>                                                                                
+                                            </td>
+                                            <td style="width:80%;">                                                                                
+                                                <div class="main_descript">
+                                                    <h3 class="content-td-of" style="max-width: 200px;">{{ row['process-name']}}</h3>
+                                                    <p data-toggle="tooltip" data-original-title="{{ row['description']}}">
+                                                        {{ row['description']}}
+                                                    </p>
+                                                </div>                                                                                
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2" style="border-top: 1px solid #efefef;     padding-top: 10px;">
+                                                <div style=" text-align: right; margin-right: 15px;">
+                                                    <button type="button" class="btn btn-info workflow_instance_view" id="workflow_instance_view" ng-click="btnWorkflowInstanceViewFn(row['process-id'])">History</button>                                                                                    
+                                                    <button type="button" class="btn btn-success workflow_instance_execute"  id="workflow_instance_execute" ng-click="btnWorkflowInstanceExecuteFn(row['process-id'], row['process-version'], row['process-name'])" data-id="{{row['process-id']}}" data-version="{{row['process-version']}}" data-name="{{row['process-name']}}">Run</button>
+                                                </div>    
+                                            </td>
+                                        </tr>
+                                    </table> 
+                                </div>
+                            </li>
+                        </ul>
+                        <div ng-show="filter_deployment_list.length == 0">
+                            <p style="font-size: 16px;text-align: center;padding: 25px;">
+                                No Records Found !
+                            </p>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+                </div>                                               
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg workflow_result_popup" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" style="width: 70%;">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myLargeModalLabel">Workflow Instances</h4>
+                </div>
+                <div class="modal-body" style="overflow-y: auto;">
+                    <table class="table tbl_workflow_result" style="margin-bottom: 0px;">
+                        <thead style="background: #ebeef0;">
+                            <tr>
+                                <th></th>
+                                <!-- <th>ID</th> -->
+                                <th>Workflow</th>
+                                <th style="display: none;">Deployment ID</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>     
+                        </thead>
+                        <tbody ng-repeat="row in currentInstancePageHistory">
+                            <tr>
+                                <td class="icon_alert">
+                                    <i class=" fa fa-plus-square-o" style="cursor: pointer;font-size: 18px;"></i>                                         
+                                </td>
+                                <!-- <td>{{ row['processinstanceid']}}</td> -->
+                                <td>{{ row['processname'].split("_")[1] }}</td>
+                                <td style="display: none;">{{ row['processid']}}</td>
+                                <td>{{ row['start_date']}}</td>
+                                <td>{{ row['end_date']}}</td>
+                                <td>{{ row['state']}}</td>
+                                <td attr-proc="{{row['processname']}}" attr-id="{{ row['processinstanceid']}}" >
+                                    <a href="" ng-hide="'{{row['state']}}' != 'Active'" class="btn-detach" ng-click="terminateRowval(row['processinstanceid']);" style="color:#e4192a; margin-left: 15px; font-size: 24px;" title="Terminate Process" ><i class="fa fa-ban" aria-hidden="true"></i></a>
+                                    <a href="" class="btn-detach btnshowprocessmap" title="process flow map" style="margin-left: 15px;"><i class="fa fa-bar-chart fa-2x" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr class="row_more_details">
+                                <td class="row_log" colspan="7" >
+                                    <p ng-show="row.log == ''" style="text-align: center;">No Result Found!</p>
+                                    <p ng-show="row.log != ''" style="text-align: center;">{{ row['log']}}</p>
+                                </td>
+                                <td class="row_image" id="iframeHolder" colspan="7" >
+                                    <iframe ng-src="{{getIframeSrc(row['processname'], row['processinstanceid'])}}" height="300" width="100%"></iframe>
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-show="instance_list.length == 0">
+                            <tr>
+                                <td colspan="7" style="text-align: center;">No Result Found!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="pagination_container" ng-show="(instance_list.length != 0)">
+                        <div style="text-align: center;">
+                                <pagination class="pagination-sm"
+                                            ng-model="instancecurrentPage"
+                                            total-items="instance_list.length"
+                                            max-size="4"
+                                            ng-change="instancepageselect(instancecurrentPage)"
+                                            items-per-page="instancenumPerPage"
+                                            rotate="false"
+                                            previous-text="&lsaquo;" next-text="&rsaquo;"
+                                            boundary-links="true"></pagination>
+                        </div>
+                    </div>
+                </div>                   
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade bs-example-modal-lg workflow_form_popup" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header" style="padding-top: 10px;padding-bottom: 0px;height: 30px;">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="workflow_form_popup_name" style="display: none;"></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="workflow_form_builder"></form>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnformclose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" id="btndeplymentformsave" ng-click="btndeplymentformsave()"  class="btn btn-success">Start Process</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="shared_user_modal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">User List</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="userlist">
+                        <div class="checkbox" ng-repeat="as in suserlst">
+                            <label for="userid" ng-hide="'{{as.user_id.split('@')[0]}}' == '{{cuser_id}}'">
+                                <input type="checkbox" name="userid" id="{{as.user_id.split('@')[0]}}" value="{{as.user_id.split('@')[0]}}">
+                                <span>{{as.user_id.split("@")[0]}}</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="btnformclose" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button id="btnformservshare" type="button" class="btn btn-success">Share</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

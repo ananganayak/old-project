@@ -1,0 +1,37 @@
+<div class="rbcFlowContainer" ng-controller="rbcFlowController">
+   <div class="panel panel-white">
+      <div class="panel-body" style="padding: 0px">
+         <table class="table discovery-table" style="background-color: #fff; border: 1px solid #ebeef0 !important;">
+            <thead style="background: #ebeef0;">
+                <tr class="discovery_header">                                                                     
+                    <th width="20%"><span style="padding-left: 5px;">App-Code</span></th>
+                    <th width="80%">Flow</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="det-row" ng-repeat="row in rbc_list_res">
+                    <td>
+                        <!-- <div class="panel panel-default" style="margin-bottom: 0px; background-color: #f7f7f7;">
+                            <div class="panel-body" style="padding: 10px;">{{ row['app_code'] }}  <span style="float: right;">{{ row['user_id'] }}</span></div>
+                        </div>  -->
+                        <div class="panel panel-default " style="margin-bottom: 0px; background-color: #f7f7f7;">
+                            <div class="panel-heading" style="padding: 10px; height: 40px;">{{ row['user_id'] }}</div>
+                            <div class="panel-body" style="padding: 10px;">{{ row['app_code'] }}  <span style="float: right;">{{ row['role'] }}</span></div>
+                        </div>                                                        
+                    </td>
+                    <td>
+                        <div class="row">
+                            <div class="col-md-3" ng-repeat="sub_row in row['data']">
+                                <div class="panel panel-default rbc_default_border" style="margin-bottom: 0px; background-color: #f7f7f7;" ng-class="{'rbc_resolved_border': sub_row[2] == 'Resolved'}">
+                                    <div class="panel-heading" style="padding: 10px; height: 40px;">{{ sub_row[0] }}</div>
+                                    <div class="panel-body" style="padding: 10px;">{{ sub_row[1] }}  <span style="float: right;">{{ sub_row[2] }}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>                                                                
+            </tbody>
+        </table>
+      </div>                                                    
+  </div>
+</div>

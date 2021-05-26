@@ -1,0 +1,63 @@
+<div class="monitoringNetworklatencyController" ng-controller="monitoringNetworklatencyController" ng-init="init()" style="min-height: 350px;">
+    <div class="row">
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>Timestamp</label>
+                <select class="form-control"  id="selnltimestamp" name="selnltimestamp" ng-model="selnltimestamp">
+                    <option value="">-- Select Time --</option>
+                    <option value="{{ts[1]}}" ng-repeat="ts in timestamplist">{{ts[0]}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>Host Group</label>
+                <select class="form-control"  id="selnlhostgrp" name="selnlhostgrp" ng-model="selnlhostgrp" ng-change="gethostvallistfn()">
+                    <option value="">-- Select Host Group --</option>
+                    <option value="{{ts}}" ng-repeat="ts in getallappval">{{ts}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-3">
+            <div class="form-group">
+                <label>Host</label>
+                <select class="form-control"  id="selnlhostlist" name="selnlhostlist" ng-model="selnlhostlist" multiple="multiple">
+                    <!-- <option value="">-- Select Host --</option> -->
+                    <!-- <option value="{{ts}}" ng-repeat="ts in getmonitoringhstlist">{{ts}}</option> -->
+                </select>
+            </div>
+        </div>
+        <!-- <div class="col-lg-3">
+            <div class="form-group">
+                <select class="form-control"  id="selnlhost" name="selnlhost" ng-model="selnlhost" ng-change="gethostvallistfn()">
+                    <option value="">-- Select Host --</option>
+                    <option value="all"> All </option>
+                    <option value="{{hs}} " ng-repeat="hs in hostlist">{{hs}}</option>
+                </select>
+            </div>
+        </div> -->
+        <div class="col-lg-2">
+            <button class="btn btn-info" ng-click="gethostvalbasedfn()" style="margin-top: 20px;">Get</button>
+        </div>
+        <div class="col-lg-1">
+            <div class="form-group">
+                <label>Auto Refresh</label>
+                <select class="form-control" id="selnlaftime" ng-model="selnlaftime"  name="selnlaftime" ng-change="getnlaftimefn()">
+                    <option value="Off">Off</option>
+                    <option value="30Sec">30 Seconds</option>
+                    <option value="1Min">1 Minutes</option>
+                    <option value="2Min">2 Minutes</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <!-- <div class="panel panel-white">
+            <div class="panel-heading">Chart - </div>
+            <div class="panel-body" style="height: 300px; width:100%">
+
+            </div>          
+        </div> -->
+        <div chart-Container id="chartContainer"></div>
+    </div>
+</div>

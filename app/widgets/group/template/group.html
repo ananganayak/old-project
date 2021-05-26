@@ -1,0 +1,172 @@
+<div class="groupcontainer" ng-controller="groupController" ng-init="init()">
+
+   <div class="row" style="margin-bottom: 15px;">
+      <div class="pull-left"> 
+         <div class="col-lg-12">
+               <input type="text" class="form-control filter_searchbox" name="search"  ng-model="searchtxt" value="" placeholder="Search ..." autocomplete="off" style="height: 34px; float: left; border-radius: 0px;"/> 
+               <p style="float: left; margin: 6px 15px;">{{(getgrpdetlist | filter : searchtxt).length}} out of {{getgrpdetlist.length}} </p> 
+         </div>
+      </div>
+      <div class="pull-right"> 
+         <div class="col-lg-12">
+            <!-- <div class="pull-right" style="margin-left: 10px;">
+                  <span data-test-id="pagination-details">1 - 3</span> of <span>3</span>
+                  <div class="btn-group" style="margin-left: 5px;">
+                      <button type="button" class="btn btn-default btn-sm" disabled="true"><i class="fa fa-chevron-left"></i></button>
+                      <button type="button" class="btn btn-default btn-sm" disabled="true"><i class="fa fa-chevron-right"></i></button>
+                  </div>
+              </div>    -->
+            <a class="btn btn-sm btn-default pull-right btngroupadddet"><i class="fa fa-plus" style="padding-right:5px;" aria-hidden="true"></i> ADD</a>
+         </div>
+      </div>
+   </div>
+   <div class="panel panel-white">
+      <div class="panel-body" style="padding: 0px">
+          <table class="table group-table" style="margin-bottom: 0px; border: 1px solid #ebeef0;">
+              <thead style="background: #ebeef0;">
+                  <tr>                                                                     
+                      <th width="30%">Group Name</th>
+                      <th width="40%">Description</th>
+                      <th width="30%">Actions</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <tr ng-repeat="gdv in getgrpdetlist | filter : searchtxt">
+                      <td>
+                         <span hidden>{{gdv[0]}}</span>
+                         {{gdv[1]}}
+                      </td>
+                      <td>
+                          {{gdv[2]}}
+                      </td>
+                      <td>
+                          <a href="" class="btn-update" ng-click="updatemodalbtn(gdv[0])" style="color:#12AFCB; font-size: 24px;" data-toggle="tooltip" title="Edit">
+                              <i class="fa fa-pencil " aria-hidden="true"></i>
+                          </a> 
+                          <a href="" class="btn-detach" ng-click="deletegroupval(gdv[0])" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" data-toggle="tooltip" title="Delete" >
+                              <i class="fa fa-trash-o " aria-hidden="true"></i>
+                          </a>
+                      </td>
+                  </tr>
+              </tbody>
+          </table>
+      </div>                                                    
+  </div>
+   
+   <!-- update group Detail modal -->
+   <div class="modal fade " id="model_group_add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog animated fadeInDown">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4 class="modal-title" id="myModalLabel">New Group Add</h4>
+              </div>
+              <div class="modal-body clearfix">
+                  <div class="col-lg-12">
+                      <div style="margin: 0px auto; padding: 5px 20px;">
+                          <div class="group_form_container">
+                              <form id="addgroupform" name="addgroupform" class="ng-pristine ng-valid" novalidate="novalidate">
+                                 <div class="form-group">
+                                    <label>Group NAME</label> 
+                                    <input type="text" class="form-control" id="grp_name" name="grp_name" placeholder="enter the group name">
+                                 </div>
+                                 <div class="form-group">
+                                    <label>Group Description</label> 
+                                    <input type="text" class="form-control" id="grp_description" name="grp_description" placeholder="enter the group description">
+                                 </div>
+                                 <div class="form-group">
+                                    <div class="col-lg-12 " style=" padding: 15px; border: 1px solid #dbe0e4;">
+                                       <div class="slimscroll">
+                                          <ul style="list-style-type: none;">
+                                             <li class="col-lg-6" ng-repeat="chkmachine in getmachinedetlst">
+                                                <div class="form-group">
+                                                   <div class="checkbox" >
+                                                      <label style="padding-left: 0px;">
+                                                         <!-- <div class="checker">
+                                                            <span> -->
+                                                               <input type="checkbox" name="chkval{{$index}}" value="{{chkmachine[0]}}">
+                                                            <!-- </span>
+                                                         </div>  -->
+                                                         {{chkmachine[1]}}
+                                                      </label>
+                                                   </div>
+                                                </div>
+                                             </li>
+                                          </ul>
+                                       </div>
+                                    </div>
+                                 </div>
+                                 
+                                 <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                                    <a href="" id="btngruoupsave" class="btn btn-sm btn-success" style="margin-right: 10px;">Add</a>
+                                    <button type="button" class="btn btn-default " id="btnclsaddmodal" data-dismiss="modal">Cancel</button>
+                                 </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+   </div>
+   
+   <!-- Add New cred Detail modal -->
+   <div class="modal fade " id="modelupdategrp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog animated fadeInDown">
+         <div class="modal-content">
+            <div class="modal-header">
+               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+               <h4 class="modal-title" id="myModalLabel">Update Group</h4>
+            </div>
+            <div class="modal-body clearfix">
+               <div class="col-lg-12">
+                  <div style="margin: 0px auto; padding: 5px 20px;">
+                     <div class="group_form_container">
+                        <form id="upgroupform" name="upgroupform" class="ng-pristine ng-valid" novalidate="novalidate">
+                           <div class="form-group">
+                              <label>Group ID</label> 
+                              <input type="text" class="form-control" disabled id="update_grp_id" name="update_grp_id" ng-model="getupdetlst.group_id" placeholder="enter the group id">
+                           </div>
+                           <div class="form-group">
+                              <label>Group NAME</label> 
+                              <input type="text" class="form-control" id="update_grp_name" name="update_grp_name" ng-model="getupdetlst.group_name" placeholder="enter the group Name">
+                           </div>
+                           <div class="form-group">
+                              <label>Group Description</label> 
+                              <input type="text" class="form-control" id="update_grp_description" ng-model="getupdetlst.group_description" name="update_grp_description" placeholder="enter the group description">
+                           </div>
+                           <div class="form-group clearfix " >
+                              <div class="col-lg-12 " style=" padding: 15px; border: 1px solid #dbe0e4;">
+                                 <div class="slimscroll">
+                                    <ul style="list-style-type: none;">
+                                       <li class="col-lg-6" ng-repeat="upchkmachine in getupmachinedetlst">
+                                          <div class="form-group">
+                                             <div class="checkbox" >
+                                                <label style="padding-left: 0px;">
+                                                   <!-- <div class="checker">
+                                                      <span> -->
+                                                         <input type="checkbox" name="update_chkval{{$index}}" ng-model="upchkmachine[2]" ng-true-value="'yes'" ng-false-value="'no'">
+                                                      <!-- </span>
+                                                   </div>  -->
+                                                   {{upchkmachine[1]}}
+                                                </label>
+                                             </div>
+                                          </div>
+                                       </li>
+                                    </ul>
+                                 </div>
+                              </div>
+                           </div>
+                           <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                              <a href="" id="btnupdategroupfunctn" class="btn btn-sm btn-success" style="margin-right: 10px;">Update</a>
+                              <button type="button" class="btn btn-default" id="btnclsupdatemodal" data-dismiss="modal">Cancel</button>
+                           </div>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

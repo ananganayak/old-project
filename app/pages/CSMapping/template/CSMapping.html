@@ -1,0 +1,149 @@
+<section class="CSMappingcontainer" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div class="viewcustomer">
+                <div class="panel panel-white" style="margin-bottom: 15px;" >
+                    <div class="panel-heading">
+                        <span>
+                            <div class="form-group">
+                                <input type="text" class="form-control" ng-model="searchtxt" id="usr" placeholder="Search here ...">
+                            </div>
+                        </span>
+                    </div>
+                    <div class="panel-body" style="padding: 0px">
+                        <table class="table table-bordered" style="margin-bottom: 0px;">
+                            <thead style="background: #ebeef0;">
+                                <tr>                                 
+                                    <th width="15%" >Technology</th>
+                                    <th width="20%" >Customer ID</th>
+                                    <th width="35%" >Customer Name</th>
+                                    <th width="15%"  style="text-align: center;">Virtual Machines</th>
+                                    <th width="15%"  style="text-align: center;">Managed Service</th>
+                                    <!-- <th>Action</th>                                              -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="custval in custlist | filter : searchtxt">     
+                                    <td width="15%" >{{custval.techno}}</td>                            
+                                    <td width="20%" >{{custval.customer_id}}<p class="hidden">{{custval.cust_pk_id}}</p></td>
+                                    <td width="35%" >{{custval.customer_name}} 
+                                        <span style="float: right; font-size: 24px;"><a href="" ng-click="mailmodalfn(custval.cust_pk_id)" style="color: #12AFCB;"><i class="fa fa-envelope" aria-hidden="true"></i></a></span>  
+                                    </td>
+                                    <td width="15%" style="text-align: center;">
+                                        <span ng-show="custval.services[0][2] == 'Y'" >
+                                            <a href="" class="btn-update btnappupdatemodal" ng-click="getvmwaremapfn(custval.customer_id, custval.customer_name, custval.techno)" title="VM Add"  style="color:#12AFCB; font-size: 24px;" data-toggle="modal" data-target="#Vmwaremodal">
+                                                <i class="fa fa-pencil " aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                        <span ng-show="custval.services[0][2] == 'N'" >
+                                            <a href="" class="btn-update btnappupdatemodal" style="color:rgb(203, 18, 18); font-size: 24px;" title="Disabled">
+                                                <i class="fa fa-pencil " aria-hidden="true"></i>
+                                            </a>
+                                        </span>
+                                    </td>
+                                    <td width="15%"  style="text-align: center;" ng-repeat="cs in custval.services">
+                                        <label class="switch" style="margin-bottom: 0px;">
+                                            <span class="hidden">{{cs[0]}}</span>
+                                            <input type="checkbox" id="checkval{{custval.cust_pk_id}}{{cs[0]}}" ng-click="submitcustdet(custval.cust_pk_id, cs[0] )" ng-checked="cs[2] == 'Y'">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </td>                               
+                                </tr>
+                                <tr ng-show="custlist.length == 0">
+                                    <td colspan="6" style="text-align: center;">No Result Found!</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+    <!-- Vmware Modal -->
+    <div id="Vmwaremodal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <button type="button" class="close" data-dismiss="modal">&times;</button> -->
+                    <span>
+                        <div class="form-group">
+                            <input type="text" class="form-control" ng-model="searcvmhtxt" id="usr" placeholder="Search here ...">
+                        </div>
+                    </span>
+                    <h4 class="modal-title"><b>{{vm_cusname}}</b></h4>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th class="hidden">ID</th>
+                                    <th>VM-ID</th>
+                                    <th>VM-Name</th>
+                                    <th>VM-OS</th>
+                                    <th>VNIC</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr ng-repeat="vm in vmwaredet | filter : searcvmhtxt">
+                                    <td class="hidden">{{vm[0]}}</td>
+                                    <td>{{vm[1]}}</td>
+                                    <td>{{vm[2]}}</td>
+                                    <td>{{vm[3]}}</td>
+                                    <td>{{vm[4]}}</td>
+                                    <td>
+                                        <label class="switch" style="margin-bottom: 0px;">
+                                            <input type="checkbox" name="cmcheckbox" id="{{vm[0]}}" ng-click="getchckval()" ng-checked="vm[5] == 'Y'">
+                                            <span class="slider round"></span>
+                                        </label>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success" ng-click="submitvmdetfn()">Save</button>
+                </div>
+            </div>
+      
+        </div>
+    </div>
+
+    <div id="mailmodal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title"><b>CSMapping Mail</b></h4>
+                </div>
+                <div class="modal-body">
+                    <form id="csmmailfrom"> 
+                        <div class="form-group" style="margin-bottom: 0px;">
+                            <button href="" class="btn btn-default" ng-click="addbtnto()" style="float: right;"><i class="fa fa-plus" aria-hidden="true"></i></button>
+                        </div>
+                        <h4>To </h4>
+                        <div id="inputFormRow" ng-repeat="row in mailitems.to">
+                            <div class="form-group">
+                                <input type="email" name="tomail[]" class="form-control m-input" placeholder="Enter Mail ID" autocomplete="off" value="{{row}}">
+                                <div class="input-group-append">
+                                    <button id="removeRow" type="button" class="btn btn-info"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="newRow"></div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="btndisble">Unmap</button>
+                    <button type="button" class="btn btn-success" ng-click="submitpostvmdetfn()">Map</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

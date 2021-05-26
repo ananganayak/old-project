@@ -1,0 +1,368 @@
+<div ng-controller="machineController" ng-init="init()">
+        <div class="panel panel-white" style="box-shadow: none;">
+            <div class="panel-body" style="padding: 0px">
+                <div style=" margin-bottom: 15px;">
+                    <div class="pull-left" style="width:600px;">
+                        <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchKeywords"
+                            value="" placeholder="Search ..." autocomplete="off" style="height: 34px; float: left; border-radius: 0px;"/>
+                        <!-- <p style="float: left; margin: 6px 15px;">{{(currentDevicePageHistory | filter : searchKeywords).length}} out of {{currentDevicePageHistory.length}} </p> -->
+                        <!-- <div class="filters">
+                            <div class="col-md-12" style="padding-left: 0px;">
+                                <div class="col-md-3" style="padding-left: 0px;">
+                                    <select class="form-control tbl_search_filter_sel">
+                                        <option value="Host_Name">Host Name</option>
+                                        <option value="IP_Address">IP Address</option>
+                                        <option value="Platform">Platform</option>
+                                        <option value="OS_Name">OS Name</option>
+                                        <option value="Remediate" >Remediate</option>
+                                        <option value="Credentials">Credentials</option>
+                                        <option value="ticketid">Ticket ID</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-5 filter_control" style="padding-left: 0px;">
+                                    <div class="tbl_search_txt_pnl">
+                                        <input type="text" class="form-control filter_searchbox" name="search" value="" placeholder="Search ..." autocomplete="off" style="border-radius: 0px;width: 228px;">
+                                    </div>
+                                    <div class="tbl_search_date_pnl">
+                                        <div class="input-group">
+                                            <input type="text" class="form-control filter_searchdate" name="est_date" value="">
+                                            <span class="input-group-addon est-date-picker"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </div>
+                                    <div class="tbl_search_sel_pnl" style="display: none;">
+                                        <select class="form-control">
+                                            <option value="">Open</option>
+                                            <option value="">Pending</option>
+                                            <option value="">Close</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" style="padding-left: 0px;">
+                                    <button type="button" class="btn btn-success btn_search_go">Go</button>
+                                    <button type="button" class="btn btn-success btn_search_clear" style="margin-left: 3px;">Clear</button>
+                                </div>
+                            </div>
+                        </div> -->
+                    </div>
+                    <div class="pull-right">                              
+                        <div class="pull-right" style="margin-left: 10px;">
+                            <span data-test-id="pagination-details" ng-bind="span_page_status">1 - 3</span> of <span ng-bind="span_total_count">3</span>
+                            <div class="btn-group" style="margin-left: 5px;">
+                                <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(devicecurrentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                                <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(devicecurrentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                            </div>
+                        </div>   
+                        <a href="" id="btnmachineadd" class="btn btn-sm btn-default pull-right" style="margin-left: 15px;"> 
+                            <i class="fa fa-plus" style="padding-right:5px;"></i> Add
+                        </a>
+                        <!-- <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchKeywords"
+                                value="" placeholder="Search ..." autocomplete="off" style="height: 34px; border-radius: 0px;"/> -->
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+                <table class="table machine_table tbl_cmdb_list" style="margin-bottom: 0px;border: 1px solid #ddd;">
+                    <thead style="background: #ebeef0;">
+                        <tr>    
+                            <!-- <th></th> -->
+                            <th>Host Name</th>
+                            <th>IP Address</th>
+                            <th>Platform</th>
+                            <th>OS Name</th>
+                            <th>OS Version</th>                                        
+                            <th>Remediate</th>
+                            <th>Credentials</th>
+                            <th>Triage</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr style="height: 55px;" ng-repeat="mval in currentDevicePageHistory | filter: searchKeywords" on-finish-render="cmdb_finish_render()">
+                            <td><span class="hidden">{{mval.machine_id}}</span>{{mval.Hostname}}</td>
+                            <td>{{mval.IPAddress}}</td>
+                            <td>{{mval.Platform}}</td>
+                            <td>{{mval.OSName}}</td>
+                            <td>{{mval.OSVersion}}</td>
+                            <td>
+                                <a href="" ng-click="btnmodalremediateup(mval.Hostname, mval.Remediate)">{{mval.Remediate}}</a>
+                            </td>
+                            <td>
+                                <a href="" ng-click="btnmodalcredup(mval.IPAddress, mval.OSName, mval['Credentials ID'])">{{ mval['Credentials ID']}}</a>
+                            </td>
+                            <td>
+                                <a href="" class="triage_remote_terminal" ng-click="getscreen(mval.Hostname)" data-toggle="tooltip" title="Triage" >
+                                    <img src="./app/img/remote_access-512.png" alt="Triage Icon" width="20%">
+                                </a>
+                            </td>
+                            <td>
+                                <a href="" ng-click="btnmachinedelete(mval.machine_id)" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" data-toggle="tooltip" title="Delete" >
+                                    <i class="fa fa-trash-o" aria-hidden="true"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        <tr ng-show="device_list.length == 0">
+                            <td colspan="9" style="text-align:center;">
+                                No Records Found
+                            </td> 
+                        </tr>
+                        <!-- <tr class="row_more_details" style="border-top: 1px solid #ddd;">
+                            <td colspan="6"> 
+                                <div class="cmdb_chart_details">
+                                </div>
+                            </td>
+                        </tr> -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!-- <div style="margin-top: 10px;">
+            <div>
+                <div style="text-align: center;">
+                    <pagination class="pagination-sm"
+                                ng-model="devicecurrentPage"
+                                total-items="device_list.length"
+                                max-size="4"
+                                ng-change="devicepageselect(devicecurrentPage)"
+                                items-per-page="devicenumPerPage"
+                                rotate="false"
+                                previous-text="&lsaquo;" next-text="&rsaquo;"
+                                boundary-links="true"></pagination>
+                    <div class="pull-right">                              
+                        <div class="pull-right" style="margin-left: 10px;">
+                            <span data-test-id="pagination-details">show 
+                                <div class="btn-group dropup" role="group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false" style="padding: 5px;">
+                                        <span class="span_pagination_text">10</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pagination_dropdown" role="menu">
+                                        <li><a href="">10</a></li>
+                                        <li><a href="">20</a></li>
+                                        <li><a href="">30</a></li>
+                                        <li><a href="">50</a></li>
+                                        <li><a href="">100</a></li>
+                                    </ul>                                                 
+                                </div>     
+                            </span> of <span>entries per page</span>
+                        </div>                                   
+                    </div> 
+                </div>
+            </div>
+        </div> -->
+
+        <div class="modal fade " id="modelmachineremed" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog animated fadeInDown">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Remediate Update</h4>
+                    </div>
+                    <div class="modal-body clearfix">
+                        <div class="machine-remediate-container"> 
+                            <form>
+                                <div class="form-group">
+                                    <label>Software Name</label> 
+                                    <input type="text"  class="form-control" id="txtupdatemachanhstname" disabled ng-model="modalhsname" name="txtupdatemachanhstname" placeholder="Enter The Software Class">
+                                </div>
+                                <div class="form-group">
+                                    <label>Remediate</label> 
+                                    <select class="form-control" id="sleupdatemachremediate" ng-model="modalremed"  autocomplete="off" name="sleupdatemachremediate">
+                                        <option  value="">-- select --</option>
+                                        <option ng-repeat="sr in getmachinemaslistdet.Remediate" value="{{sr}}">{{sr}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                                    <button type="button" id="mchnremedupdatemodalcancel"  class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" id="mchnremeddetUpdate" ng-click="btnmchnremeddetUpdate()" class="btn btn-sm btn-success" style="margin-right: 10px;">Update</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade " id="modelmachineadd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog animated fadeInDown">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Machine Add</h4>
+                    </div>
+                    <div class="modal-body clearfix">
+                        <div class="machine-cred-container"> 
+                            <form id="machineaddform">
+                                <div class="form-group">
+                                    <label>Host Name</label> 
+                                    <input type="text"  class="form-control" id="txtaddhstname" name="txtaddhstname" placeholder="Enter The Host Name">
+                                </div>
+                                <div class="form-group">
+                                    <label>IP Address</label> 
+                                    <input type="text"  class="form-control" id="txtaddipaddress" name="txtaddipaddress" placeholder="Enter The IP Addersss">
+                                </div>
+                                <div class="form-group">
+                                    <label>Platform</label> 
+                                    <select class="form-control" id="sleaddplatform" autocomplete="off" name="sleaddplatform">
+                                        <option  value="">-- select --</option>
+                                        <option  value="Linux">Linux</option>
+                                        <option  value="Windows">Windows</option>
+                                        <!-- <option ng-repeat="sr in getmachinemaslistdet.Credentials track by $index" value="{{sr}}">{{sr}}</option> -->
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>OS Name</label> 
+                                    <input type="text"  class="form-control" id="txtaddosname" name="txtaddosname" placeholder="Enter The OS Name">
+                                </div>
+                                <div class="form-group">
+                                    <label>OS Version</label> 
+                                    <input type="text"  class="form-control" id="txtaddosver" name="txtaddosver" placeholder="Enter The Software Class">
+                                </div>
+                                <div class="form-group">
+                                    <label>Credentials</label> 
+                                    <select class="form-control" id="seladdcred" autocomplete="off" name="seladdcred">
+                                        <option  value="">-- select --</option>
+                                        <option ng-repeat="sr in getmachinemaslistdet.Credentials track by $index" value="{{sr}}">{{sr}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                                    <button type="button" id="mchnaddmodalcancel"  class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" id="mchndetadd" ng-click="btnmchndetadd()" class="btn btn-sm btn-success" style="margin-right: 10px;">Save</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal fade " id="modelmachinecred" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog animated fadeInDown">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Credentail Update</h4>
+                    </div>
+                    <div class="modal-body clearfix">
+                        <div class="machine-cred-container"> 
+                            <form>
+                                <div class="form-group">
+                                    <label>IP Address</label> 
+                                    <input type="text"  class="form-control" id="txtupdatemachanipadd"  disabled ng-model="modalhsipdad" name="txtupdatemachanipadd" placeholder="Enter The Software Class">
+                                </div>
+                                <div class="form-group">
+                                    <label>OS Name</label> 
+                                    <input type="text"  class="form-control" id="txtupdatemachanosname" disabled ng-model="modalhsosname" name="txtupdatemachanosname" placeholder="Enter The Software Class">
+                                </div>
+                                <div class="form-group">
+                                    <label>Credential Name</label> 
+                                    <select class="form-control" id="sleupdatemachcred" ng-model="modalcred"  autocomplete="off" name="sleupdatemachcred">
+                                        <option  value="">-- select --</option>
+                                        <option ng-repeat="sr in getmachinemaslistdet.Credentials track by $index" value="{{sr}}">{{sr}}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                                    <button type="button" id="mchncredupdatemodalcancel"  class="btn btn-default" data-dismiss="modal">Cancel</button>
+                                    <button type="button" id="mchncreddetUpdate" ng-click="btnmchncreddetUpdate(updateviewmod.remediate)" class="btn btn-sm btn-success" style="margin-right: 10px;">Update</a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div class="modal side-form-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg animated fadeInRight cmdb_dialog" style="width: 400px;">
+                <div class="modal-content" style="height:100%;">
+                    <div class="modal-header cmdb_header">                       
+                        <h4 class="modal-title" id="myLargeModalLabel" style="font-size: 24px;">New Device</h4>
+                    </div>
+                    <div class="modal-body" style="padding:0px;padding-top: 85px;">
+                        <div class="slimscroll" style="padding: 0px 20px 20px 20px;">
+                            <form class="form-element" name="formdevice" id="formdevice">
+                                <div class="form-group">   
+                                    <label for="txthostname">Hostname <span style="color: red;">*</span></label>
+                                    <input type="text" id="txthostname" name="txthostname" class="form-control" style="padding-left: 0px !important;" placeholder="Hostname">
+                                </div>
+                                <div class="form-group">   
+                                    <label for="txtip">IP <span style="color: red;">*</span></label>
+                                    <input type="text" id="txtip" name="txtip" class="form-control" style="padding-left: 0px !important;" placeholder="IP">
+                                </div>
+                                <div class="form-group has-feedback">  
+                                    <label for="txtusername">Username <span style="color: red;">*</span></label>
+                                    <input type="text" id="txtusername" name="txtusername" class="form-control" style="padding-left: 0px !important;" placeholder="Username">
+                                </div>
+                                <div class="form-group has-feedback">  
+                                    <label for="txtpassword">Password <span style="color: red;">*</span></label>
+                                    <input type="password" id="txtpassword" name="txtpassword"  class="form-control" style="padding-left: 0px !important;" placeholder="Password">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer cmdb_footer">
+                        <button type="button" class="btn btn-default" id="btndeviceclose" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-success" id="btndevicesave">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal model_cmdb_user"  id="cmdb_user_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog animated fadeInDown" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>                        
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal form-container row">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="control-label col-md-3">Username</label>
+                                <div class="col-md-8">
+                                    <input type="text" class="form-control" id="txt_edit_username">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align: center;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success" id="btn_cmdb_user">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal model_cmdb_user"  id="cmdb_psw_model" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog animated fadeInDown" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>                        
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-horizontal form-container row">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">Ip Address</label>
+                                <div class="col-md-8">
+                                    <label class="control-label cmdb_edit_ip"></label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">New Password</label>
+                                <div class="col-md-8">
+                                    <input type="password" class="form-control" id="txt_edit_cmdbpsw">
+                                </div>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label class="control-label col-md-3">Confirm New Password</label>
+                                <div class="col-md-8">
+                                    <input type="password" class="form-control" id="txt_edit_cmdbconfirmpsw">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer" style="text-align: center;">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        <button type="button" class="btn btn-success" id="btn_cmdb_password">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>-->
+
+</div> 

@@ -1,0 +1,29 @@
+<section class="licencecontainer" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12 ">
+            <div></div>
+            <div class="col-md-8 col-md-offset-2" style="margin-top: 25px;">
+                <div class="panel panel-white">
+                    <div class="panel-body">
+                        <form>
+                            <div class="col-lg-8 form-group">
+                                <label>Licence Key</label>
+                                <input  type="text" class="form-control" ng-disabled="licencekey_dis" ng-model="licencekeyvalue" id="licencekeyvalue" name="text" > 
+                            </div>
+                            <div class="tooltip licence-tip col-lg-1" style="margin-top: 24px;">
+                                <button ng-click="mycopy()" class="btn btn-default" ng-mouseleave="outFunc()">
+                                    <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+                                    <i class="fa fa-files-o" aria-hidden="true"></i>
+                                </button> 
+                            </div>
+                            <div class="col-lg-3">
+                                <button class="btn btn-primery" id="editkey" style="margin-top: 24px; margin-right: 20px;" type="submit">Edit</button>
+                                <button class="btn btn-success" id="updatekey" style="margin-top: 24px;" type="submit">Update</button>
+                            </div>                           
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>  
+    </div>
+</section>

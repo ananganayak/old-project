@@ -1,0 +1,48 @@
+<div class="monitoringUnknownsController" ng-controller="monitoringUnknownsController" >
+    <div class="row">
+        <div class="col-md-12 monitorpage-content-new">
+            <!-- <div class="panel panel-default">
+                <div class="panel-heading">Panel Heading</div>
+                <div class="panel-body" >Panel Content</div>
+            </div>  -->
+            <div class="panel-group">
+                <div class="panel panel-default" ng-repeat="(key, value)  in getunkowsdet" >
+                    <div class="panel-heading"  ng-click="showDetails = ! showDetails">
+                        <h4 class="panel-title">
+                        <a>{{key}}</a> 
+                        <!-- <span class="badge">{{value.count}}</span> -->
+                        </h4>
+                    </div>
+                    <div id="{{$index}}" class="panel-collapse" ng-show="showDetails" ng-class="{ 'hidden': ! showDetails }">
+                        <div class="panel-body">
+                            <div class="panel-group">
+                                <div class="panel panel-default" ng-repeat="(key, value) in value">
+                                    <div class="panel-heading" ng-click="showsubDetails = ! showsubDetails">
+                                        <h4 class="panel-title">
+                                        <a>{{key}}</a> <a href="" class="" ng-click="" style="float: right; color: #e81809; font-size: 18px;"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                                        </h4>
+                                    </div>
+                                    <div id="sub{{$index}}" class="panel-collapse" ng-show="showsubDetails" ng-class="{ 'hidden': ! showsubDetails }">
+                                        <div class="panel-body">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <tr ng-repeat="tv in value">
+                                                        <td>{{tv[0]}}</td>
+                                                        <td>{{tv[1]}}</td>
+                                                        <td>{{tv[2]}}</td>
+                                                        <td>{{tv[3]}}</td>
+                                                        <td>{{tv[4]}}</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>         
+        </div>
+    </div>
+</div>

@@ -1,0 +1,327 @@
+<section class="admincontainer usercontainer" ng-init="init()" ng-controller="usersController">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-lg-6  margin0">
+                    <h3 class="" ng-show="viewuserdetail"  style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">Users</h3>                  
+                    <h3 class="" ng-show="viewcustomermapdetail" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">User Customer Mapping</h3>                  
+                </div>
+                <div class="col-lg-6">                               
+                    <div class="pull-right" ng-show="viewuserdetail" style="margin-left: 10px;">
+                        <span data-test-id="pagination-details" ng-bind="span_page_status"></span> of <span ng-bind="span_total_count"></span>
+                        </span>  
+                        <div class="btn-group user_nav_btn" style="margin-left: 5px;">
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(usercurrentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(usercurrentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <a href="" id="btnadd" class="btn btn-sm btn-default pull-right" ng-show="viewuserdetail" ng-click="create_user();" style="margin-left: 15px;"> 
+                        <i class="fa fa-plus" style="padding-right:5px;"></i> New
+                    </a>
+                    <a href="" id="btnback" class="btn btn-sm btn-primary pull-right" ng-show="viewcustomermapdetail" ng-click="viewuserdetafn();" style="margin-left: 15px;"> 
+                        <i class="fa fa-chevron-left" style="padding-right:5px; padding-left:5px;" aria-hidden="true"></i> Back
+                    </a>
+                    <div class="form-group pull-right">
+                        <input ng-show="viewuserdetail" type="text" class="form-control filter_searchbox" name="search" ng-model="searchKeywords" value="" placeholder="Search ..." autocomplete="off" style="height: 30px;border-radius: 0px;"/>
+                    </div>
+                    
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+            
+            <div class="panel panel-white" style="margin-bottom: 15px;" ng-show="viewuserdetail">
+                <div class="panel-body" style="padding: 0px">
+                    <table class="table" style="margin-bottom: 0px;">
+                        <thead style="background: #ebeef0;">
+                            <tr>                                 
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Email Id</th>
+                                <th>Username</th>
+                                <th>Phone Number</th>
+                                <th>Roles</th>                                               
+                                <th>Customer</th>                                               
+                                <th>Action</th>                                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in currentUserPageHistory" on-finish-render="user_finish_render()">                                 
+                                <td>{{ row.first_name}}</td>
+                                <td>{{ row.last_name}}</td>
+                                <td>{{ row.email_id}}</td>
+                                <td>{{ row.user_id}}</td>
+                                <td>{{ row.phone_number}}</td>
+                                <td>{{ row.role_name}}</td> 
+                                <td><a href="" class="btn-customer" ng-click="btncustomermap(row.pk_id)" style=" margin-left: 15px; font-size: 22px;
+                                    color: #673AB7;" data-original-title="Customer Mapping"><i class="fa fa-exchange" aria-hidden="true"></i></a></td> 
+                                <td>
+                                    <a href="" class="btn-update" ng-click="btnuserupdate(row.user_id)" style="color:#12AFCB; font-size: 24px;" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil " aria-hidden="true"></i></a> 
+                                    <a href="" class="btn-detach" ng-click="deleteuserRowval(row.user_id);" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" data-toggle="tooltip" data-original-title="Delete" ><i class="fa fa-trash-o " aria-hidden="true"></i></a>
+                                 </td>                               
+                            </tr>
+                            <tr ng-show="filter_user_list.length == 0">
+                                <td colspan="6" style="text-align: center;">No Result Found!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            <div class="col-lg-12" ng-show="viewcustomermapdetail">
+                <div class="viewcustomer">
+                    <div class="panel panel-white" style="margin-bottom: 15px;" >
+                        <div class="panel-heading">
+                            <span>
+                                <div class="form-group">
+                                    <input type="text" class="form-control" ng-model="searchmaptxt" id="usr" placeholder="Search here ...">
+                                </div>
+                            </span>
+                            <button class="btn btn-success" style="float: right; margin-right: 15px;" ng-click="submitcustmapdet()">Save</button>
+                        </div>
+                        <div class="panel-body" style="padding: 0px">
+                            <table class="table table-bordered" style="margin-bottom: 0px;">
+                                <thead style="background: #ebeef0;">
+                                    <tr>                                 
+                                        <th width="30%" >Technology</th>
+                                        <th width="20%" >Customer ID</th>
+                                        <th width="40%" >Customer Name</th>
+                                        <th width="10%" >Mapping</th>
+                                        <!-- <th>Action</th>                                              -->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="cmv in custmaplist | filter : searchmaptxt">     
+                                        <td width="30%" >{{cmv.technology_loc}}</td>                            
+                                        <td width="20%" >{{cmv.customer_id}}<p class="hidden">{{cmv.cid}}</p></td>
+                                        <td width="40%" >{{cmv.customer_name}}</td>
+                                        <td width="10%">
+                                            <label class="switch">
+                                                <input type="checkbox" name="cuscheckname" id="{{cmv.cid}}" ng-checked="cmv.map == 'Y'">
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </td>                               
+                                    </tr>
+                                    <tr ng-show="custmaplist.length == 0">
+                                        <td colspan="6" style="text-align: center;">No Result Found!</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <!-- <div class="col-lg-12" style="float: right;">
+                                <button class="btn btn-primary" ng-click="submitcustmapdet()">Submit</button>
+                            </div> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            
+            <div style="margin-top: 10px;" ng-show="viewuserdetail">
+                    <div style="text-align: center;">
+                        <pagination class="pagination-sm"
+                                            ng-model="usercurrentPage"
+                                            total-items="user_list.length"
+                                            max-size="4"
+                                            ng-change="userpageselect(usercurrentPage)"
+                                            items-per-page="usernumPerPage"
+                                            rotate="false"
+                                            previous-text="&lsaquo;" next-text="&rsaquo;"
+                                            boundary-links="true"></pagination>
+                        <div class="pull-right">                              
+                            <div class="pull-right" style="margin-left: 10px;">
+                                <span data-test-id="pagination-details">show 
+                                    <div class="btn-group dropup" role="group">
+                                        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                                aria-expanded="false" style="padding: 5px;">
+                                            <span class="span_pagination_text">10</span>
+                                            <span class="caret"></span>
+                                        </button>
+                                        <ul class="dropdown-menu pagination_dropdown" role="menu">                                        
+                                            <li><a href="">10</a></li>
+                                            <li><a href="">20</a></li>
+                                            <li><a href="">30</a></li>
+                                            <li><a href="">50</a></li>
+                                            <li><a href="">100</a></li>
+                                        </ul>                                                 
+                                    </div>     
+                                </span> of <span>entries per page</span>
+                                </span>
+                            </div>                                   
+                        </div>
+                    </div>
+                </div>
+            
+        </div>
+    </div>
+
+    <div class="modal bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg animated fadeInRight" style="width: 400px;">
+            <div class="modal-content" style="height:100%;">
+                <div class="modal-header">                       
+                    <h4 class="modal-title" ng-show="saveaddnew" id="myLargeModalLabel" style="font-size: 24px;">New user</h4>
+                    <h4 class="modal-title" ng-show="updateval" id="myLargeModalLabel" style="font-size: 24px;">Update User</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 85px;padding-right: 15px;">
+                    <div class="slimscroll">
+                        <form class="form-element" autocomplete="off" name="formuser" id="formuser">
+                            <div class="form-group has-feedback">  
+                                <label for="txtfname">First Name <span style="color: red;">*</span></label>
+                                <input type="text" id="txtfname" name="txtfname" class="form-control" autocomplete="false" style="padding-left: 0px !important;" placeholder="First Name" autocomplete="off">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label for="exampleInputEmail1">Middle Name</label>
+                                <input type="text" id="txtmname" name="txtmname" class="form-control" autocomplete="false" style="padding-left: 0px !important;" placeholder="Middle Name" autocomplete="off">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label for="exampleInputEmail1">Last Name <span style="color: red;">*</span></label>
+                                <input type="text" id="txtlname" name="txtlname" class="form-control" autocomplete="false" style="padding-left: 0px !important;" placeholder="Last Name" autocomplete="off">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label for="exampleInputEmail1">Email Id <span style="color: red;">*</span></label>
+                                <input type="text" id="txtemailid" name="txtemailid" class="form-control" autocomplete="false" style="padding-left: 0px !important;" placeholder="Email Id" autocomplete="off">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label for="exampleInputEmail1">Username <span style="color: red;">*</span></label>
+                                <input type="text" id="txtusername" name="txtusername" class="form-control"  autocomplete="false" style="padding-left: 0px !important;" placeholder="Username or Username@domain" autocomplete="off">
+                            </div>
+                            <!-- <div class="form-group has-feedback">  
+                                <label for="exampleInputEmail1">Password <span style="color: red;">*</span></label>
+                                <input type="password" id="txtpassword" name="txtpassword" class="form-control" autocomplete="false" style="padding-left: 0px !important;"  placeholder="Password">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label for="exampleInputEmail1">Confirm Password <span style="color: red;">*</span></label>
+                                <input type="password" id="txtrepassword" name="txtrepassword" class="form-control" autocomplete="false" style="padding-left: 0px !important;" placeholder="Confirm Password">
+                            </div> -->
+                            <div class="form-group has-feedback">  
+                                <label for="exampleInputEmail1">Phone Number</label>
+                                <input type="number" id="txtprimarynum" name="txtprimarynum" class="form-control" autocomplete="false" style="padding-left: 0px !important;" placeholder="Phone Number"/>                                  
+                            </div>     
+                            <div class="form-group">   
+                                <label for="exampleInputEmail1">Roles <span style="color: red;">*</span></label>
+                                <select class="form-control" id="seluserrole" name="seluserrole" style="padding-left: 0px !important;">
+                                    <option value="">Select Roles</option>
+                                </select>
+                            </div>
+                            <div class="form-group">   
+                                <label for="exampleInputEmail1">User Type <span style="color: red;">*</span></label>
+                                <select class="form-control" id="selusertype" name="selusertype" style="padding-left: 0px !important;">
+                                    <option value="">Select User Type</option>
+                                    <option value="Non LDAP">Non LDAP</option>
+                                    <option value="LDAP">LDAP</option>
+                                </select>
+                            </div>
+                            <div class="form-group">   
+                                <label for="exampleInputEmail1">TimeZone <span style="color: red;">*</span></label>
+                                <select class="form-control" id="seltimezone" name="seltimezone" style="padding-left: 0px !important;">
+                                    <option value="">Select TimeZone</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer" >
+                    <button type="button" id="btnuserclose" name="btnuserclose" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success btn_user_save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="modal bs-customer-map-modal-lg" role="dialog" id="bs-customer-map-modal-lg">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">       
+                    <h4 class="modal-title" id="myLargeModalLabel">Customer Mapping
+                        <span>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="usr" ng-model="searchtxt" placeholder="Search here ...">
+                            </div>
+                        </span>
+                    </h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-element" autocomplete="off" name="formuser" id="formuser">
+                        <div class="row">
+                            
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer" >
+                    <button type="button" id="btnuserclose" name="btnuserclose" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success btn_user_save">Save</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <!-- <div class="modal update-modal" tabindex="-1" role="dialog" aria-labelledby="myLargeUpdateModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg animated fadeInRight" style="width: 400px;">
+            <div class="modal-content" style="height:100%;">
+                <div class="modal-header">                       
+                    <h4 class="modal-title" id="myLargeUpdateModalLabel" style="font-size: 24px;">Update User</h4>
+                </div>
+                <div class="modal-body" style="padding-top: 85px;padding-right: 15px;">
+                    <div class="">
+                        <form class="form-element" name="updateformuser" id="updateformuser">
+                            <div class="form-group has-feedback">  
+                                <label>First Name <span style="color: red;">*</span></label>
+                                <input type="text" id="updatetxtfname" name="updatetxtfname"  class="form-control" style="padding-left: 0px !important;" placeholder="First Name" autocomplete="off">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label>Middle Name</label>
+                                <input type="text" id="updatetxtmname" name="updatetxtmname" class="form-control" style="padding-left: 0px !important;" placeholder="Middle Name" autocomplete="off">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label>Last Name <span style="color: red;">*</span></label>
+                                <input type="text" id="updatetxtlname" name="txtlname" class="form-control" style="padding-left: 0px !important;" placeholder="Last Name" autocomplete="off">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label>Email Id <span style="color: red;">*</span></label>
+                                <input type="text" id="updatetxtemailid" name="updatetxtemailid" class="form-control" style="padding-left: 0px !important;" placeholder="Email Id" autocomplete="off">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label>Username <span style="color: red;">*</span></label>
+                                <input type="text" id="updatetxtusername" name="updatetxtusername" class="form-control" style="padding-left: 0px !important;" placeholder="Username" autocomplete="off">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label>Password <span style="color: red;">*</span></label>
+                                <input type="password" id="updatetxtpassword" name="updatetxtpassword" class="form-control" style="padding-left: 0px !important;" placeholder="Password">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label>Confirm Password <span style="color: red;">*</span></label>
+                                <input type="password" id="updatetxtrepassword" name="updatetxtrepassword" class="form-control" style="padding-left: 0px !important;" placeholder="Confirm Password">
+                            </div>
+                            <div class="form-group has-feedback">  
+                                <label>Phone Number</label>
+                                <input type="number" id="updatetxtprimarynum" name="updatetxtprimarynum" class="form-control" style="padding-left: 0px !important;" placeholder="Phone Number"/>                                  
+                            </div>     
+                            <div class="form-group">   
+                                <label>Roles <span style="color: red;">*</span></label>
+                                <select class="form-control" id="updateseluserrole" name="updateseluserrole" style="padding-left: 0px !important;">
+                                    <option value="">Select Roles</option>
+                                </select>
+                            </div>
+                            <div class="form-group">   
+                                <label>User Type <span style="color: red;">*</span></label>
+                                <select class="form-control" id="updateselusertype" name="updateselusertype" style="padding-left: 0px !important;">
+                                    <option value="">Select User Type</option>
+                                    <option value="Non LDAP">Non LDAP</option>
+                                    <option value="LDAP">LDAP</option>
+                                </select>
+                            </div>
+                            <div class="form-group">   
+                                <label>TimeZone <span style="color: red;">*</span></label>
+                                <select class="form-control" id="updateseltimezone" name="updateseltimezone" style="padding-left: 0px !important;">
+                                    <option value="">Select TimeZone</option>
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="btnupdateuserclose" name="btnupdateuserclose" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success btn_update_user_save">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+</section>

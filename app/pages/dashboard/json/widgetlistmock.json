@@ -1,0 +1,173 @@
+{
+  "result": "success",
+  "data": {
+    "Event Management": [
+      {
+        "category_name": "Event Management",
+        "widget_id": 1,
+        "widget_name": "Alert Severity",
+        "chart_name": "Bar Chart",
+        "attributes": {
+          "width": 3,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_address_or_link": "http://95.216.28.228:4006/dashboard/api1.0/alertseveritybc/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "api_description": "Alert Severity"
+      },
+      {
+        "category_name": "Event Management",
+        "widget_id": 4,
+        "widget_name": "Alert Status",
+        "chart_name": "Donut Chart",
+        "attributes": {
+          "width": 3,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_address_or_link": "http://95.216.28.228:4006/dashboard/api1.0/alertstatus/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "api_description": "Alert Status"
+      },
+      {
+        "category_name": "Event Management",
+        "widget_id": 6,
+        "widget_name": "Ticket Status",
+        "chart_name": "Donut Chart",
+        "attributes": {
+          "width": 3,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_address_or_link": "http://95.216.28.228:4006/dashboard/api1.0/ticketstatus/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "api_description": "Ticket Status"
+      },
+      {
+        "category_name": "Event Management",
+        "widget_id": 7,
+        "widget_name": "Top 5 Component",
+        "chart_name": "Donut Chart",
+        "attributes": {
+          "width": 4,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_address_or_link": "http://95.216.28.228:4006/dashboard/api1.0/top5component/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "api_description": "Top 5 Component"
+      },
+      {
+        "category_name": "Event Management",
+        "widget_id": 8,
+        "widget_name": "Top 5 Automation",
+        "chart_name": "Donut Chart",
+        "attributes": {
+          "width": 4,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_address_or_link": "http://95.216.28.228:4006/dashboard/api1.0/top5automation/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "api_description": "Top 5 Automation"
+      }
+    ],
+    "Orchestration": [
+      {
+        "category_name": "Orchestration",
+        "widget_id": 2,
+        "widget_name": "Automation Type",
+        "chart_name": "Bar Chart",
+        "attributes": {
+          "width": 3,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_address_or_link": "http://95.216.28.228:4006/dashboard/api1.0/automationtypebc/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "api_description": "Automation Type"
+      },
+      {
+        "category_name": "Orchestration",
+        "widget_id": 3,
+        "widget_name": "Workflows Status",
+        "chart_name": "Bar Chart",
+        "attributes": {
+          "width": 3,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_address_or_link": "http://95.216.28.228:4006/dashboard/api1.0/workflowstatusbc/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "api_description": "Workflows Status"
+      },
+      {
+        "category_name": "Orchestration",
+        "widget_id": 5,
+        "widget_name": "Automation Status",
+        "chart_name": "Donut Chart",
+        "attributes": {
+          "width": 3,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_address_or_link": "http://95.216.28.228:4006/dashboard/api1.0/automationstatus/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "api_description": "Automation Status"
+      }
+    ],
+    "Others": [
+      {
+        "category_name": "Others",
+        "widget_id": 9,
+        "widget_name": "Supression 30 Days",
+        "chart_name": "Line Chart",
+        "attributes": {
+          "width": 9,
+          "height": 3,
+          "top": 0,
+          "left": 0,
+          "hyper_link": "",
+          "realtime_yn": "Y"
+        },
+        "api_address_or_link": "http://95.216.28.228:4006/dashboard/api1.0/suppression30days/all/0",
+        "api_method": "GET",
+        "api_body": "",
+        "api_description": "Supression 30 Days"
+      }
+    ]
+  }
+}

@@ -1,0 +1,29 @@
+<section class="dashboardcontainer" ng-init="init()">
+    <div role="tabpanel">
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#tab1" role="tab" data-toggle="tab" aria-expanded="true">Executive Summary</a></li>
+            <li role="presentation" class=""><a href="#tab2" role="tab" data-toggle="tab" aria-expanded="false">Event Analytics</a></li>
+            <li role="presentation" class=""><a href="#tab3" role="tab" data-toggle="tab" aria-expanded="false">Service Visualization</a></li>
+            <li role="presentation" class=""><a href="#tab4" role="tab" data-toggle="tab" aria-expanded="false">Auto Classification</a></li>
+            <li role="presentation" class="" style="display:none;"><a href="#tab4" role="tab" data-toggle="tab" aria-expanded="false">CMDB</a></li>
+        </ul>
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane active in" id="tab1">
+                <dashboard-exec-summary></dashboard-exec-summary>
+            </div>
+            <div role="tabpanel" class="tab-pane active in" id="tab2">
+                <dashboard-event-analytics></dashboard-event-analytics>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab3">
+                <dashboard-service-visual></dashboard-service-visual>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab4">
+                <dashboard-auto-classification></dashboard-auto-classification>
+            </div>
+            <div role="tabpanel" class="tab-pane" id="tab4" >CMDB Content</div>
+        </div>
+    </div>   
+    <!--<div>
+        <p>Under Development ...</p>
+    </div>-->
+</section>

@@ -1,0 +1,136 @@
+<div class="applicationcontainer" ng-controller="applicationController" ng-init="init()">
+
+   <div class="row" style="margin-bottom:15px;">
+      <div class="pull-left" > 
+         <div class="col-lg-12">
+               <input type="text" class="form-control filter_searchbox"  ng-model="searchtxt" name="search" value="" placeholder="Search ..." autocomplete="off" style="height: 34px; border-radius: 0px;"/>
+               
+               <p style="float: left; margin: 6px 15px;">{{(getappsdetlist | filter : searchtxt).length}} out of {{getappsdetlist.length}} </p> 
+            <!-- <br> -->
+            <!-- <br> -->
+         </div>
+      </div>
+      <div class="pull-right">
+         <div class="col-lg-12">
+            <a class="btn btn-sm btn-default pull-right btnnewappadd" ><i class="fa fa-plus" style="padding-right:5px;" aria-hidden="true"></i> ADD</a>
+            <!-- <br>
+            <br> -->
+         </div>
+      </div>
+   </div>
+   <div class="panel panel-white">
+      <div class="panel-body" style="padding: 0px">
+         <table class="table tblapplication" style="margin-bottom: 0px; border: 1px solid #ebeef0;">
+            <thead style="background: #ebeef0;">
+               <tr class="discovery_header">                                                                     
+                  <th>Application Name</th>
+                  <th>Application Class</th>
+                  <th>Application Sub Class</th>
+                  <th>Actions</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr class="det-row" ng-repeat="appviewlist in getappsdetlist  | filter : searchtxt" ng-init="$last && finished()">
+                  <td>
+                     <p class="hidden">{{appviewlist.application_id}}</p>
+                     {{appviewlist.application_name}}                                                         
+                  </td>
+                  <td>{{appviewlist.application_class}}</td>
+                  <td>{{appviewlist.application_subclass}}</td>
+                  <td>
+                     <a href="" class="btn-update btnappupdatemodal" ng-click="btnappupdate(appviewlist.application_id)" style="color:#12AFCB; font-size: 24px;" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil " aria-hidden="true"></i></a> 
+                     <a href="" class="btn-detach" ng-click="deleteRowval(appviewlist.application_name);" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" data-toggle="tooltip" data-original-title="Delete" ><i class="fa fa-trash-o " aria-hidden="true"></i></a>
+                  </td>
+               </tr> 
+               <tr  ng-show="getappsdetlist.length == 0">
+                  <td colspan="5" style="text-align:center;">
+                     No Records Found
+                  </td> 
+               </tr>                                                                
+            </tbody>
+         </table>
+      </div>                                                    
+   </div>
+   
+   <!-- update cred Detail modal -->
+   <div class="modal fade " id="modelappupdatedet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog animated fadeInDown">
+         <div class="modal-content">
+            <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Update Application Details</h4>
+            </div>
+            <div class="modal-body clearfix">
+               <div class="smpt_form_container">
+                  <form id="updateappForm" name="updateappForm" class="ng-pristine ng-valid"  novalidate="novalidate">
+                     <div class="form-group">
+                           <label>Application Name</label> 
+                           <input type="text"  class="form-control" disabled ng-model="updateviewmod.application_name" id="txtupdateappname"  name="txtupdateappname" placeholder="Enter The Application Name">
+                     </div>
+                     <div class="form-group ">
+                        <label for="txtsmtpip">Application Class <span style="color: red;">*</span></label>
+                        <select class="form-control" id="selupdateappcls" ng-model="updateviewmod.application_class"  autocomplete="off" name="selupdateappcls">
+                           <option  value="">-- select --</option>
+                           <option ng-repeat="acl in getappclslist.aclass_name" value="{{acl}}">{{acl}}</option>
+                        </select>
+                     </div>
+                     <div class="form-group ">
+                        <label for="txtsmtpip">Application Sub - Class <span style="color: red;">*</span></label>
+                        <select class="form-control" id="selupdateappsubcls"  ng-model="updateviewmod.application_subclass" autocomplete="off" name="selupdateappsubcls">
+                           <option  value="">-- select --</option>
+                           <option ng-repeat="ascl in getappsclslist.asclass_name" value="{{ascl}}">{{ascl}}</option>
+                        </select>
+                     </div>
+                     <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                           <button type="button" id="btnappupdatemodalcancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                           <a href="" id="btnappdetUpdate" class="btn btn-sm btn-success" style="margin-right: 10px;">Update</a>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>  
+   </div>
+   
+   <!-- Add New cred Detail modal -->
+   <div class="modal fade " id="modeladdappdet" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog animated fadeInDown">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4 class="modal-title" id="myModalLabel">New Application Add</h4>
+               </div>
+               <div class="modal-body clearfix">
+                  <div class="smpt_form_container">
+                     <form id="addappForm" name="addappForm" class="ng-pristine ng-valid" novalidate="novalidate">
+                        <div class="form-group">
+                           <label>Application Name <span style="color: red;">*</span></label> 
+                           <input type="text"  class="form-control" id="txtaddappname"  name="txtaddappname" placeholder="Enter The Application Name">
+                        </div>
+                        <div class="form-group ">
+                           <label for="txtsmtpip">Application Class <span style="color: red;">*</span></label>
+                           <select class="form-control" id="seladdappcls" autocomplete="off" name="seladdappcls">
+                              <option  value="">-- select --</option>
+                              <option ng-repeat="appclslst in getappclslist.aclass_name" value="{{appclslst}}">{{appclslst}}</option>
+                           </select>
+                        </div>
+                        <div class="form-group ">
+                           <label for="txtsmtpip">Application Sub - Class <span style="color: red;">*</span></label>
+                           <select class="form-control" id="seladdappsubcls" autocomplete="off" name="seladdappsubcls">
+                              <option  value="">-- select --</option>
+                              <option ng-repeat="appsubclslst in getappsclslist.asclass_name" value="{{appsubclslst}}">{{appsubclslst}}</option>
+                           </select>
+                        </div>
+                        <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                              <button type="button" id="btnaddappmodalcancel" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                              <a href="" id="btnaddappdet" class="btn btn-sm btn-success" style="margin-right: 10px;">Save</a>
+                        </div>
+                     </form>
+                  </div>
+               </div>
+            </div>
+      </div>
+   </div>
+</div>
+
+

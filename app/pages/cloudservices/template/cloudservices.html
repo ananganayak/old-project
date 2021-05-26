@@ -1,0 +1,20 @@
+<section class="cloudservicesController" ng-init="init()">
+    <div role="tabpanel">
+        <ul role="tablist" class="nav nav-tabs" id="cloudservicetab">    
+            <li class="active" data-role="">
+                <a data-toggle="tab" id="cloudservices_Auto_Scale_tab" role="tab" data-target="#cloudservices_auto_scale_content" aria-expanded="false">Auto Scale</a>
+            </li>
+            <li data-role="">
+                <a data-toggle="tab" id="cloudservices_Analytics_tab" role="tab" data-target="#cloudservices_analytic_content" aria-expanded="false">Analytics</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="cloudserviceContent">
+            <div  id="cloudservices_auto_scale_content" class="tab-pane active fade in" role="tabpanel">
+                <intelli-autoscale></intelli-autocale>
+            </div>
+            <div  id="cloudservices_analytic_content" class="tab-pane fade in" role="tabpanel">
+                <intelli-analytics></intelli-analytics>
+            </div>
+        </div>
+    </div>
+</section>

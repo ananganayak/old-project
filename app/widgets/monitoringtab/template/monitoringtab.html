@@ -1,0 +1,116 @@
+<div class="monitoringController" ng-controller="monitoringtabController" ng-init="init()">
+    <div class="row">
+        <style>
+            #datatablepanel{
+                overflow: hidden;
+                overflow-y: scroll;
+            }
+        </style>
+        <div class="col-md-12  monitorpage-content">
+            <div class="row">
+                <div class="col-lg-6">
+                    <!-- <div class="hostlistdiv" ng-repeat="hs in getallappval.hostgroups">
+                        <button class="btn btn-info btn-sm" ng-class="{active : activeValue1 === hs}" data-key="{{hs}}" ng-click="hostlistget(hs)" >{{hs}}</button>
+                    </div> -->
+                    <div class="form-group" style="width: 37.5%;">
+                        <!-- <label >Host Group</label> -->
+                        <select class="form-control"  id="selhostgrp" name="selhostgrp" ng-model="selhostgrp" ng-change="hostlistget()">
+                            <option value="">-- Select Host Group--</option>
+                            <option value="{{hs}} " ng-repeat="hs in getallappval">{{hs}}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <p ng-hide="serviceviewpanel" style="float: right; margin: 6px 15px;">{{(getservicelist | filter : searchservice).length}} out of {{getservicelist.length}} </p>
+                    <div class="form-group" ng-hide="serviceviewpanel"  style="width: 300px;float: right;">
+                        <!-- <label>Search Service</label>  -->
+                        <input type="text"  class="form-control" id="txthypip" name="txthypip" ng-model="searchservice" placeholder="Search Service" autocomplete="off">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 n-menu" ng-hide="hostviewpanel">
+                    <div class="panel panel-default" id="hostname" style="margin-bottom: 0px;">
+                        <div class="panel-heading">Host List 
+                            <span><a href="" ng-click="showSearch()"><i class="fa fa-search" aria-hidden="true"></i></a></span>
+                            <p ng-hide="showsearchtxt"  style="margin-top: 7px;"><input type="text" class="form-control" id="txtshowsearch" ng-model="searchText" name="search" value="" placeholder="Search ..." autocomplete="off"></p>
+                        </div>
+                        <div class="panel-body" id="hostbody">
+                            <div class="value-row row" ng-class="{active : activeValue === hst}" ng-click="hostnameget(hst, $event)" data-key="{{hst}}" ng-repeat="hst in getmonitoringhstlist | filter : searchText">
+                                <p style="color: #3F51B5; width: 100%;">{{hst}}</p>
+                            </div>
+                        </div>
+                        <div class="panel-body" id="hostbodyvms">
+                            <div class="value-row row" ng-class="{active : activeValue === hst[0]}" ng-click="hostnameget(hst[0], $event)" data-key="{{hst[0]}}" ng-repeat="hst in getmonitoringhstlist | filter : searchText">
+                                <span style="font-size: 9px;">{{hst[2]}} - {{hst[1]}}</span>
+                                <p style="color: #3F51B5; width: 100%; font-size: 12px;">{{hst[0]}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-9"  ng-hide="serviceviewpanel" >
+                    <div class="panel panel-white" id="datatablepanel"  style="margin-bottom: 0px;">
+                        <div class="panel-body" style="padding: 0px" >
+                            <table class="table monitoring_table"  style="margin-bottom: 0px;">
+                                <thead style="background: #ebeef0;">
+                                    <tr class="monitoring_tr" style="border: 3px solid #ebeef0;"> 
+                                        <th class="hidden">Service ID</th>
+                                        <th class="sorting" style="width:23%" data-col="sorting" data-key="service">Service</th>
+                                        <th class="sorting_asc" style="width:10%" data-col="sorting" data-key="status">Status</th>
+                                        <th style="width:47%">Status Information</th>
+                                        <th>Last Check</th>
+                                        <th class="sorting" style="width:15%" data-col="sorting" data-key="since">Since</th>
+                                        <!-- <th style="width:5%">Chart</th> -->
+                                    </tr>
+                                </thead>
+                                <tbody style="border: 1px solid #efefef;">
+                                    <tr ng-show="sbody" ng-class="{warningstatus: as[2] =='WARNING', okstatus: as[2] == 'OK', unkownstatus: as[2] == 'UNKNOWN', criticalstatus: as[2] == 'CRITICAL'}" ng-hide="key =='Dashboards'" ng-repeat="as in getservicelist | filter : searchservice">
+                                        <td class="hidden">{{as[0]}}</td>
+                                        <td style="width:23%">{{as[1]}}</td>
+                                        <td style="width:10%"><span class="label" ng-class="{'label-warning': as[2] =='WARNING', 'label-success': as[2] == 'OK', 'label-info': as[2] == 'UNKNOWN', 'label-danger': as[2] == 'CRITICAL'}">{{as[2]}}</span></td>
+                                        <td style="width:47%">{{as[3]}}</td>
+                                        <td style="width:10%">{{as[4]}}</td>
+                                        <td style="width:15%">{{as[5]}}</td>
+                                        <!-- <td style="width:5%"><a href="" ng-click="servicechartget(key)" style="color: #00BCD4;"><i class="fa fa-line-chart" aria-hidden="true"></i></a></td> -->
+                                    </tr>
+                                    <tr ng-show="erbody">
+                                        <td colspan="7" style="text-align:center;">
+                                            No Records Found
+                                        </td> 
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div> 
+                        <!-- <div class="row" style="margin-top: 15px; margin-bottom: 15px;">
+                            <div class="col-lg-6"><button class="btn btn-default" ng-show="prevbtn" ng-click="pervservcount()" style="float: left;">Prev</button></div>
+                            <div class="col-lg-6"><button class="btn btn-default" ng-show="nextbtn" ng-click="nextservcount()" style="float: right;">Next</button></div>
+                        </div>                                                    -->
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal fade " id="model_chart_view" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-lg animated fadeInDown">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Chart</h4>
+                        </div>
+                        <div class="modal-body clearfix">
+                            <!-- <iframe ng-src="{{trustSrc(dashboardmap)}}" height="600" width="100%"> </iframe>  -->
+                            <div class="graphcpupercent col-lg-6"></div>
+                            <div class="graphcpucount col-lg-6"></div>
+                            <div class="graphcpuidle col-lg-6"></div>
+                            <div class="graphcpuser col-lg-6"></div>
+                            <div class="graphcpusystem col-lg-6"></div>
+  
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="chartmodalbtn" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                        </div>
+                   </div>
+                </div>
+             </div>
+        </div>
+    </div>
+</div>

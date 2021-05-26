@@ -1,0 +1,32 @@
+<section class="vmwaremonitoringController" ng-init="init()">
+    <div role="tabpanel">
+        <ul role="tablist" class="nav nav-tabs" id="vmMonitoring_tab">    
+            <li class="active" data-role="">
+                <a data-toggle="tab" id="vmmonitoring_overview_tab" role="tab" href="#vmmonitoring_overview" aria-expanded="false">VMware Overview</a>
+            </li>
+            <li class="" >
+                <a data-toggle="tab" id="vmmonitoring_host_tab" role="tab" href="#vmmonitoring_host" aria-expanded="false">VMware Host</a>
+            </li>
+            <li class="">
+                <a data-toggle="tab" id="vmmonitoring_vms_tab" role="tab" href="#vmmonitoring_vms" aria-expanded="false">VMware VMs</a>
+            </li>
+            <li class="" data-role="">
+                <a data-toggle="tab" id="vmmonitoring_datastore_tab" role="tab" href="#vmmonitoring_datastore" aria-expanded="false">VMware Datastore</a>
+            </li> 
+        </ul>
+        <div class="tab-content" id="vmMonitoring_content">
+            <div  id="vmmonitoring_overview" class="tab-pane active fade in" role="tabpanel">
+                <intelli-vmwareoverview></intelli-vmwareoverview>
+            </div>
+            <div  id="vmmonitoring_host" class="tab-pane fade" role="tabpanel">
+                <intelli-vmwarehost></intelli-vmwarehost>
+            </div>
+            <div id="vmmonitoring_vms" class="tab-pane fade" role="tabpanel">
+                <intelli-vmwarevms></intelli-vmwarevms>
+            </div>
+            <div id="vmmonitoring_datastore" class="tab-pane fade" role="tabpanel">
+               <intelli-vmwaredatastore></intelli-vmwaredatastore>
+            </div>
+        </div>
+    </div>
+</section>

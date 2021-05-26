@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html ng-app="mainApp">
+    <head>
+        <title ng-bind="pageTitle"></title>
+
+        <link rel="shortcut icon" href="{{ brand_icon }}">
+        <link rel="manifest" href="manifest.json">
+
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">  
+
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+        <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->   
+        <!--<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,600' rel='stylesheet' type='text/css'>-->
+        <link rel="stylesheet" href="app/css/google_fonts.css" type="text/css"/>
+        <link rel="stylesheet" href="app/css/lib/bootstrap/bootstrap.min.css" type="text/css">
+        <link rel="stylesheet" href="app/css/bootstrap-multiselect.css" type="text/css" />
+        <link rel="stylesheet" href="app/css/lib/font-awesome/font-awesome.css" type="text/css"/>
+        <link rel="stylesheet" href="app/css/lib/ionicons/ionicons.css" type="text/css"/>
+        <link rel="stylesheet" href="app/css/lib/uniform/uniform.default.min.css" type="text/css"/>
+        <!-- build:css(.) app/css/plugins.css -->
+        <link rel="stylesheet" href="app/css/spinner.css" type="text/css"/>
+        <link rel="stylesheet" href="app/css/themes/pace-theme-flash.css" type="text/css"/>        
+        <link rel="stylesheet" href="app/css/lib/waves/waves.min.css" type="text/css"/>
+        <link rel="stylesheet" href="app/css/lib/switchery/switchery.min.css" type="text/css"/>
+        <link rel="stylesheet" href='app/css/datepicker/default.css' type="text/css"/>
+        <link rel="stylesheet" href='app/css/datepicker/default.date.css' type="text/css"/>
+        <link rel="stylesheet" href='app/css/angular-gridster.min.css' type="text/css"/>
+        <link rel="stylesheet" href='app/css/circle-chart.css' type="text/css"/>
+        <link rel="stylesheet" href='app/css/select2.min.css' type="text/css"/>
+
+        <!-- <link type="text/css" href="https://10.227.45.114:5693/static/css/ncpa-graph.css" rel="stylesheet"> -->
+        <!-- endbuild -->              
+        <!-- build:css(.) app/css/main.css -->        
+        <link rel="stylesheet" href="app/css/modern.css" type="text/css"/>       
+        <link rel="stylesheet" href="app/css/animate.css" type="text/css"/>
+        <link rel="stylesheet" href="app/css/custom.css" type="text/css"/>
+        <link rel="stylesheet" href="app/css/daterangepicker.css" type="text/css" />
+        <link rel="stylesheet" href="app/css/jquery-confirm.min.css" type="text/css" />
+        <link rel="stylesheet" href="app/css/MultiStep.css" type="text/css" />
+        <link rel="stylesheet" href="app/css/MultiStep-theme.min.css" type="text/css" />
+        
+        <!-- endbuild -->      
+    </head>
+    <body ng-controller="mainController" disable-right-click ng-class="showHeader ? 'page-header-fixed page-sidebar-fixed compact-menu' : 'page-login'"/>
+        
+        <div class="imgloader csspinner traditional" ng-show='showSpinner'></div>
+
+        <div class="page-content content-wrap ">
+
+            <intelli-header></intelli-header>
+            <intelli-side-menu></intelli-side-menu>
+
+            <div class="page-inner" ng-class="showSideMenu ? '' : 'fullpagelayout'">
+                <intelli-breadcrumb></intelli-breadcrumb>
+                <div id="main-wrapper" style="margin: 10px;">
+                    <section ui-view></section>
+                </div><!-- Main Wrapper -->
+            </div><!-- Page Inner -->
+        </div>
+
+        <!-- build:js scripts/maincore.js -->
+
+        <script type="text/javascript" src="lib/lib/modernizr.js"></script> 
+        <script type="text/javascript" src="lib/lib/snap.svg-min.js"></script>
+        <script type="text/javascript" src="lib/lib/jquery-2.1.4.min.js"></script>
+        <script type="text/javascript" src="lib/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="lib/jquery.searchableSelect.js"></script>
+        <script type="text/javascript" src="lib/lib/bootstrap.min.js"></script>
+
+        <!-- endbuild -->
+
+        <!-- build:js scripts/angular.js -->        
+        <script type="text/javascript" src="lib/angular.js"></script>
+        <script type="text/javascript" src="lib/angular-resource.min.js"></script>
+        <script type="text/javascript" src="lib/angular-route.js"></script>
+        <script type="text/javascript" src="lib/angular-touch.js"></script>
+        <script type="text/javascript" src="lib/angular-ui-router.js"></script>
+        <script type="text/javascript" src="lib/angular-sanitize.js"></script>
+        <script type="text/javascript" src="lib/angular-animate.js"></script>
+        <script type="text/javascript" src="lib/angular-pagination.js"></script>
+        <script type="text/javascript" src="lib/angular-gridster.js"></script>
+        <script type="text/javascript" src="lib/angulargrid.js"></script>
+        <script type="text/javascript" src="app/core/chart.js"></script>
+        <!-- endbuild -->
+
+        <!-- build:js scripts/plugin.js -->        
+
+
+        <script type="text/javascript" src="lib/jquery.validate.js"></script>
+        <script type="text/javascript" src="lib/date.js"></script>
+        <script type="text/javascript" src="lib/jquery.slimscroll.min.js"></script>
+        <script type="text/javascript" src="lib/pace.min.js"></script>
+        <script type="text/javascript" src="lib/jquery.uniform.min.js"></script>
+        <script type="text/javascript" src="lib/switchery.min.js"></script>        
+        <script type="text/javascript" src="lib/waves.min.js"></script>
+        <script type="text/javascript" src="lib/notie.js"></script>
+        <script type="text/javascript" src="lib/jquery.peity.js"></script>
+        <script type="text/javascript" src="lib/datepicker/legacy.js"></script>
+        <script type="text/javascript" src="lib/datepicker/picker.js"></script>
+        <script type="text/javascript" src="lib/datepicker/picker.date.js"></script>
+        <script type="text/javascript" src="lib/select2.full.min.js"></script>
+
+        <!-- endbuild -->
+        
+        <script type="text/javascript" src="lib/echarts.min.js"></script>
+        <script type="text/javascript" src="lib/form-builder.min.js"></script>
+        <script type="text/javascript" src="lib/form-render.min.js"></script>
+        
+        <!-- build:js scripts/more_plugin.js -->        
+        <script type="text/javascript" src="lib/moment.min.js"></script>
+        <script type="text/javascript" src="lib/lib/bootstrap-datetimepicker.min.js"></script>
+        <script data-require="angular.js@*" data-semver="1.3.14" src="https://code.angularjs.org/1.3.14/angular.js"></script>
+        <script data-require="lodash.js@*" data-semver="3.5.0" src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.js"></script>
+        <!-- <script type="text/javascript" src="lib/angularjs-dropdown-multiselect.min.js"></script> -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/angularjs-dropdown-multiselect/2.0.0-beta.10/src/angularjs-dropdown-multiselect.js"></script>
+        <!-- <script type="text/javascript" src="lib/multiselect.js"></script> -->
+        <script type="text/javascript" src="lib/daterangepicker.min.js"></script>
+        <script type="text/javascript" src="lib/jquery-confirm.min.js"></script>
+        <script type="text/javascript" src="lib/ace.js"></script>
+        <script type="text/javascript" src="lib/theme-twilight.js"></script>
+        <script type="text/javascript" src="lib/bootstrap-multiselect.js"></script>
+        <script type="text/javascript" src="lib/raphael-min.js"></script>
+        <script type="text/javascript" src="lib/kuma-gauge.jquery.js"></script>
+        <script type="text/javascript" src="lib/aes.js"></script>
+        <script type="text/javascript" src="lib/pbkdf2.js"></script>
+        <script type="text/javascript" src="lib/MultiStep.js"></script>
+        <script type="text/javascript" src="lib/pdfmake.min.js"></script>
+        <script type="text/javascript" src="lib/html2canvas.min.js"></script>
+        <script type="text/javascript" src="lib/jspdf.min.js"></script>
+        <script type="text/javascript" src="lib/jquery.tabletoCSV.js"></script>
+
+        <!-- <script type="text/javascript" src="https://10.227.45.114:5693/static/js/smoothie.js"></script>
+        <script type="text/javascript" src="https://10.227.45.114:5693/static/js/d3.v5.min.js"></script> -->
+        <!-- endbuild -->
+        
+        <script type="text/javascript" src="lib/socket.io.min.js"></script>
+        <script type="text/javascript" src="lib/config/config.js"></script>
+        
+        <!-- build:js scripts/autointelli.js -->       
+        <script type="text/javascript" src="app/app.js"></script>       
+        <script type="text/javascript" src="app/core/main_core.js"></script>
+        <script type="text/javascript" src="app/core/service/APIService.js"></script>
+        
+        <script type="text/javascript" src="app/pages/login/js/loginController.js"></script> 
+        
+        <script type="text/javascript" src="app/pages/dashboard/js/dashboardController.js"></script>  
+        <script type="text/javascript" src="app/pages/dashboard/js/dashboardService.js"></script>
+                
+        <script type="text/javascript" src="app/pages/evm/js/evmController.js"></script> 
+        <script type="text/javascript" src="app/pages/automation/js/automationController.js"></script>
+        
+        <script type="text/javascript" src="app/pages/admin/js/adminController.js"></script>        
+        <script type="text/javascript" src="app/pages/report/js/reportController.js"></script>        
+        
+        <!-- <script src="app/pages/review/js/reviewController.js"></script> -->
+        
+        <script type="text/javascript" src="app/pages/users/js/usersController.js"></script>
+        <script type="text/javascript" src="app/pages/users/js/usersService.js"></script>
+        
+        <script type="text/javascript" src="app/pages/roles/js/rolesController.js"></script>
+        <script type="text/javascript" src="app/pages/roles/js/rolesService.js"></script>
+        
+        <script type="text/javascript" src="app/pages/cmdb/js/cmdbController.js"></script>
+        <script type="text/javascript" src="app/pages/cmdb/js/cmdbService.js"></script>
+        
+        <script type="text/javascript" src="app/pages/itsmintegration/js/itsmintegrationController.js"></script>
+        <script type="text/javascript" src="app/pages/itsmintegration/js/itsmintegrationService.js"></script>
+
+        <script type="text/javascript" src="app/pages/manageEngine/js/manageEngineController.js"></script>
+        <script type="text/javascript" src="app/pages/manageEngine/js/manageEngineService.js"></script>
+        
+        <script type="text/javascript" src="app/pages/policyengine/js/policyengineController.js"></script>
+        <script type="text/javascript" src="app/pages/policyengine/js/policyengineService.js"></script>
+
+        <script type="text/javascript" src="app/pages/licence/js/licenceController.js"></script>
+        <script type="text/javascript" src="app/pages/licence/js/licenceService.js"></script>
+        
+        <script type="text/javascript" src="app/pages/smtp/js/smtpController.js"></script>
+        <script type="text/javascript" src="app/pages/smtp/js/smtpService.js"></script>
+        
+        <script type="text/javascript" src="app/pages/ldap/js/ldapController.js"></script>
+        <script type="text/javascript" src="app/pages/ldap/js/ldapService.js"></script>
+        
+        <script type="text/javascript" src="app/pages/botrepo/js/botrepoController.js"></script>
+        <script type="text/javascript" src="app/pages/botrepo/js/botrepoService.js"></script>
+        
+        <script type="text/javascript" src="app/pages/patch/js/patchController.js"></script>
+        <script type="text/javascript" src="app/pages/patch/js/patchService.js"></script>
+
+        <script type="text/javascript" src="app/pages/monitoring/js/monitoringController.js"></script>
+        <script type="text/javascript" src="app/pages/vmwaremonitoring/js/vmwaremonitoringController.js"></script>
+        
+        <script type="text/javascript" src="app/pages/machineLearning/js/machineLearningController.js"></script>
+
+        <script type="text/javascript" src="app/pages/intelDCM/js/intelDCMController.js"></script>
+        <script type="text/javascript" src="app/pages/intelDCM/js/intelDCMService.js"></script>
+        <!-- <script src="app/pages/monitoring/js/monitoringService.js"></script> -->
+        
+        <script type="text/javascript" src="app/pages/managedashboard/js/managedashboardController.js"></script>
+        <script type="text/javascript" src="app/pages/managedashboard/js/managedashboardService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/header/js/headerController.js"></script>
+        <script type="text/javascript" src="app/widgets/header/js/headerDirective.js"></script>     
+
+        <script type="text/javascript" src="app/widgets/sideMenu/js/sideMenuController.js"></script>
+        <script type="text/javascript" src="app/widgets/sideMenu/js/sideMenuDirective.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/breadcrumb/js/breadcrumbController.js"></script>
+        <script type="text/javascript" src="app/widgets/breadcrumb/js/breadcrumbDirective.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/login/js/loginController.js"></script>
+        <script type="text/javascript" src="app/widgets/login/js/loginDirective.js"></script>      
+        <script type="text/javascript" src="app/widgets/login/js/loginService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/bots/js/botsController.js"></script>
+        <script type="text/javascript" src="app/widgets/bots/js/botsDirective.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/workflow/js/workflowController.js"></script>
+        <script type="text/javascript" src="app/widgets/workflow/js/workflowDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/workflow/js/workflowService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/deployment/js/deploymentController.js"></script>
+        <script type="text/javascript" src="app/widgets/deployment/js/deploymentDirective.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/alerts/js/alertsController.js"></script>
+        <script type="text/javascript" src="app/widgets/alerts/js/alertsDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/alerts/js/alertsService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/events/js/eventsController.js"></script>
+        <script type="text/javascript" src="app/widgets/events/js/eventsDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/events/js/eventsService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/dropevents/js/dropeventsController.js"></script>
+        <script type="text/javascript" src="app/widgets/dropevents/js/dropeventsDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/dropevents/js/dropeventsService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/formdesigner/js/formdesignerController.js"></script>
+        <script type="text/javascript" src="app/widgets/formdesigner/js/formdesignerDirective.js"></script>        
+        
+        <script type="text/javascript" src="app/widgets/dashboardExecSummary/js/dashboardExecSummaryController.js"></script>
+        <script type="text/javascript" src="app/widgets/dashboardExecSummary/js/dashboardExecSummaryDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/dashboardExecSummary/js/dashboardExecSummaryService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/dashboardEventAnalytics/js/dashboardEventAnalyticsController.js"></script>
+        <script type="text/javascript" src="app/widgets/dashboardEventAnalytics/js/dashboardEventAnalyticsDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/dashboardEventAnalytics/js/dashboardEventAnalyticsService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/dashboardServiceVisual/js/dashboardServiceVisualController.js"></script>
+        <script type="text/javascript" src="app/widgets/dashboardServiceVisual/js/dashboardServiceVisualDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/dashboardServiceVisual/js/dashboardServiceVisualService.js"></script>
+       
+        <script type="text/javascript" src="app/widgets/dashboardAutoClassification/js/dashboardAutoClassificationController.js"></script>
+        <script type="text/javascript" src="app/widgets/dashboardAutoClassification/js/dashboardAutoClassificationDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/dashboardAutoClassification/js/dashboardAutoClassificationService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/machine/js/machineController.js"></script>
+        <script type="text/javascript" src="app/widgets/machine/js/machineDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/machine/js/machineService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/discovery/js/discoveryController.js"></script>
+        <script type="text/javascript" src="app/widgets/discovery/js/discoveryDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/discovery/js/discoveryService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/credstore/js/credstoreController.js"></script>
+        <script type="text/javascript" src="app/widgets/credstore/js/credstoreDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/credstore/js/credstoreService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/software/js/softwareController.js"></script>
+        <script type="text/javascript" src="app/widgets/software/js/softwareDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/software/js/softwareService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/application/js/applicationController.js"></script>
+        <script type="text/javascript" src="app/widgets/application/js/applicationDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/application/js/applicationService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/resource/js/resourceController.js"></script>
+        <script type="text/javascript" src="app/widgets/resource/js/resourceDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/resource/js/resourceService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/group/js/groupController.js"></script>
+        <script type="text/javascript" src="app/widgets/group/js/groupDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/group/js/groupService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/serviceModeling/js/serviceModelingController.js"></script>
+        <script type="text/javascript" src="app/widgets/serviceModeling/js/serviceModelingDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/serviceModeling/js/serviceModelingService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/monitoringdashtab/js/monitoringdashtabController.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringdashtab/js/monitoringdashtabDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringdashtab/js/monitoringdashtabService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/monitoringtab/js/monitoringtabController.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringtab/js/monitoringtabDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringtab/js/monitoringtabService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/configuration/js/configurationController.js"></script>
+        <script type="text/javascript" src="app/widgets/configuration/js/configurationDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/configuration/js/configurationService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/review/js/reviewController.js"></script>
+        <script type="text/javascript" src="app/widgets/review/js/reviewDirective.js"></script>
+
+        <script type="text/javascript" src="app/pages/RCAfeedback/js/rcaFeedbackController.js"></script>
+        <script type="text/javascript" src="app/pages/RCAfeedback/js/rcaFeedbackService.js"></script>
+
+        <script type="text/javascript" src="app/pages/UCImapping/js/uciMappingController.js"></script>
+        <script type="text/javascript" src="app/pages/UCImapping/js/uciMappingService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/rbcFlow/js/rbcFlowController.js"></script>
+        <script type="text/javascript" src="app/widgets/rbcFlow/js/rbcFlowDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/rbcFlow/js/rbcFlowService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/monitoringReport/js/monitoringReportController.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringReport/js/monitoringReportDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringReport/js/monitoringReportService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/monitoringPerformance/js/monitoringPerformanceController.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringPerformance/js/monitoringPerformanceDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringPerformance/js/monitoringPerformanceService.js"></script>
+        
+        <script type="text/javascript" src="app/widgets/anomaly/js/anomalyController.js"></script>
+        <script type="text/javascript" src="app/widgets/anomaly/js/anomalyDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/anomaly/js/anomalyService.js"></script>
+        
+        <script type="text/javascript" src="app/pages/CSMapping/js/CSMappingController.js"></script>
+        <script type="text/javascript" src="app/pages/CSMapping/js/CSMappingService.js"></script>
+
+        <script type="text/javascript" src="app/pages/arcon/js/arconController.js"></script>
+        <script type="text/javascript" src="app/pages/arcon/js/arconService.js"></script>
+
+        <script type="text/javascript" src="app/pages/cloudservices/js/cloudservicesController.js"></script>
+
+        <script type="text/javascript" src="app/widgets/monitoringUnknowns/js/monitoringUnknownsController.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringUnknowns/js/monitoringUnknownsDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringUnknowns/js/monitoringUnknownsService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/hypervisor/js/hypervisorController.js"></script>
+        <script type="text/javascript" src="app/widgets/hypervisor/js/hypervisorDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/hypervisor/js/hypervisorService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/cloud/js/cloudController.js"></script>
+        <script type="text/javascript" src="app/widgets/cloud/js/cloudDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/cloud/js/cloudService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/reportEdgeuplink/js/reportEdgeuplinkController.js"></script>
+        <script type="text/javascript" src="app/widgets/reportEdgeuplink/js/reportEdgeuplinkDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/reportEdgeuplink/js/reportEdgeuplinkService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/reportBandwidth/js/reportBandwidthController.js"></script>
+        <script type="text/javascript" src="app/widgets/reportBandwidth/js/reportBandwidthDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/reportBandwidth/js/reportBandwidthService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/reportPerformance/js/reportPerformanceController.js"></script>
+        <script type="text/javascript" src="app/widgets/reportPerformance/js/reportPerformanceDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/reportPerformance/js/reportPerformanceService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/reportPerformances/js/reportPerformancesController.js"></script>
+        <script type="text/javascript" src="app/widgets/reportPerformances/js/reportPerformancesDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/reportPerformances/js/reportPerformancesService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/monitoringcwdash/js/monitoringcwdashController.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringcwdash/js/monitoringcwdashDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringcwdash/js/monitoringcwdashService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/automationDashboard/js/automationdashboardController.js"></script>
+        <script type="text/javascript" src="app/widgets/automationDashboard/js/automationdashboardDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/automationDashboard/js/automationdashboardService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/reportVMsummary/js/reportVMsummaryController.js"></script>
+        <script type="text/javascript" src="app/widgets/reportVMsummary/js/reportVMsummaryDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/reportVMsummary/js/reportVMsummaryService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/automationReports/js/automationReportsController.js"></script>
+        <script type="text/javascript" src="app/widgets/automationReports/js/automationReportsDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/automationReports/js/automationReportsService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/csAutoscale/js/csAutoscaleController.js"></script>
+        <script type="text/javascript" src="app/widgets/csAutoscale/js/csAutoscaleDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/csAutoscale/js/csAutoscaleService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/csAnalytics/js/csAnalyticsController.js"></script>
+        <script type="text/javascript" src="app/widgets/csAnalytics/js/csAnalyticsDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/csAnalytics/js/csAnalyticsService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/monitoringdcmdash/js/monitoringdcmdashController.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringdcmdash/js/monitoringdcmdashDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringdcmdash/js/monitoringdcmdashService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/monitoringMaintenancewindow/js/maintenancewindowController.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringMaintenancewindow/js/maintenancewindowDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringMaintenancewindow/js/maintenancewindowService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/vmwareDatastore/js/vmwareDatastoreController.js"></script>
+        <script type="text/javascript" src="app/widgets/vmwareDatastore/js/vmwareDatastoreDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/vmwareDatastore/js/vmwareDatastoreService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/vmwareHost/js/vmwareHostController.js"></script>
+        <script type="text/javascript" src="app/widgets/vmwareHost/js/vmwareHostDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/vmwareHost/js/vmwareHostService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/vmwareOverview/js/vmwareOverviewController.js"></script>
+        <script type="text/javascript" src="app/widgets/vmwareOverview/js/vmwareOverviewDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/vmwareOverview/js/vmwareOverviewService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/vmwareVms/js/vmwareVmsController.js"></script>
+        <script type="text/javascript" src="app/widgets/vmwareVms/js/vmwareVmsDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/vmwareVms/js/vmwareVmsService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/monitoringNetworklatency/js/monitoringNetworklatencyController.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringNetworklatency/js/monitoringNetworklatencyDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringNetworklatency/js/monitoringNetworklatencyService.js"></script>
+
+        <script type="text/javascript" src="app/widgets/monitoringAdministration/js/monitoringAdministrationController.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringAdministration/js/monitoringAdministrationDirective.js"></script>
+        <script type="text/javascript" src="app/widgets/monitoringAdministration/js/monitoringAdministrationService.js"></script>
+
+
+
+        <!-- endbuild -->
+    </body>
+</html>

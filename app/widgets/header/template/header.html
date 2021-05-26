@@ -1,0 +1,121 @@
+<header id="intelli_header" ng-controller="headerController" class='navbar site-header display_none' ng-class="{'header-show': showHeader}" ng-init="init()">
+    <div class="navbar-inner">
+
+        <div class="logo-box">
+            <a href="" class="logo-text">
+                <img src="{{ brand_logo }}" width="100%"/>
+            </a>
+        </div><!-- Logo Box -->
+
+        <div class="topmenu-outer">
+            <div class="top-menu">
+                <ul class="nav navbar-nav navbar-left">                                
+                    <li>		
+                        <a href="#/dashboard" class="top_menu_dashboard waves-effect waves-button waves-classic top_menu_active">Analytics</a>
+                    </li>
+                    <li>		
+                        <a href="#/monitoring" class="top_menu_monitoring waves-effect waves-button waves-classic">Monitoring</a>
+                    </li>
+                    <li>		
+                        <a href="#/VMwareMonitoring" class="top_menu_vmwaremonitoring waves-effect waves-button waves-classic">VMware Monitoring</a>
+                    </li>
+                    <li>		
+                        <a href="#/evm" class="top_menu_evm waves-effect waves-button waves-classic">Event Management</a>
+                    </li>
+                    <li>		
+                        <a href="#/machine_learning" class="top_menu_machine_learning waves-effect waves-button waves-classic">Machine Learning</a>
+                    </li>
+                    <li>		
+                        <a href="#/automation" class="top_menu_automation waves-effect waves-button waves-classic">Automation</a>
+                    </li>
+                    <li>		
+                        <a href="#/cmdb" class="top_menu_cmdb waves-effect waves-button waves-classic">HDDM</a>
+                    </li>
+                    <li>		
+                        <a href="#/report" class="top_menu_report waves-effect waves-button waves-classic">Reports</a>
+                    </li>
+                    <li>		
+                        <a href="#/cloud_service" class="top_menu_cloud_service waves-effect waves-button waves-classic">Cloud Services</a>
+                    </li>
+                    <li>		
+                        <a href="#/admin" class="top_menu_admin waves-effect waves-button waves-classic">Admin</a>
+                    </li>
+                    <li>		
+                        <a href="#/review" class="top_menu_review waves-effect waves-button waves-classic">Review</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">   
+                    <li class="dropdown" ng-show="'{{app_brand}}' == 'nxtgen'">
+                        <div class="form-group locationselect">
+                            <span><i class="fa fa-map-marker fa-lg" aria-hidden="true"></i></span>
+                            <select class="form-control" id="sellocation" ng-change="testlocation()" ng-model="sellocation">
+                                <option ng-repeat="row in cliLocation" ng-selected="{{row.ip == sellocation}}" value="{{row.ip}}">{{row.name}}</option>
+                            </select>
+                        </div>
+                    </li>
+                    <li class="dropdown" style="display: none;">
+                        <a href="javascript::void();" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown"><i class="fa fa-envelope"></i><span class="badge badge-success pull-right">4</span></a>
+                        <ul class="dropdown-menu title-caret dropdown-lg" role="menu">
+                            <li><p class="drop-title">You have 4 new  messages !</p></li>
+                            <li class="dropdown-menu-list slimscroll messages">
+                                <ul class="list-unstyled">
+                                    <li>
+                                        <a href="#">
+                                            <p class="msg-name">Nakkeeran</p>
+                                            <p class="msg-text">Hey ! I'm working on your project</p>
+                                            <p class="msg-time">3 minutes ago</p>
+                                        </a>
+                                    </li>                                           
+                                </ul>
+                            </li>
+                            <li class="drop-all"><a href="#" class="text-center">All Messages</a></li>
+                        </ul>
+                    </li>                            
+                    <li class="dropdown">
+                        <a href="javascript::void();" class="dropdown-toggle waves-effect waves-button waves-classic" data-toggle="dropdown">
+                            <span class="user-name"><span ng-bind="username"></span><i class="fa fa-angle-down"></i></span>
+                            <img class="img-circle avatar" src="app/img/avatar1.png" width="40" height="40" alt="">
+                        </a>
+                        <ul class="dropdown-menu dropdown-list" role="menu">
+                            <li role="presentation"><a href="#"><i class="fa fa-user"></i>Profile</a></li>
+                            <li id="resetbtn" role="presentation"><a href="#" data-toggle="modal" data-target="#passModal"><i class="fa fa-key" aria-hidden="true"></i>Password Reset</a></li>                                
+                            <li role="presentation"><a href="#/logout"><i class="fa fa-sign-out m-r-xs"></i>Log out</a></li>
+                        </ul>
+                    </li>                               
+                </ul>
+            </div>
+        </div>
+    </div>
+    <style>
+        .modal-backdrop {
+    z-index: 9;
+}
+    </style>
+    <div id="passModal" class="modal fade" role="dialog">
+        <div class="modal-dialog" style="    top: 75px;">
+        <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Password Reset</h4>
+                </div>
+                <div class="modal-body">
+                    <form class="form-group" id="resetform">
+                        <div class="form-group">
+                            <label>New Password</label>
+                            <input type="password" id="txtresetnewpwd" name="txtresetnewpwd" class="form-control" placeholder="Enter Your New Password ">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="txtresetconfirmpwd" name="txtresetconfirmpwd" class="form-control" placeholder="Enter Your Confrim Password ">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-success" ng-click="changepassfn()" data-dismiss="modal">Update</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>

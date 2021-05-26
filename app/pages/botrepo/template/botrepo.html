@@ -1,0 +1,201 @@
+<section class="botrepocontainer" ng-init="init()">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="botrepo_container">
+                <div class="botrepo-side-menu-col">
+                    <div class="menu-block">
+                        <div class="main-menu"> 
+                            <ul id="expList"></ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="botrepo_listing_col">
+                    <div style="padding: 10px;">
+                        <div class="pull-left  margin0">
+                            <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">Bots</h3>                                             
+                        </div>
+                        <div class="pull-right"> 
+                            <input type="text" class="form-control filter_searchbox" ng-model="searchKeywords" name="search" value="" placeholder="Search ..." autocomplete="off" style="height: 30px;border-radius: 0px;">
+                        </div>
+                        <div style="clear:both;"></div>
+                    </div>
+                    <div style="padding: 10px;padding-top:0px;padding-bottom: 0px;">
+                        <div class="row botrepolistrow" style="overflow-y: auto;">
+                            <div class="slimscroll">
+                                <div ng-repeat="row in bot_files_list | filter:searchKeywords" class="col-lg-3 col-md-4 col-sm-6 col-xs-12  file-box">
+                                    <div class="file">
+                                        <a href="javascript::self();">
+                                            <div class="icon">
+                                                <i class="fa  fa-file"></i>
+                                            </div>
+                                            <div class="file-name">
+                                                <div class="pull-left">
+                                                    {{ row[1] }}
+                                                    <br>
+                                                    <span>Added: {{ row[3] }}</span>
+                                                </div>
+                                                <div class="pull-right">    
+                                                    <a class="pull-left inline-block mr-15 bots_edit" href="#" data-id="{{ row[0] }}" style="margin-top: 5px;font-size: 18px;">
+                                                        <i class="fa fa-pencil-square-o txt-light"></i>
+                                                    </a>
+                                                    <a class="pull-left inline-block mr-15 bots_delete" href="#"  data-id="{{ row[0] }}" style="margin-left: 10px;margin-top: 5px;font-size: 18px;">
+                                                        <i class="fa fa-times-circle txt-light"></i>
+                                                    </a>
+                                                </div>
+                                                <div style="clear:both;"></div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div ng-show="(bot_files_list | filter:searchKeywords).length == 0">
+                                    <p style="text-align: center;font-size: 16px;">
+                                        No Records Found
+                                    </p> 
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <ul class="dropdown-menu dropdown-list bots_folder_menu_popup" role="menu">
+        <li role="presentation"><a href="#" class="menu_new_file">New File</a></li>
+        <li role="presentation"><a href="#" class="menu_new_folder">New Folder</a></li>
+        <li role="presentation"><a href="#" class="menu_new_rename">Rename</a></li> 
+        <li role="presentation"><a href="#" class="menu_new_delete">Delete Folder</a></li>
+    </ul>
+
+    <div id="category-form-modal" class="modal prima-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="top: 80px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h5 class="modal-title" style="font-size: 17px;">Add Folder</h5>
+                </div>
+                <div class="modal-body" style="padding-top: 10px;">
+                    <label>
+                        Folder Name
+                    </label>
+                    <div>
+                        <input type="text" id="txtfoldername" name="txtfoldername" value="" class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >
+                    </div>                                
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="btnfoldersave" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="rename-form-modal" class="modal prima-modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content" style="top: 80px;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <h5 class="modal-title" style="font-size: 17px;">Rename Folder</h5>
+                </div>
+                <div class="modal-body" style="padding-top: 10px;">
+                    <label>
+                        New Folder Name
+                    </label>
+                    <div>
+                        <input type="text" id="txtfolderrename" name="txtfolderrename" value="" class="form-control" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" >
+                    </div>                                
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button id="btnrefolder" class="btn btn-primary">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal model_botrepo" id="model_botrepo" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg animated fadeInDown" style="margin-top: 10px;width:1200px">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel">New Bot Script</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtbotname">BOT Name</label>
+                                    <input type="email" class="form-control" id="txtbotname" name="txtbotname" placeholder="Bot Name">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">BOT Lang</label>
+                                    <select class="form-control" id="selbotlang" name="selbotlang">        
+                                         <option value="">Select Lang</option>                    
+                                         <option ng-repeat="row in bot_lang" value="{{row}}">{{row}}</option>                             
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Platform</label>
+                                    <select class="form-control" id="selbotplatform" name="selbotplatform">
+                                        <option value="">Select Platform</option>                   
+                                        <option ng-repeat="row in bot_platform" value="{{row}}">{{row}}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">OS Type</label>
+                                    <select class="form-control" id="selostype" name="selostype"> 
+                                        <option value="">Select OS Type</option>
+                                        <option ng-repeat="row in bot_ostype" value="{{row}}">{{row}}</option>
+                                    </select>
+                                </div>
+                            </div>                            
+                        </div>    
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtbotargs">BOT Args</label>
+                                    <input type="email" class="form-control" id="txtbotargs" name="txtbotargs" placeholder="BOT Args"/>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="txtbotname">Component</label>
+                                    <input type="email" class="form-control" id="txtbotcomponent" name="txtbotcomponent" placeholder="Component">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label for="exampleInputEmail1">Description</label>                                         
+                                    <textarea class="form-control" id="txtbotdesc" name="txtbotdesc" placeholder="Description"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div style="position: relative;height: 350px;">
+                                    <div id="editor"></div>
+                                </div>                                    
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="btnbotsave" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

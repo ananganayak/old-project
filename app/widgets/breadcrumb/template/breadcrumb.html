@@ -1,0 +1,10 @@
+<div  ng-controller="breadcrumbController" class='page-title display_none' ng-class="{'breadcrumb-show': showBreadcrumb}" ng-init="init()">
+    <div class="page-breadcrumb">
+        <ol class="breadcrumb">
+            <li ng-repeat="row in data_list" ng-class="{'active': row.action == ''}">
+               <a ng-if="row.action != ''" href="{{row.action}}">{{row.name}}</a> 
+               <span ng-if="row.action == ''">{{row.name}}</span> 
+            </li>
+        </ol>
+    </div>
+</div>

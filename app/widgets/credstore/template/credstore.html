@@ -1,0 +1,166 @@
+<div class="credstorecontainer" ng-controller="credstoreController" ng-init="init()">
+
+   <div class="row" style="margin-bottom:15px;">
+      <div class="pull-right">
+         <div class="col-lg-12">
+            <a class="btn btn-sm btn-default pull-right newcredadd" ><i class="fa fa-plus" style="padding-right:5px;" aria-hidden="true"></i> ADD</a>
+            <br>
+            <!-- <br> -->
+         </div>
+      </div>
+      <div class="pull-left">
+         <div class="col-lg-12">
+            <p style="float: right; margin: 6px 15px;">{{(credDet | filter : searchtxt).length}} out of {{credDet.length}} </p>
+            <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchtxt"
+               value="" placeholder="Search ..." autocomplete="off" style="height: 34px; width: 244px; border-radius: 0px;"/>
+            <!-- <br> -->
+            <!-- <br> -->
+         </div>
+      </div>
+   </div>
+   <div class="panel panel-white">
+      <div class="panel-body" style="padding: 0px">
+         <table class="table tblcredstore" style="margin-bottom: 0px; border: 1px solid #ebeef0;">
+            <thead style="background: #ebeef0;">
+               <tr class="discovery_header">                                                                     
+                  <th>CRED Name</th>
+                  <th>CRED Type</th>
+                  <th>Username</th>
+                  <!-- <th>Password</th> -->
+                  <th>Actions</th>
+               </tr>
+            </thead>
+            <tbody>
+               <tr class="det-row" ng-repeat="cd in credDet  | filter: searchtxt" ng-init="$last && finished()">
+                  <td>
+                     <p class="hidden">{{cd[0]}}</p>
+                     {{cd[1]}}                                                         
+                  </td>
+                  <td>{{cd[2]}}</td>
+                  <td>{{cd[3]}}</td>
+                  <!-- <td>
+                     <a class="password-Reset" data-toggle="tooltip" data-original-title="password Reset"  href="">Reset</a>
+                  </td> -->
+                  <td>
+                     <a href="" class="btn-save" ng-click="updateRowdetsmodal(cd[0])" style="color:#12AFCB; font-size: 24px;" title="Edit"><i class="fa fa-pencil " aria-hidden="true"></i></a> 
+                     <a href="" class="btn-detach credstoredelete" ng-click="deleteRowval();" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" title="Delete" ><i class="fa fa-trash-o " aria-hidden="true"></i></a>
+                  </td>
+               </tr>  
+               <tr  ng-show="credDet.length == 0">
+                  <td colspan="5" style="text-align:center;">
+                     No Records Found
+                  </td> 
+               </tr>                                                              
+            </tbody>
+         </table>
+      </div>                                                    
+   </div>
+   
+   <!-- update cred Detail modal -->
+   <div class="modal fade " id="model_cred_update" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog animated fadeInDown">
+         <div class="modal-content">
+            <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4 class="modal-title" id="myModalLabel">Update Cred Detail</h4>
+            </div>
+            <div class="modal-body clearfix">
+               <div class="smpt_form_container">
+                  <form id="updatecredForm" name="updatecredForm" class="ng-pristine ng-valid"  novalidate="novalidate">
+                     <div class="form-group">
+                           <label >CRED NAME</label> 
+                           <input type="text"  class="form-control" id="txtupdatecredname" ng-model="getval[1]" disabled  name="txtupdatecredname" placeholder="Enter The CRED Name">
+                     </div>
+                     <div class="form-group">
+                           <label >USER NAME</label> 
+                           <input type="text" class="form-control" id="txtupdatecredusername" ng-model="getval[3]" name="txtupdatecredusername" placeholder="Enter The Username">
+                     </div>
+                     <div class="form-group">
+                        <label >PASSWORD</label>  <span style="float: right;"><a href="" ng-click="uppasstoggle()"><i class="fa fa-eye" aria-hidden="true"></i></a></span>
+                        <input type="password" class="form-control" id="txtupdatecredpass" ng-model="credpass" name="txtupdatecredpass" placeholder="Enter The New Password">
+                        
+                     </div>
+                     <div class="form-group">
+                        <label >CONFIRM PASSWORD </label> 
+                        <input type="password" class="form-control" id="txtupdatecredrepass" ng-model="credrepass" name="txtupdatecredrepass" placeholder="Enter The New Re-Enter Password">
+                     </div>
+                     <div class="form-group" style="text-align: right;margin-bottom: 0px;">
+                           <button type="button" id="updatemodalbtn" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                           <a href="" id="btncreddetUpdate" class="btn btn-sm btn-success" style="margin-right: 10px;">Update</a>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   
+   <!-- Add New cred Detail modal -->
+   <div class="modal fade " id="model_cred_add" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog animated fadeInDown">
+            <div class="modal-content">
+               <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                  <h4 class="modal-title" id="myModalLabel">New Cred Add</h4>
+               </div>
+               <div class="modal-body clearfix">
+                  <div class="smpt_form_container">
+                        <form id="credAdddetails" name="credAdddetails" class="credAdddetails">
+                           <div class="form-group ">
+                              <label for="txtsmtpip">CRED NAME <span style="color: red;">*</span></label> 
+                              <input type="text" class="form-control" id="txtcredname" name="txtcredname" autocomplete="off"  placeholder="Enter The CRED Name">
+                           </div>
+                           <div class="form-group ">
+                              <label for="txtsmtpip">CRED TYPE <span style="color: red;">*</span></label> 
+                              <!-- <span style="float: right;"><a href="" ng-click="addporttoggle()">Port</a></span> -->
+                              <select class="form-control" id="selcredtype" ng-model="selcredtype" autocomplete="off" name="selcredtype">
+                                 <option  value="">-- select --</option>
+                                 <option ng-repeat="xs in crdType" value="{{xs.value}}">{{xs.value}}</option>
+                              </select>
+                           </div>
+                           <div class="form-group"  ng-show="selcredtype == 'SSH-Key'">
+                              <label for="txtsmtpip">SSH Key File</label> 
+                              <input type="file" class="form-control" id="txtcredsshkeyfile"  autocomplete="off" name="txtcredwinrmport" placeholder="Enter The WINRM Port">
+                           </div>
+                           <!-- <div class="form-group" ng-show="porttoggle"> -->
+                           <div class="form-group" ng-show="selcredtype != 'ARCON'">
+                              <label for="txtsmtpip"><span ng-show="selcredtype == 'WINRM'">WINRM</span> PORT </label> 
+                              <input type="number" class="form-control" id="txtcredport" autocomplete="off" name="txtcredport" placeholder="Enter The Port">
+                           </div>
+                           <!-- <div class="form-group"  ng-show="selcredtype == 'WINRM'">
+                              <label for="txtsmtpip">WINRM PORT </label> 
+                              <input type="number" class="form-control" id="txtcredwinrmport"  autocomplete="off" name="txtcredwinrmport" placeholder="Enter The WINRM Port">
+                           </div> -->
+                           <div class="form-group"  ng-show="selcredtype == 'WINRM'">
+                              <label for="txtsmtpip">RDP PORT </label> 
+                              <input type="number" class="form-control" id="txtcredrdbport"  autocomplete="off" name="txtcredrdbport" placeholder="Enter The RDP Port">
+                           </div>
+                           <div class="form-group" ng-show="selcredtype != 'SNMP v2c'">
+                              <label for="txtsmtpip">USER NAME <span style="color: red;">*</span></label> 
+                              <input type="text" class="form-control" id="txtcredusername" autocomplete="off" name="txtcredusername" placeholder="Enter The Username">
+                           </div>
+                           <div class="form-group" ng-show="selcredtype != 'ARCON'"> 
+                              <label for="txtsmtpport" ng-show="selcredtype != 'SNMP v2c'">PASSWORD <span style="color: red;">*</span></label>
+                              <label for="txtsmtpport" ng-show="selcredtype == 'SNMP v2c'">COMMUNITY STRING<span style="color: red;">*</span></label>
+                              <span style="float: right;"><a ng-click="addpasstoggle()"><i class="fa fa-eye" aria-hidden="true"></i></a></span> 
+                              <input type="password" class="form-control" id="txtcredpwd"  autocomplete="off" name="txtcredpwd" placeholder="Enter Password">
+                           </div>
+                           <div class="form-group" ng-show="selcredtype != 'ARCON'">
+                              <label ng-show="selcredtype != 'SNMP v2c'">CONFIRM PASSWORD </label> 
+                              <label ng-show="selcredtype == 'SNMP v2c'">CONFIRM COMMUNITY STRING</label> 
+                              <input type="password" class="form-control" id="txtcredrepass" ng-model="txtcredrepass" name="txtcredrepass" placeholder="Re-Enter Password">
+                           </div>
+                           <div class="form-group" style="text-align: right; margin-bottom: 0px;">
+                              <button type="button" id="btnaddemodalcancel" class="btn btn-default" data-dismiss="modal">Cancel</button>                                                
+                              <a class="btn btn-sm btncreddetsave btn-success">Add</a>
+                              <a class="btn btn-sm btncreddetreset btn-primary" style="margin-right: 10px;">Reset</a>
+                           </div>
+                        </form>
+                  </div>
+               </div>
+            </div>
+      </div>
+   </div>
+</div>
+
+

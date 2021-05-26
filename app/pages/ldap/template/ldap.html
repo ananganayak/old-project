@@ -1,0 +1,57 @@
+<section class="smtpcontainer" ng-init="init()">
+    <div style="max-width: 1024px;margin: auto;">
+        <div class="row">
+            <div class="col-md-12">
+                <div style="margin: 0px auto;width: 650px;background:#feffffd1;padding: 20px;">
+                    <div class="smtp_header">
+                        <div class="pull-left  margin0">
+                            <h3 class="" style="margin-top: 5px;padding: 5px;padding-left: 0px;display: inline-block;">LDAP Details</h3>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+                    <div class="smpt_form_container">
+                        <form style="margin-top: 20px;" id="formldap" name="formldap">
+                            <div class="form-group">
+                                <label for="txtsmtpip">Communication Type</label>
+                                <select class="form-control" id="selcommunicationtype" name="selcommunicationtype">        
+                                    <option value="">Select Communication Type</option>                    
+                                    <option ng-repeat="row in communication_type" value="{{row}}">{{row}}</option>                             
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtsmtpip">LDAP IP</label>
+                                <input type="text" class="form-control" id="txtldapip" name="txtldapip" placeholder="LDAP IP">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtsmtpport">LDAP Port</label>
+                                <input type="text" class="form-control" id="txtldapport" name="txtldapport" placeholder="LDAP Port">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtsmtpport">Base DN</label>
+                                <input type="text" class="form-control" id="txtldapbasedn" name="txtldapbasedn" placeholder="Base DN">
+                            </div>   
+                            <div class="smtp_header">
+                                <div class="pull-left  margin0">
+                                    <h3 class="" style="margin-top: 5px;padding: 5px;padding-left: 0px;display: inline-block;">System Account</h3>
+                                </div>
+                                <div style="clear: both;"></div>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtsmtpport">Account</label>
+                                <input type="text" class="form-control" id="txtldapaccount" name="txtldapaccount" placeholder="Account">
+                            </div> 
+                            <div class="form-group">
+                                <label for="txtsmtpport">Password</label>  
+                                <!-- <span style="float: right;"><a href="" ng-click="uppasstoggle()"><i class="fa fa-eye" aria-hidden="true"></i></a></span> -->
+                                <input type="password" class="form-control" id="txtldappassword" name="txtldappassword" placeholder="Password">
+                            </div>                                        
+                            <div class="form-group" style="text-align: center;margin-bottom: 0px;">
+                                <a href="" id="btnldapsave" class="btn btn-sm btn-success" style="margin-right: 10px;">Submit</a> 
+                            </div>                                                    
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

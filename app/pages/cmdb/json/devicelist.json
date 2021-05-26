@@ -1,0 +1,117 @@
+{
+  "Data": {
+    "10.142.0.2": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intellidev.c.fine-entry-197907.internal",
+      "IPAddress": "10.142.0.2",
+      "System": "Linux"
+    },
+    "10.142.0.3": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-197907.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.4": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-1979074.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.5": {
+      "Architecture": "5sdf",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-1979075.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.6": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-1979076.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.7": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-1979077.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.8": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-1979078.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.9": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-1979097.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.3": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-197907.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.10": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-1979071.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.11": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-19790711.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.12": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-1979012.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.13": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-1979017.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.14": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-19790714.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.315": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-19790715.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    },
+    "10.142.0.316": {
+      "Architecture": "x86_64",
+      "Distribution": "CentOS",
+      "FQDN": "intelliui.c.fine-entry-19790716.internal",
+      "IPAddress": "10.142.0.3",
+      "System": "Linux"
+    }
+  },
+  "Status": "Completed"
+}

@@ -1,0 +1,254 @@
+<section class="patchcontainer" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <div class="pull-left  margin0">
+                    <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">List of Patch</h3>                  
+                </div>
+                <div class="pull-right">                               
+                    <div class="pull-right" style="margin-left: 10px;">
+                        <span data-test-id="pagination-details" ng-bind="span_page_status"></span> of <span ng-bind="span_total_count"></span>
+                        </span>  
+                        <div class="btn-group user_nav_btn" style="margin-left: 5px;">
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(patchcurrentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(patchcurrentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <a href="" id="btnadd" class="btn btn-sm btn-default pull-right" ng-click="create_patch();" style="margin-left: 15px;"> 
+                        <i class="fa fa-plus" style="padding-right:5px;"></i> New
+                    </a>
+                    <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchKeywords"
+                           value="" placeholder="Search ..." autocomplete="off" style="height: 30px;border-radius: 0px;"/>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="panel panel-white" style="margin-bottom: 15px;">
+                <div class="panel-body" style="padding: 0px">
+                    <table class="table tbl_patch_list" style="margin-bottom: 0px;">
+                        <thead style="background: #ebeef0;">
+                            <tr>
+                                <th>Name</th>
+                                <th>Server Group</th>
+                                <th>Last Runtime</th>
+                                <th>Result</th>
+                                <th style="text-align: center;">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in currentPatchPageHistory" on-finish-render="patch_finish_render()">
+                                <td>{{ row.name}}</td>
+                                <td>{{ row.servergroup}}</td>
+                                <td>{{ row.lastrun}}</td>
+                                <td>
+                                    <a href="" class="">View</a>
+                                </td>
+                                <td style="text-align: center;" data-name="{{ row.name}}">
+                                    <a href="" class="patch_edit_link" style="color:#12AFCB; font-size: 24px;" data-toggle="tooltip" data-original-title="Edit"><i class="fa fa-pencil " aria-hidden="true"></i></a> 
+                                    <a href="" class="patch_delete_link" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" data-toggle="tooltip" data-original-title="Delete" ><i class="fa fa-trash-o " aria-hidden="true"></i></a>
+                                    <a href="" class="patch_play_link" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" data-toggle="tooltip" data-original-title="Play" ><i class="fa fa-play-circle-o" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div style="text-align: center;">
+                    <pagination class="pagination-sm"
+                                ng-model="patchcurrentPage"
+                                total-items="patch_list.length"
+                                max-size="4"
+                                ng-change="patchpageselect(patchcurrentPage)"
+                                items-per-page="patchnumPerPage"
+                                rotate="false"
+                                previous-text="&lsaquo;" next-text="&rsaquo;"
+                                boundary-links="true"></pagination>
+                    <div class="pull-right">                              
+                        <div class="pull-right" style="margin-left: 10px;">
+                            <span data-test-id="pagination-details">show 
+                                <div class="btn-group dropup" role="group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false" style="padding: 5px;">
+                                        <span class="span_pagination_text">10</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pagination_dropdown" role="menu">                                        
+                                        <li><a href="">10</a></li>
+                                        <li><a href="">20</a></li>
+                                        <li><a href="">30</a></li>
+                                        <li><a href="">50</a></li>
+                                        <li><a href="">100</a></li>
+                                    </ul>                                                 
+                                </div>     
+                            </span> of <span>entries per page</span>
+                            </span>
+                        </div>                                   
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div id="submitModal" class="modal fade multi-step in" data-id="submitModal" tabindex="-1" role="dialog" aria-labelledby="submitModalTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg multi-step" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="submitModalLongTitle"></h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <div class="modal-steps">
+                        <div class="step current" data-step="1" data-step-skip="false">
+                            <div class="dot"></div>
+                            <label class="label">Create Plan</label>
+                        </div>
+                        <div class="step" data-step="2" data-step-skip="false">
+                            <div class="dot"></div>
+                            <label class="label">Select Group</label>
+                        </div><div class="step" data-step="3" data-step-skip="false">
+                            <div class="dot"></div>
+                            <label class="label">Select Update Type</label>
+                        </div><div class="step" data-step="4" data-step-skip="false">
+                            <div class="dot"></div>
+                            <label class="label">Add Condition</label>
+                        </div><div class="step" data-step="5" data-step-skip="false">
+                            <div class="dot"></div>
+                            <label class="label">Reboot Condition</label>
+                        </div><div class="step" data-step="6" data-step-skip="false">
+                            <div class="dot"></div>
+                            <label class="label">Complete</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body">
+                    <div class="step-content-container patchformpanel">
+                        <div class="step-content active" data-step="1" data-step-skip="false">
+                            <div class="content-inner">   
+                                <div class="form-group" style="margin: auto;">
+                                    <label>Name</label>
+                                    <input type="text" class="form-control" id="txtpatchname" name="txtpatchname" placeholder="Enter Name">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-content" data-step="2" data-step-skip="false">
+                            <div class="content-inner">
+                                <label for="lblselectgruop">Select Group </label>
+                                <div class="form-group patchchkgrouppanel" style="margin: auto;border: 1px solid;border: 1px solid #dce1e4;padding: 5px;">
+                                     <div class="checkbox" ng-repeat="row in server_group_list">
+                                        <label style="padding-left: 0px;">
+                                            <div class="checker"><span class=""><input type="checkbox" value="{{row}}"></span></div> <span class="lbltxt">{{row}}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-content" data-step="3" data-step-skip="false">
+                            <div class="content-inner">
+                                <label for="lblselectupdates">Select Updates</label>
+                                <div class="form-group patchchkupdatepanel" style="margin: auto;border: 1px solid;border: 1px solid #dce1e4;padding: 5px;">
+                                    <div class="checkbox" ng-repeat="row in update_type_list">
+                                        <label style="padding-left: 0px;">
+                                            <div class="checker"><span class=""><input type="checkbox" value="{{row}}"></span></div> <span class="lbltxt">{{row}}</span>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-content" data-step="4" data-step-skip="false">
+                            <div class="content-inner patchconditionpnl">
+                                <div class="form-group">
+                                    <label>Black List</label>
+                                    <div class="patchblacklistpnl">
+                                        <table class="table tblpatchblacklist" style="width: 100%;border: 1px solid #dce1e4;margin-bottom: 0px;">
+                                            <tr>
+                                                <td style="width: 85%;">
+                                                    <input type="text" class="form-control" id="txtpatchblacklist" style="margin: 5px;">
+                                                </td>
+                                                <td style="text-align: center;"> 
+                                                    <button id="btnpatchblacklist" class="btn btn-sm btn-success pull-right">ADD</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="form-group" style="margin-top: 10px;">
+                                    <label>White List</label>
+                                    <div class="patchwhitelistpnl">
+                                        <table class="table tblpatchwhitelist"  style="width: 100%;border: 1px solid #dce1e4;margin-bottom: 0px;">
+                                            <tr>
+                                                <td style="width: 85%;">
+                                                    <input type="text" class="form-control" id="txtpatchwhitelist" style="margin: 5px;">
+                                                </td>
+                                                <td style="text-align: center;"> 
+                                                    <button id="btnpatchwhitelist" class="btn btn-sm btn-success pull-right">ADD</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="step-content" data-step="5" data-step-skip="false">
+                            <div class="content-inner"><div class="form-group " style="margin-bottom:15px">  
+                                    <label for="exampleInputEmail1">Reboot</label>
+                                    <select class="form-control" id="selpatchreboot" name="selpatchreboot">
+                                        <option value="Yes">Yes</option>
+                                        <option value="No">No</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label>Reboot Time</label>
+                                    <input type="number" class="form-control" id="txtreboottme" name="txtreboottme" placeholder="Enter Condition">
+                                    <span style="margin-top: 10px; display: block;">( Time Should be in Seconds )</span>
+                                </div></div>
+                        </div>
+                        <div class="step-content" data-step="6" data-step-skip="false">
+                            <div class="content-inner">
+                                <span>Are you sure you want to confirm?</span>
+                                <div>
+                                    <table class="table tblpatchconfirm" style="width:100%;margin-top: 15px;border: 1px solid #dce1e4;">
+                                        <tr>
+                                            <td style="font-weight: bold;width:50%;border-right: 1px solid #dce1e4;">Name</td>
+                                            <td>{{ preview_patch_save["name"] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: bold;width:50%;border-right: 1px solid #dce1e4;">Group Type</td>
+                                            <td>{{ preview_patch_save["grouptype"] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: bold;width:50%;border-right: 1px solid #dce1e4;">Updates</td>
+                                            <td>{{ preview_patch_save["updates"] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: bold;width:50%;border-right: 1px solid #dce1e4;">Black List</td>
+                                            <td>{{ preview_patch_save["blacklist"] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: bold;width:50%;border-right: 1px solid #dce1e4;">White List</td>
+                                            <td>{{ preview_patch_save["whitelist"] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: bold;width:50%;border-right: 1px solid #dce1e4;">Reboot</td>
+                                            <td>{{ preview_patch_save["reboot"] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-weight: bold;width:50%;border-right: 1px solid #dce1e4;">Reboot Time</td>
+                                            <td>{{ preview_patch_save["reboottime"] }}</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-prev disabled" disabled="disabled">Previous</button>
+                    <button type="button" class="btn btn-sm btn-skip">Skip</button>
+                    <button type="button" class="btn btn-sm btn-next">Next</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

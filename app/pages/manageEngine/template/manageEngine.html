@@ -1,0 +1,134 @@
+<section class="manageEnginecontainer" ng-init="init()">
+    <!-- <div class="col-md-12"> -->
+        <div class="panel panel-white" style="margin-bottom: 15px;">
+            <div class="panel-body integration_table_container" style="padding: 0px">
+                <div class="col-md-12">
+                    <div class="clearfix" style="margin: 0px auto;background:#feffffd1;padding: 20px;">
+                        <div class="smtp_header">
+                            <div class="pull-left">
+                                <h3 class="" style="margin-top: 5px;padding: 5px;padding-left: 15px;display: inline-block;">Manage Engine</h3>
+                            </div>
+                            <div style="clear: both;"></div>
+                        </div>
+                        <div class="smpt_form_container">
+                            <form clss="row" id="formintegration" style="margin-top: 20px;">
+                                <div class="form-group col-lg-4">
+                                    <label>ID <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmeid" disabled ng-model="manage_engine_list.ID" name="txtmeid" placeholder="ID">
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label>Communication Type <span style="color: red;">*</span></label>
+                                    <select class="form-control" id="selcommunications" ng-model="manage_engine_list.TYPE" name="selcommunication">
+                                        <option value="">Select Communication Type</option>
+                                        <option value="http">http</option>
+                                        <option value="https">https</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label>IP Address <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmeipaddress" ng-model="manage_engine_list.IP" name="txtmeipaddress" placeholder="IP Address">
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label>Port <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmeport" ng-model="manage_engine_list.PORT" name="txtmeport" placeholder="Port">
+                                </div> 
+                                <div class="form-group col-lg-4">
+                                    <label>Default Automaion Queue <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmeautomationQueue" ng-model="manage_engine_list['AUTOMATION GROUP']" name="txtmeautomationqueue" placeholder="Default Automaion Queue">
+                                </div>  
+                                <div class="form-group col-lg-4">
+                                    <label>Default Manual Queue <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmemanualQueue" ng-model="manage_engine_list['MANUAL GROUP']" name="txtmemanualqueue" placeholder="Default Manual Queue">
+                                </div> 
+                                <div class="form-group col-lg-4">
+                                    <label>Default Open Status <span style="color: red;">*</span> </label>
+                                    <input type="text" class="form-control" id="txtmeopenStatus" ng-model="manage_engine_list['DEFAULT OPEN STATUS']" name="txtmeopenstatus" placeholder="Default Open Status">
+                                </div> 
+                                <div class="form-group col-lg-4">
+                                    <label>Default WIP Status <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmewipstatus" ng-model="manage_engine_list['DEFAULT WIP STATUS']" name="txtmewipstatus" placeholder="Default WIP Status">
+                                </div> 
+                                <div class="form-group col-lg-4">
+                                    <label>Default Resolve Status <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmeresolvestatus" ng-model="manage_engine_list['DEFAULT RESOLVED STATUS']" name="txtmeresolvestatus" placeholder="Default Resolve Status ">
+                                </div> 
+                                <div class="form-group col-lg-4">
+                                    <label>Status <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmestatus" ng-model="manage_engine_list.Status" name="txtmestatus" placeholder="Status">
+                                </div> 
+                                <div class="form-group col-lg-4">
+                                    <label>Service Catagory <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmeservicecat" ng-model="manage_engine_list['Service Category']" name="txtmeservicecat" placeholder="Service Catagory">
+                                </div> 
+                                <div class="form-group col-lg-4">
+                                    <label>Level <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmelevl" ng-model="manage_engine_list.Level" name="txtmelevl" placeholder="Level">
+                                </div> 
+                                <div class="form-group col-lg-4">
+                                    <label>Requester <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmerequstr" ng-model="manage_engine_list.Requester" name="txtmerequstr" placeholder="Requester">
+                                </div> 
+                                <div class="form-group col-lg-4">
+                                    <label>Template<span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmetemplt" ng-model="manage_engine_list.RequersterTemplate" name="txtmetemplt" placeholder="Template">
+                                </div> 
+                                <div class="form-group col-lg-4">  
+                                    <label>Default Priority <span style="color: red;">*</span></label>
+                                    <input type="text" id="txtdftpriority" name="txtdftpriority" ng-model="manage_engine_list['Default Priority']" class="form-control" placeholder="Default Priority">
+                                </div>
+                                <div class="form-group col-lg-4">
+                                    <label>Technician<span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txtmetechnician" ng-model="manage_engine_list.Technician" name="txtmetechnician" placeholder="Template">
+                                </div> 
+                                <div class="form-group col-lg-4">
+                                    <label>Technician key <span style="color: red;">*</span></label>
+                                    <input type="text" class="form-control" id="txttechniciankey" ng-model="manage_engine_list['Technician key']" name="txttechniciankey" placeholder="Technician Key">
+                                </div>
+                                <div class="form-group col-lg-12" style="text-align: right; margin-bottom: 0px;">
+                                    <a href="" disabled id="" class="btn btn-sm btn-success" style="margin-right: 10px;">Submit</a> 
+                                    <!-- <a href="" id="btnsaveintegration" class="btn btn-sm btn-success" style="margin-right: 10px;">Submit</a>  -->
+                                </div>                                                     
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- <div style="margin-top:0px;">
+            <div>
+                <div style="text-align: center;">
+                    <pagination class="pagination-sm"
+                                ng-model="currentPage"
+                                total-items="totalItems"
+                                max-size="4"
+                                ng-change="integrationpageselect(currentPage)"
+                                items-per-page="numPerPage"
+                                rotate="false"
+                                previous-text="&lsaquo;" next-text="&rsaquo;"
+                                boundary-links="true"></pagination>
+                    <div class="pull-right">
+                        <span data-test-id="pagination-details">show 
+                            <div class="btn-group dropup" role="group">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                        aria-expanded="false" style="padding: 5px;">
+                                    <span class="span_pagination_text">10</span>
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu pagination_dropdown" role="menu">
+                                    <li><a href="">10</a></li>
+                                    <li><a href="">20</a></li>
+                                    <li><a href="">30</a></li>
+                                    <li><a href="">50</a></li>
+                                    <li><a href="">100</a></li>
+                                </ul>                                                 
+                            </div>     
+                        </span> of <span>entries per page</span>
+                        </span>
+                    </div>  
+                </div> 
+            </div> 
+        </div>  -->
+
+    <!-- </div> -->
+</section>

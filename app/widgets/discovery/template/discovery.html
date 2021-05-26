@@ -1,0 +1,110 @@
+<div class="discoverycontainer" ng-controller="discoveryController" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="clearfix">
+                <div class="pull-left">
+                    <div class="filters">
+                        <div class="col-md-8 filter_control" style="padding-left: 0px;padding-right: 0px;">
+                            <div class="tbl_search_txt_pnl">
+                                <input type="text"  name="txtdiscovery" id="txtdiscovery" class="form-control filter_searchbox" value="" placeholder="Enter the IP Range"
+                                       autocomplete="off" style="border-radius: 0px;width: 230px;" data-toggle="tooltip" title="For Exp : 192.168.1.1-100" data-placement="bottom">
+                            </div>
+                        </div>
+                        <div class="col-md-4" style="padding-left:0px;">
+                            <button type="button" id="btnstartdiscovery" name="btnstartdiscovery"  class="btn btn-success">
+                                <i class="fa fa-circle-o-notch fa-spin icndiscovery"></i>Start Discovery
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="pull-right " style="width: 600px; margin-bottom: 15px;">
+                    
+                    <div style="">
+                        <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchtxt"
+                            value="" placeholder="Search ..." autocomplete="off" style="height: 34px; border-radius: 0px; float: right;"/>
+                    </div>
+                    <p style="float: right; margin: 6px 15px;">{{(discovery_list_res | filter : searchtxt).length}} out of {{discovery_list_res.length}} </p>
+                    <!-- <div style="display:none;">
+                        <button type="button" id="btntemp" name="btntemp" class="btn btn-success"  style="margin-left: 20px;">Temp</button>
+                    </div> -->
+                    <div  class="pull-left group_filter_pnl animated fadeIn" style="margin-left:35px; width: 260px;">
+                        <div class="row" style="width:300px;">
+                            <div class="col-md-9">
+                                <select id="selcredall" class="form-control">
+                                    <option value="">-- Select --</option>
+                                    <option ng-repeat="cred in device_cred_res" value="{{cred[1]}}">
+                                        {{cred[1]}}
+                                    </option>
+                                </select>    
+                            </div>
+                            <div class="col-md-3" style="padding-left: 0px;">
+                                <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic cred_save_all" 
+                                style="width:22px;margin-top: 5px;margin-left: 0px;color:#12AFCB;" data-toggle="tooltip" data-original-title="Attach Auth">
+                                    <i class="fa fa-floppy-o" style="font-size: 24px;"></i>
+                                </a>
+                                <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic cred_save_remove" 
+                                style="width:22px;margin-top: 5px;margin-left:5px;color:#12AFCB;" data-toggle="tooltip" data-original-title="Dettach Auth">
+                                    <i class="fa fa-times-circle" style="font-size: 24px;"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="clear:both;"></div>
+                </div>
+            </div>
+            <div class="panel panel-white">
+                <div class="panel-body" style="padding: 0px">
+                    <table class="table tbl_discovery" style="margin-bottom: 0px;border: 1px solid #ddd;">
+                        <thead style="background: #ebeef0;">
+                            <tr class="discovery-table-header">
+                                <th style="width:10px;">
+                                    <div class="checker"><span class=""><input type="checkbox" name="chkdeleteall"></span></div>
+                                </th>
+                                <th class="sorting" data-col="sorting" data-key="iphost">IP Host Name</th>
+                                <th class="sorting" data-col="sorting" data-key="osfamily">OS Family</th>
+                                <th>Credential</th>
+                                <th style="text-align: center;">Actions</th>
+                            </tr>    
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in discovery_list_res | filter : searchtxt" ng-init="$last && finished()" data-ip="{{ row.ip_address}}">
+                                <td>
+                                    <div class="checker"><span class=""><input type="checkbox" name="chkdelete"></span></div>
+                                </td>
+                                <td>{{ row.ip_address}}</td>
+                                <td>{{ row.operating_system}}</td>
+                                <td>
+                                    <select class="form-control">
+                                        <option value="">-- Select --</option>
+                                        <option ng-selected="{{row.cred_name == cred[1]}}" ng-repeat="cred in device_cred_res"
+                                                value="{{cred[1]}}">
+                                            {{cred[1]}}
+                                        </option>
+                                    </select>
+                                </td>
+                                <td style="text-align: center;">
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic cred_save" 
+                                       style="width:22px;margin-top: 5px;margin-left: 0px;color:#12AFCB;" title="Save">
+                                        <i class="fa fa-floppy-o" style="font-size: 24px;"></i>
+                                    </a>
+                                    <a href="#" class="dropdown-toggle waves-effect waves-button waves-classic cred_remove" 
+                                       style="width:22px;margin-top: 5px;margin-left:10px;color:#12AFCB;" data-toggle="tooltip" title="Deattach">
+                                        <i class="fa fa-times-circle" style="font-size: 24px;"></i>
+                                    </a>
+                                    <a href=""  ng-click="btndiscoverydelete( row.ip_address)" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" data-toggle="tooltip" title="Delete" >
+                                        <i class="fa fa-trash-o " aria-hidden="true"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            <tr  ng-show="discovery_list_res.length == 0">
+                                <td colspan="5" style="text-align:center;">
+                                   No Records Found
+                                </td> 
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <!-- </div> -->
+    </div>
+</div>

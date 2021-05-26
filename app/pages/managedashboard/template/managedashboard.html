@@ -1,0 +1,121 @@
+<section class="managedashboardcontainer" ng-init="init()">
+    <div class="row">
+        <div class="col-md-12">
+            <div>
+                <div class="pull-left  margin0">
+                    <h3 class="" style="margin-top: 5px;padding: 5px;margin-right: 15px;display: inline-block;">Manage Dashboard</h3>                  
+                </div>
+                <div class="pull-right">                               
+                    <div class="pull-right" style="margin-left: 10px;">
+                        <span data-test-id="pagination-details" ng-bind="span_page_status"></span> of <span ng-bind="span_total_count"></span>
+                        </span>  
+                        <div class="btn-group user_nav_btn" style="margin-left: 5px;">
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noPrevious()}" ng-click="selectPage(dashboardcurrentPage - 1)"><i class="fa fa-chevron-left"></i></button>
+                            <button type="button" class="btn btn-default btn-sm" ng-class="{disabled: noNext()}" ng-click="selectPage(dashboardcurrentPage + 1)"><i class="fa fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                    <a href="" id="btnadd" class="btn btn-sm btn-default pull-right" ng-click="addDashboard();" style="margin-left: 15px;"> 
+                        <i class="fa fa-plus" style="padding-right:5px;"></i> New Dashboard
+                    </a>
+                    <input type="text" class="form-control filter_searchbox" name="search" ng-model="searchKeywords"
+                           value="" placeholder="Search ..." autocomplete="off" style="height: 30px;border-radius: 0px;"/>
+                </div>
+                <div style="clear:both;"></div>
+            </div>
+
+            <div class="panel panel-white" style="margin-bottom: 15px;">
+                <div class="panel-body" style="padding: 0px">
+                    <table class="table" style="margin-bottom: 0px;">
+                        <thead style="background: #ebeef0;">
+                            <tr>
+                                <th>Dashboard Name</th>
+                                <th>Roles</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in currentDashboardPageHistory" on-finish-render="dashboard_finish_render()">
+                                <td>{{ row.name}}</td>
+                                <td>{{ row.roles}}</td>
+                                <td>
+                                    <a href="" class="btn-update" ng-click="edit_dashboard(row);" style="color:#12AFCB; font-size: 24px;" data-toggle="tooltip" data-original-title="Edit Dashboard"><i class="fa fa-pencil " aria-hidden="true"></i></a> 
+                                    <a href="" class="btn-detach" ng-click="delete_dashboard(row.name);" style="color:#12AFCB; margin-left: 15px; font-size: 24px;" data-toggle="tooltip" data-original-title="Delete Dashboard" ><i class="fa fa-trash-o " aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            <tr ng-show="currentDashboardPageHistory.length == 0">
+                                <td colspan="3" style="text-align: center;">No Result Found!</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="margin-top: 10px;">
+                <div style="text-align: center;">
+                    <pagination class="pagination-sm"
+                                ng-model="dashboardcurrentPage"
+                                total-items="dashboard_list.length"
+                                max-size="4"
+                                ng-change="dashboardpageselect(dashboardcurrentPage)"
+                                items-per-page="dashboardnumPerPage"
+                                rotate="false"
+                                previous-text="&lsaquo;" next-text="&rsaquo;"
+                                boundary-links="true"></pagination>
+                    <div class="pull-right">                              
+                        <div class="pull-right" style="margin-left: 10px;">
+                            <span data-test-id="pagination-details">show 
+                                <div class="btn-group dropup" role="group">
+                                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown"
+                                            aria-expanded="false" style="padding: 5px;">
+                                        <span class="span_pagination_text">10</span>
+                                        <span class="caret"></span>
+                                    </button>
+                                    <ul class="dropdown-menu pagination_dropdown" role="menu">                                        
+                                        <li><a href="">10</a></li>
+                                        <li><a href="">20</a></li>
+                                        <li><a href="">30</a></li>
+                                        <li><a href="">50</a></li>
+                                        <li><a href="">100</a></li>
+                                    </ul>                                                 
+                                </div>     
+                            </span> of <span>entries per page</span>
+                            </span>
+                        </div>                                   
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="dashboardmodel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog animated fadeInDown modal-md">
+            <div class="modal-content" style="border: 1px solid #ddd;">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                    <h4 class="modal-title" id="myModalLabel" ng-bind="dashboard_popup_title"></h4>
+                </div>
+                <div class="modal-body row">
+                    <div class="form-group col-lg-12">
+                        <label for="txtwidgetname">Dashboard Name</label> 
+                        <input type="text" class="form-control" id="txtdashboardname" name="txtdashboardname" placeholder="Enter the Dashboard Name"/>
+                    </div>
+                    <div class="form-group col-lg-12">
+                        <label for="lblselectupdates">Access Roles</label>
+                        <div class="form-group dashboardrolepanel" style="margin: auto;border: 1px solid;border: 1px solid #dce1e4;padding: 5px;">
+                            <div class="checkbox" ng-repeat="row in user_roles" on-finish-render="role_finish_render();">
+                                <label style="padding-left: 0px;">
+                                    <div class="checker"><span class=""><input type="checkbox" value="{{row}}"></span></div> <span class="lbltxt">{{row}}</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default clsproperties" data-dismiss="modal">Cancel</button>
+                    <button type="button" id="btndashboardsave" class="btn btn-success">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

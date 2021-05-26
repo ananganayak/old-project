@@ -1,0 +1,343 @@
+{
+  "result": "success",
+  "data": {
+    "NG-3/NG-4": {
+      "10.225.160.26": [
+        [
+          "host_address",
+          "service",
+          "status",
+          "output",
+          "since"
+        ],
+        [
+          "10.225.160.26",
+          "NG-3/NG-4 Running VMS",
+          "UNKNOWN",
+          "NRPE: Command 'check_kvm_running' not defined",
+          44
+        ]
+      ],
+      "10.225.160.211": [
+        [
+          "host_address",
+          "service",
+          "status",
+          "output",
+          "since"
+        ],
+        [
+          "10.225.160.211",
+          "NG-3/NG-4 Running VMS",
+          "UNKNOWN",
+          "Unknown: Not able to fetch Info or Host not exists",
+          16
+        ]
+      ]
+    },
+    "Firewalls": {
+      "10.225.179.129": [
+        [
+          "host_address",
+          "service",
+          "status",
+          "output",
+          "since"
+        ],
+        [
+          "10.225.179.129",
+          "CPU Usage",
+          "UNKNOWN",
+          "CPU load : 0%",
+          24
+        ]
+      ]
+    },
+    "Switches": {
+      "10.225.11.198": [
+        [
+          "host_address",
+          "service",
+          "status",
+          "output",
+          "since"
+        ],
+        [
+          "10.225.11.198",
+          "Interface Status 33",
+          "UNKNOWN",
+          "External command error: Error in packet",
+          15
+        ]
+      ]
+    },
+    "ESX PAYLOAD VMS": {
+      "RBNL_DMS_DEV_QA__c6f99bfa_0bb1_4355_97ea_2c2dffb51902_": [
+        [
+          "host_address",
+          "service",
+          "status",
+          "output",
+          "since"
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM CPU Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          13
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM NIC Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          13
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Snapshot",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          2
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Status",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          2
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Disk Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          0
+        ]
+      ],
+      "Doc_Mark_SAP__65edf160_b006_49c5_b11d_19ff36f3dc2b_": [
+        [
+          "host_address",
+          "service",
+          "status",
+          "output",
+          "since"
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM CPU Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          13
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM NIC Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          13
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Status",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          9
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Memory Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          9
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Snapshot",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          1
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Disk Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          1
+        ]
+      ],
+      "AMMU___B__9b7f6cbc_e7ba_42b6_ae2a_6a1b61d791d4_": [
+        [
+          "host_address",
+          "service",
+          "status",
+          "output",
+          "since"
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM NIC Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          13
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Memory Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          6
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Disk Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          6
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Snapshot",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          4
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Status",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          0
+        ]
+      ],
+      "QlikView___Python__9e16d383_3dfa_4f57_8d46_01e219669985_": [
+        [
+          "host_address",
+          "service",
+          "status",
+          "output",
+          "since"
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM NIC Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          13
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM CPU Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          8
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Status",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          5
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Memory Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          5
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Snapshot",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          2
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Disk Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          1
+        ]
+      ],
+      "SQL_DB_PRD_DEV_N0oM": [
+        [
+          "host_address",
+          "service",
+          "status",
+          "output",
+          "since"
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Status",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          9
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Memory Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          9
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM NIC Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          6
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM Snapshot",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          5
+        ],
+        [
+          "172.16.64.100",
+          "ESX VM CPU Usage",
+          "UNKNOWN",
+          "CHECK_NRPE: Receive header underflow - only 0 bytes received (4 expected).",
+          2
+        ]
+      ]
+    },
+    "NG-3/NG-4 vms": {
+      "App+-+Payroll": [
+        [
+          "host_address",
+          "service",
+          "status",
+          "output",
+          "since"
+        ],
+        [
+          "10.225.160.210",
+          "NG-3/NG-4 vms memory",
+          "UNKNOWN",
+          "Unknown: Not able to fetch MEM Info or Host not exists",
+          6
+        ],
+        [
+          "10.225.160.210",
+          "NG-3/NG-4 vms disk",
+          "UNKNOWN",
+          "Unknown: Not able to fetch Disk Info or Host not exists",
+          6
+        ],
+        [
+          "10.225.160.210",
+          "NG-3/NG-4 vms CPU",
+          "UNKNOWN",
+          "Unknown: Not able to fetch CPU Info or Host not exists",
+          6
+        ]
+      ]
+    }
+  }
+}

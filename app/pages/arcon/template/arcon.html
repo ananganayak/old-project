@@ -1,0 +1,46 @@
+<section class="arconcontainer" ng-init="init()">
+    <div style="max-width: 1024px;margin: auto;">
+        <div class="row">
+            <div class="col-md-12">
+                <div style="margin: 0px auto;width: 650px;background:#feffffd1;padding: 20px;">
+                    <div class="arcon_header">
+                        <div class="pull-left  margin0">
+                            <h3 class="" style="margin-top: 5px;padding: 5px;padding-left: 0px;display: inline-block;">ARCON Details</h3>
+                        </div>
+                        <div style="clear: both;"></div>
+                    </div>
+                    <div class="arcon_form_container">
+                        <form style="margin-top: 20px;" id="formarcon" name="formarcon">
+                            <div class="form-group">
+                                <label for="txtarconip">Communication Type</label>
+                                <select class="form-control" id="selarccomtype" name="selarccomtype">        
+                                    <option value="">Select Communication Type</option>                    
+                                    <option ng-repeat="row in communication_type" value="{{row}}">{{row}}</option>                             
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="txtarcip">Arcon IP</label>
+                                <input type="text" class="form-control" id="txtarcip" name="txtarcip" placeholder="Arcon IP">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtarcport">Arcon Port</label>
+                                <input type="number" class="form-control" id="txtarcport" name="txtarcport" placeholder="Arcon Port">
+                            </div>
+                            <div class="form-group">
+                                <label for="txtarcuser">Arcon User</label>
+                                <input type="text" class="form-control" id="txtarcuser" name="txtarcuser" placeholder="rcon User">
+                            </div> 
+                            <div class="form-group">
+                                <label for="txtarcpwd">Arcon Password</label> <span style="float: right;"><a href="" ng-click="uppasstoggle()"><i class="fa fa-eye" aria-hidden="true"></i></a></span>
+                                <input type="password" class="form-control" id="txtarcpwd" name="txtarcpwd" placeholder="Arcon Password">
+                            </div>                                        
+                            <div class="form-group" style="text-align: center;margin-bottom: 0px;">
+                                <a href="" id="btnarcsave" class="btn btn-sm btn-success" style="margin-right: 10px;">Submit</a> 
+                            </div>                                                    
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
